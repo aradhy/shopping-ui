@@ -1,0 +1,19 @@
+<form [formGroup]="signUpForm" (ngSubmit)="onSubmit(signUpForm)">
+  
+  <label>
+    First Name:
+    <input type="text" formControlName="firstName">
+  </label>
+<br>
+  <label>
+    Last Name:
+    <input type="text" formControlName="lastName">
+  </label>
+  <br>
+  <label>
+    Email Address:
+    <input type="text" formControlName="email">
+  </label>
+  <br>
+<input type="Submit" value="Sign Up"/>
+</form>
