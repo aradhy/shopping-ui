@@ -3,14 +3,11 @@ import { CodeNode } from 'source-list-map';
 export class Product {
     
 	private  code:number;
-	private name:String ;
-	private price:number;
-
-    protected created_date:Date;
-
-	private  quantity:number;
-	
-    private category:String ;
+   private name:String ;
+   private brand:String ;
+   private  imageId:number;
+   private created_date:Date;
+   private categoryId:number ;
     getCode(): number {
        return this.code;
     }
@@ -26,21 +23,26 @@ export class Product {
      setName(name:String) {
         this.name=name;
      }
-     getQuantity(): number {
-        return this.quantity;
-     }
- 
-     setQuantity(quantity:number) {
-        this.quantity=quantity;
-     }
+     getBrand(): String {
+      return this.brand;
+    }
+    setBrand(brand: String) {
+      return this.brand;
+    }
+    setImageId(imageId: number) {
+      this.imageId=imageId;
+    }
+    getImageId(): number {
+      return this.imageId;
+   }
+   getCategoryId(): number {
+      return this.categoryId;
+   }
 
-     getPrice(): number {
-        return this.price;
-     }
- 
-     setPrice(price:number) {
-        this.price=price;
-     }
+   setCategoryId(categoryId:number) {
+      this.categoryId=categoryId;
+   }
+
      getCreatedDate(): Date {
         return this.created_date;
      }

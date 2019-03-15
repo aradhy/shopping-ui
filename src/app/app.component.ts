@@ -23,14 +23,5 @@ export class AppComponent {
     alert('hello');
   }
 
- public  mouse_event(event)
-  {
-   var subMenu = [
-      { name: 'submenu1' },
-      { name: 'submenu2'},
-      { name: 'submenu3' }
-    ];
-    
-    return subMenu;
-  }
+ 
 }
