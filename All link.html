@@ -9,7 +9,7 @@ div.gallery {
   width:200px;
 }
 
-table {
+table.galleryTable {
   
   margin-left:250px;
   margin-top:100px;
@@ -17,7 +17,7 @@ table {
  
 }
 
-th, td
+th.galleryTable, td.galleryTable
 {
 border: none;
   width:150px;
@@ -75,10 +75,26 @@ div.desc {
 
 <div class="demo">
 
-<m class="material-icons" style="font-size:20px;color:red">brightness_1</m>
-<m class="cart-count"><b>5</b></m>
+<m class="material-icons" id="material-icons-id" style="font-size:25px;color:red">brightness_1
+</m>
+<m class="cart-count" id="cart-count-id" >1</m>
 <img src="C:\Users\saurabh\Desktop\images.png" alt="Avatar" class="cart">
 <div class="tooltiptext">
+<table>
+ <tr>
+    <th>Month</th>
+    <th>Savings</th>
+  </tr>
+  <tr>
+    <td>January</td>
+    <td>$100</td>
+  </tr>
+  <tr>
+    <td>February</td>
+    <td>$80</td>
+  </tr>
+  </table>
+
 </div>
 
 </div>
@@ -172,19 +188,39 @@ slideIndex++;
   
 }
 </script>
+
+<script>
+//alert('hiihhi')
+var str=document.getElementById("cart-count-id").innerHTML;
+//alert(str.length)
+if(str.length==1)
+{
+//alert("In "+str.length)
+  //document.getElementById("material-icons-id").style.fontSize = "20px";
+  //document.getElementById("material-icons-id").style.top="35px";
+  }
+  else if(str.length==2)
+  {
+  //alert("In "+str.length)
+  document.getElementById("material-icons-id").style.fontSize = "30px"
+  document.getElementById("material-icons-id").style.top="30px";
+  document.getElementById("cart-count-id").style.right="103px";
+  }
+
+</script>
 </body>
 
 
 
 <body>
-<table>
+<table class="galleryTable">
  
  
      <h2>&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FRUITS AND VEGETABLES&nbsp; &nbsp; &nbsp; </h2>
 	 
 	 <tr>
 	 
-    <th><div class="gallery">
+    <th><div class="gallery" >
 <div class="desc">VEGETABLES</div>
 <a target="_blank" href="D:\shiv\Desktop_backup\Learning_Html\vegetables.jpg">
     <img src="D:\shiv\Desktop_backup\Learning_Html\vegetables.jpg" alt="vegetables.jpg" width="250" height="200">
@@ -223,7 +259,7 @@ slideIndex++;
 </table>
 
 <body>
-<table>
+<table class="galleryTable">
  
  
      <h2>&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BODY CARE PRODUCTS&nbsp; &nbsp; &nbsp; </h2>

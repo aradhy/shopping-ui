@@ -255,48 +255,46 @@ body {font-family: Arial, Helvetica, sans-serif;}
 .demo:hover .tooltiptext {
   visibility: visible;
 }
-.tooltiptext {
+.tooltiptext ,table.tooltip{
   top:105px;
   visibility: hidden;
  
   border: 1px solid black;
-  box-shadow: 0 0 0 10px grey;
+  box-shadow: 0 0 0 8px grey;
   position:absolute;
   width: 350px;
-  height:50px;
+  height:auto;
   z-index: 1;
   right:150px;
-  
-  
-  border-style: solid;
-  
-  background-color: white;
-  color: green;
-  text-align: center;
-  border: 6px;
   padding: 5px 0;
- /* Position the tooltip */
-  position: absolute;
+  border-style: solid;
+  background-color: white;
+  
+  
+	
+  
 }
+
 
 .cart
 {
 top:55px;
-right:120px;	
+right:135px;	
 position:absolute;
 width:50px;	
 }
 m {
-  top:35px;
+ top:34px;
 right:110px;	
 position:absolute;
 width:50px;
 }
 .cart-count
 {
-	top:36px;
-right:105px;
-color:black
+top:38px;
+right:102px;
+color:black;
+font-weight:bold;
 }
 
 
