@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+div.gallery {
+  margin: 5px;
+  border: 1px solid green;
+  float: left;
+  width:200px;
+}
+
+table.galleryTable {
+  
+  margin-left:250px;
+  margin-top:100px;
+   border-spacing: 10px;
+ 
+}
+
+th.galleryTable, td.galleryTable
+{
+border: none;
+  width:150px;
+}
+
+div.gallery:hover {
+  border: 2px solid red;
+  background-color:light gray;
+}
+
+div.gallery img {
+  width: 100%;
+  height: 100%;
+}
+
+div.desc {
+  padding: 15px;
+  text-align: center;
+}
+
+
+
+</style>
+
+<style type="text/css">
+
+</style>
+
+</head>
+
+<head>
+
+<h1>   &nbsp;  [SS] &nbsp; &nbsp; &nbsp;   SONAM SHIV  GROCERY SHOP </h1>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link type="text/css" rel="stylesheet" href="my_all_style.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+<link type="text/html" rel="import" href="productbycategory.html"/>
+
+</head>
+
+
+<body>
+&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;
+<form class="example" action="/action_page.php" style="margin:auto;max-width:800px">
+  <input type="text" placeholder="Search.." name="search">
+  <button type="submit"><k class="fa fa-search"></k></button>
+  </body>
+  </form>
+</body>
+
+<body>
+
+<div class="demo">
+
+<m class="material-icons" id="material-icons-id" style="font-size:25px;color:red">brightness_1
+</m>
+<m class="cart-count" id="cart-count-id" >1</m>
+<img src="C:\Users\saurabh\Desktop\images.png" alt="Avatar" class="cart">
+<div class="tooltiptext">
+<table>
+ <tr>
+    <th>Month</th>
+    <th>Savings</th>
+  </tr>
+  <tr>
+    <td>January</td>
+    <td>$100</td>
+  </tr>
+  <tr>
+    <td>February</td>
+    <td>$80</td>
+  </tr>
+  </table>
+
+</div>
+
+</div>
+</body>
+
+<body>
+      <div id="menu">
+    <ul>
+	
+	     <li><a href="#">SHOP BY CATEGORY  &nbsp;&nbsp;&nbsp;<i class="down"></i></a>
+	          <ul>
+                
+                        <li><a href="#">Face Wash</a></li>
+                        <li><a href="#">Body Care</a></li>
+                        <li><a href="productbycategory.html"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  Soap  &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <i class="right"></i></a>
+                         <ul>
+						     <li><a href="#">NO.1</a></li>
+                             <li><a href="#">luxe</a></li>
+                             <li><a href="#">dove</a></li>
+                             <li><a href="#">patanjali</a></li>
+                             <li><a href="#">neem</a></li>
+                         </ul>
+                    </li>
+    <li><a href="#">Shampoo</a></li>
+	</ul>
+</ul>
+</div>
+</body>
+
+
+<body>
+
+<div class="slideshow-container">
+
+<div class="mySlides fade">
+  
+  <img src="D:\shiv\Desktop_backup\Learning_Html\apples.jpg" style="width:100%">
+  
+</div>
+
+<div class="mySlides fade">
+ 
+  <img src="D:\shiv\Desktop_backup\Learning_Html\exotic corner.jpg" style="width:100%">
+  
+</div>
+
+<div class="mySlides fade">
+
+  <img src="D:\shiv\Desktop_backup\Learning_Html\vegetables.jpg" style="width:100%">
+
+</div>
+
+
+
+</div>
+<br>
+
+<div style="text-align:center">
+ 
+  <a href="javascript:currentSlide(0)">APPLES</a>&nbsp;&nbsp;<a href="javascript:currentSlide(1)">EXOTICCONER</a>&nbsp;&nbsp;<a href="javascript:currentSlide(2)">VEGETABLES</a>
+</div>
+
+
+
+<script>
+var slideIndex = 1;
+showSlides(slideIndex);
+setInterval(showSlides, 9000);
+function currentSlide(n) {
+  showSlides(slideIndex = n);
+}
+
+function showSlides(n) {
+
+  var i;
+  var slides = document.getElementsByClassName("mySlides");
+ // var dots = document.getElementsByClassName("dot");
+  if (n > slides.length) {slideIndex = 1}    
+  if (n < 1) {slideIndex = slides.length}
+  for (i = 0; i < slides.length; i++) {
+      slides[i].style.display = "none";  
+  }
+slideIndex++;
+  if (slideIndex > slides.length) {slideIndex = 1}    
+ /* for (i = 0; i < dots.length; i++) {
+      dots[i].className = dots[i].className.replace(" active", "");
+  }*/
+  slides[slideIndex-1].style.display = "block";  
+ // dots[slideIndex-1].className += " active";
+  // Change image every 2 seconds
+  
+}
+</script>
+
+<script>
+//alert('hiihhi')
+var str=document.getElementById("cart-count-id").innerHTML;
+//alert(str.length)
+if(str.length==1)
+{
+//alert("In "+str.length)
+  //document.getElementById("material-icons-id").style.fontSize = "20px";
+  //document.getElementById("material-icons-id").style.top="35px";
+  }
+  else if(str.length==2)
+  {
+  //alert("In "+str.length)
+  document.getElementById("material-icons-id").style.fontSize = "30px"
+  document.getElementById("material-icons-id").style.top="30px";
+  document.getElementById("cart-count-id").style.right="103px";
+  }
+
+</script>
+</body>
+
+
+
+<body>
+<table class="galleryTable">
+ 
+ 
+     <h2>&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FRUITS AND VEGETABLES&nbsp; &nbsp; &nbsp; </h2>
+	 
+	 <tr>
+	 
+    <th><div class="gallery" >
+<div class="desc">VEGETABLES</div>
+<a target="_blank" href="D:\shiv\Desktop_backup\Learning_Html\vegetables.jpg">
+    <img src="D:\shiv\Desktop_backup\Learning_Html\vegetables.jpg" alt="vegetables.jpg" width="250" height="200">
+  </a>
+
+</div>
+</th>
+
+  
+    <th><div class="gallery">
+<div class="apples">APPLES</div>
+  
+    <img src="D:\shiv\Desktop_backup\Learning_Html\apples.jpg" alt"apples.jpg" width="250" height="200">
+  
+  <th>
+<div class="gallery">
+<div class="desc">EXOTIC CORNER</div>
+ 
+    <img src="D:\shiv\Desktop_backup\Learning_Html\exotic corner.jpg" alt="exotic corner.jpg" width="350" height="300">
+</div></th>
+
+  
+  <th>
+<div class="gallery">
+<div class="desc">CUT FRUITS</div>
+ 
+    <img src="C:\Users\saurabh\Desktop\Learning_Html\cut fruits.jpg" alt="cut fruits.jpg" width="350" height="300">
+</div>
+</th>
+  </tr>
+  
+  
+
+  </tr>
+  
+</table>
+
+<body>
+<table class="galleryTable">
+ 
+ 
+     <h2>&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BODY CARE PRODUCTS&nbsp; &nbsp; &nbsp; </h2>
+	 
+	 <tr>
+	 
+    <th><div class="gallery">
+<div class="desc">SPA</div>
+
+    <img src="C:\Users\saurabh\Desktop\Learning_Html\spa.jpg" alt="spa.jpg" width="250" height="200">
+ 
+
+</div>
+</th>
+
+  
+    <th><div class="gallery">
+<div class="desc">VESELINE</div>
+  
+    <img src="C:\Users\saurabh\Desktop\Learning_Html\veseline.jpg" alt"veseline.jpg" width="350" height="300">
+  
+  <th>
+<div class="gallery">
+<div class="desc">DOVE</div>
+ 
+    <img src="C:\Users\saurabh\Desktop\Learning_Html\dove.jpg" alt="dove.jpg" width="250" height="200">
+</div></th>
+</div>
+</th>
+
+<th>
+<div class="gallery">
+<div class="desc">NIVEA</div>
+ 
+    <img src="C:\Users\saurabh\Desktop\Learning_Html\nivea.jpg" alt="nivea.jpg" width="250" height="200">
+</div></th>
+</div>
+</th>
+  
+  </tr>
+  
+  
+
+  </tr>
+  
+</table>
+
+
+</script>
+
+</body>
+</html>
