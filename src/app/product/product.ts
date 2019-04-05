@@ -5,7 +5,7 @@ export class Product {
 	private  code:number;
    private name:String ;
    private brand:String ;
-   private  imageId:number;
+   private  imageLink:String;
    private created_date:Date;
    private categoryId:number ;
     getCode(): number {
@@ -29,11 +29,11 @@ export class Product {
     setBrand(brand: String) {
       return this.brand;
     }
-    setImageId(imageId: number) {
-      this.imageId=imageId;
+    setImageId(imageLink: String) {
+      this.imageLink=imageLink;
     }
-    getImageId(): number {
-      return this.imageId;
+    getImageId(): String {
+      return this.imageLink;
    }
    getCategoryId(): number {
       return this.categoryId;

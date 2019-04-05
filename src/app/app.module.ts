@@ -8,13 +8,19 @@ import { HttpClientModule } from '@angular/common/http';
 import { UserComponent } from './user/user.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CategoryComponent } from './category/category.component';
+import { SingleProductViewComponent } from './product/single-product-view/single-product-view.component';
+import { MenusComponent } from './menus/menus.component';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     ProductComponent,
     UserComponent,
-    CategoryComponent
+    CategoryComponent,
+    SingleProductViewComponent,
+    MenusComponent,
+   
   ],
   imports: [
     BrowserModule,

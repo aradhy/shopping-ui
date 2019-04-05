@@ -1,0 +1,21 @@
+
+    <div id="menu">
+        <ul>
+      
+           <li><a href="#" (mouseover)="mouse_event()" >SHOP BY CATEGORY</a>
+           
+                      <ul>
+                             <li *ngFor='let category of categoryList'  (mouseover)="mouse_event_sub(category.id)" >
+                              <a [routerLink]="['/product/1']">{{category.name}}</a>
+               <ul>
+                          <li *ngFor='let subcategory of sub_categoryList'><a href="#">{{subcategory.name}}</a></li>
+              
+               </ul>
+         
+          </li>
+        </ul>               
+    </ul>
+    
+    
+    </div>
+

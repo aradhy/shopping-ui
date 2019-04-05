@@ -1,13 +1,18 @@
+import { SubCategory } from './sub-category';
+
 
 export class Category {
-     name: String;
-    private category_id: number;
+    public name: String;
+    public id: number;
+    public description:String;
+    public  subCategory:SubCategory[];
+    public  imageLink:String;
     
-    public getCategory_id(): number {
-        return this.category_id;
+    public getId(): number {
+        return this.id;
     }
-    public setCategory_id(category_id: number) {
-        this.category_id = category_id;
+    public setCategoryId(id: number) {
+        this.id = id;
     }
     public getName(): String {
         return this.name;
@@ -15,5 +20,19 @@ export class Category {
     public setName(name: String) {
         this.name = name
     }
+
+    public getDescription(): String {
+        return this.description;
+    }
+    public setDescription(description: String) {
+        this.description = description
+    }
+    public getSubCategories():SubCategory[]
+    {
+        return this.subCategory;
+    }
    
+    public setSubCategories(subCategories: SubCategory[]) {
+        this.subCategory = subCategories;
+    }
 }

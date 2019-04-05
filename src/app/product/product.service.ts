@@ -7,16 +7,25 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ProductService {
-  baseUrl: string = 'http://localhost:8090/product-category';
+  baseUrlCategory: string = 'http://localhost:8090/product-category/';
+  baseUrlSubCategory: string = 'http://localhost:8090/product-subCategoryId';
   httpClient:HttpClient;
+
   
   constructor(httpClient:HttpClient) { 
 this.httpClient=httpClient;
   }
 
- public getProductByCategory(categoryId: number): Observable<Product[]> {
+ public getProductByCategory(categoryId: string): Observable<Product[]> {
   
 
-    return this.httpClient.get<Product[]>(this.baseUrl+"/"+categoryId);
+    return this.httpClient.get<Product[]>(this.baseUrlCategory+"/"+categoryId);
+  }
+
+
+  public getProductBySubCategory(subCategoryId: string): Observable<Product[]> {
+  
+
+    return this.httpClient.get<Product[]>(this.baseUrlSubCategory+"/"+subCategoryId);
   }
 }

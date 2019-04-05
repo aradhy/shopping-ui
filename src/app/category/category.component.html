@@ -1,18 +1,24 @@
+
 <body>
-      <div id="menu">
-    <ul>
-	
-       <li><a href="#" (mouseover)="mouse_event()" >SHOP BY CATEGORY</a>
-       
-                  <ul>
-                         <li *ngFor='let category of categoryList'  (mouseover)="mouse_event_sub(category.category_id)"><a href="#" >{{category.name}}</a>
-        
-           <ul>
-                      <li *ngFor='let subcategory of sub_categoryList'><a href="#">{{subcategory.name}}</a></li>
-          
-           </ul>
-     
-      </li>
-    </ul>               
-</ul>
-</div>
+
+
+
+
+<div  *ngFor='let category of categoryListAll'>
+
+
+    <div class="gallery" *ngFor='let subcategory of category.subCategory'>
+        <div class="desc">{{subcategory.name}}</div>
+        <a [routerLink]="['/product/1']">
+            <img src="{{subcategory.imageLink}}" alt="{{subcategory.name}}" width="200" height="200">
+          </a>
+    </div>
+    
+      
+    
+  </div>
+
+
+
+
+</body>

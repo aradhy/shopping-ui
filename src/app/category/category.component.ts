@@ -1,7 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output,EventEmitter } from '@angular/core';
 import {CategoryService} from './category.service'
 import { Category } from './category';
 import { SubCategory } from './sub-category';
+
+
+
 
 
 
@@ -11,47 +14,60 @@ import { SubCategory } from './sub-category';
   selector: 'app-category',
   templateUrl: './category.component.html',
   styleUrls: ['./category.component.css'],
-  providers:[CategoryService]
+  providers:[CategoryService,Category,SubCategory]
 })
 export class CategoryComponent implements OnInit {
+ 
+
   public categoryList:Category[];
-  public sub_categories=[{id:1,name:'soap'},{id:2,name:'Detergent'}];
+  public categoryListAll:Category[];
   public sub_categoryList:SubCategory[];
-  constructor(private categoryService: CategoryService) { }
+  constructor(private categoryService: CategoryService) {
 
-  ngOnInit() {
    
+   }
+
+
+   
+  ngOnInit() {
+    this.categoryListAll=this.categoriesOnload();
+   
+    
+
   }
 
-  mouse_event()
-  {
   
-    this.categoryService.getCategories().subscribe(response =>
-      {
-       
-        this.categoryList = response;
-        console.log('Category From DB')
-       
-      });
-      
-    
-    return this.categoryList;
-  
-  }
+ 
 
-  mouse_event_sub(categoryId)
-  {
-    this.categoryService.getSubCategories(categoryId).subscribe(response =>
-      {
-       
-        this.sub_categoryList = response;
-        console.log('SubCategory From DB')
-        //alert(this.sub_categoryList);
-       
-      });
-      
+
+categoriesOnload()
+{
+  this.categoryService.getCategoriesAll().subscribe(response =>
+    {
     
-    return this.sub_categoryList;
-  }
+      this.categoryListAll = response;
+      console.log('All Category From DB')
+     
+      for (var i = 0; i < this.categoryListAll.length; i++) {
+       
+        console.log("Inside sub "+this.categoryListAll[i].name)
+        console.log("Inside sub "+this.categoryListAll[i].subCategory)
+        this.categoryListAll[i].imageLink="images//"+this.categoryListAll[i].imageLink;
+   
+      }
+     
+    });
+    
+  
+  return this.categoryListAll;
+}
+
+
+
+
   
 }
+
+
+
+

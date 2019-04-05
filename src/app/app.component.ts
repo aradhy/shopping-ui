@@ -1,4 +1,8 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+
+
+
 
 @Component({
   selector: 'app-root',
@@ -7,21 +11,16 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'MyFirstApp';
-  changeText: boolean;
-
-  arrBirds: any [] = [
-    { name: 'Bells Sparrow' },
-    { name: 'Mourning Dove'},
-    { name: 'Bald Eagle' }
-  ];
   
 
-  public AppComponent()
+  
+  constructor(private router:Router)
   {
-    this.changeText = false;
 
-    alert('hello');
   }
-
- 
+  
+  ngOnInit() {
+    this.router.navigateByUrl('/category-view');
+  }
+  
 }

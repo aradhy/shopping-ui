@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from './product.service';
 import { Product } from './product';
+import { Router,ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -14,29 +15,32 @@ export class ProductComponent implements OnInit {
   
  public productList:Product[];
  public name:String;
- 
+ id:string;
 
-  constructor(private productService: ProductService) {
+  constructor(private productService: ProductService,private activatedRoute:ActivatedRoute,private router:Router) {
 
 
    }
   
 
-  ngOnInit() {
-   
  
-  }
+
+  ngOnInit() {
+    this.id=this.activatedRoute.snapshot.params.id;
+    alert(this.activatedRoute.snapshot.params.id)
+    
+ }
   
-   mouse_event(event)
+   productBasedOnCategory()
   {
    
+    this.id=this.activatedRoute.snapshot.params.id;
    
-   
-    this.productService.getProductByCategory(1).subscribe(response =>
+    this.productService.getProductByCategory(this.id).subscribe(response =>
       {
        
         this.productList = response;
-        console.log('From DB')
+        console.log('Products based on Category From DB')
        
       });
       
