@@ -2,14 +2,14 @@
     <div id="menu">
         <ul>
       
-           <li><a href="#" (mouseover)="mouse_event()" >SHOP BY CATEGORY</a>
+           <li><a href="#" (mouseenter)="mouse_event()" >SHOP BY CATEGORY</a>
            
                       <ul>
-                             <li *ngFor='let category of categoryList'  (mouseover)="mouse_event_sub(category.id)" >
-                              <a [routerLink]="['/product/1']">{{category.name}}</a>
+                             <li *ngFor='let category of categoryList'  (mouseenter)="mouse_event_sub(category.id)">
+                              <a [routerLink]="['/product/cat',category.id]">{{category.name}}</a>
                <ul>
-                          <li *ngFor='let subcategory of sub_categoryList'><a href="#">{{subcategory.name}}</a></li>
-              
+                          <li *ngFor='let subcategory of sub_categoryList'><a [routerLink]="['/product/sub',subcategory.id]">{{subcategory.name}}</a></li>
+                         
                </ul>
          
           </li>

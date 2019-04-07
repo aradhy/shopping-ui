@@ -46,7 +46,7 @@ export class MenusComponent implements OnInit {
 
   mouse_event_sub(categoryId)
   {
-    
+    console.log(categoryId)
     this.categoryService.getSubCategories(categoryId).subscribe(response =>
       {
        
@@ -62,5 +62,7 @@ export class MenusComponent implements OnInit {
     return this.sub_categoryList;
   }
 
+ 
+ 
 
 }

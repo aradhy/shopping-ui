@@ -15,6 +15,7 @@ export class ProductComponent implements OnInit {
   
  public productList:Product[];
  public name:String;
+ url:string;
  id:string;
 
   constructor(private productService: ProductService,private activatedRoute:ActivatedRoute,private router:Router) {
@@ -26,15 +27,33 @@ export class ProductComponent implements OnInit {
  
 
   ngOnInit() {
-    this.id=this.activatedRoute.snapshot.params.id;
-    alert(this.activatedRoute.snapshot.params.id)
+   //alert(this.router.url)
+  if (this.router.url.includes('sub'))
+  {
+   
+    this.activatedRoute.params.subscribe(routeParams => {
+      this.productBasedOnSubCategory(routeParams.id);
+     });
+    
+  }
+  else if(this.router.url.includes('cat'))
+  {
+   
+  this.activatedRoute.params.subscribe(routeParams => {
+   this.productBasedOnCategory(routeParams.id);
+  });
+}
+
+   
     
  }
   
-   productBasedOnCategory()
+   productBasedOnCategory(id)
   {
-   
-    this.id=this.activatedRoute.snapshot.params.id;
+
+  
+   this.id=id;
+    
    
     this.productService.getProductByCategory(this.id).subscribe(response =>
       {
@@ -48,6 +67,23 @@ export class ProductComponent implements OnInit {
     
     
     
+    return this.productList;
+  
+  }
+
+  productBasedOnSubCategory(id)
+  {
+
+   
+    this.id=id;
+    this.productService.getProductBySubCategory(this.id).subscribe(response =>
+      {
+       
+        this.productList = response;
+        console.log('Products based on Sub Category From DB')
+       
+      });
+      
     return this.productList;
   
   }

@@ -1,12 +1,7 @@
-<p>
-  hhhhhhhhh
+<div id="productDiv" *ngFor='let product of productList'>
+    <a  [routerLink]="['/single-product-view',product.code]">{{product.name}}</a>
+
+{{product.price}}
+{{product.weight}} {{product.weightUnit}}
+</div>
   
-  <a target="_blank" [routerLink]="['/single-product-view']">no link here</a>.
-
-        
-
-       
-</p>
-
-
-

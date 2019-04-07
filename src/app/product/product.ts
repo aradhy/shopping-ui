@@ -2,17 +2,19 @@ import { CodeNode } from 'source-list-map';
 
 export class Product {
     
-	private  code:number;
+	private  code:String;
    private name:String ;
    private brand:String ;
    private  imageLink:String;
-   private created_date:Date;
    private categoryId:number ;
-    getCode(): number {
+   private price:number;
+   private weight:number;
+   private weightUnit:String;
+    getCode(): String {
        return this.code;
     }
 
-    setCode(code:number) {
+    setCode(code:String) {
        this.code=code;
     }
 
@@ -39,17 +41,26 @@ export class Product {
       return this.categoryId;
    }
 
-   setCategoryId(categoryId:number) {
-      this.categoryId=categoryId;
+   setPrice(price:number) {
+      this.price=price;
    }
 
-     getCreatedDate(): Date {
-        return this.created_date;
-     }
- 
-     setCreatedDate(created_date:Date) {
-        this.created_date=created_date;
-     }
+   getPrice(): number {
+      return this.price;
+   }
+
+   setWeight(weight:number) {
+      this.weight=weight;
+   }
+   getWeight(weight:number) {
+      return this.weight;
+   }
+   setWeightUnit(weightUnit:string) {
+      this.weightUnit=weightUnit;
+   }
+   getWeightUnit() {
+      return this.weightUnit;
+   }
 	
 	
 }

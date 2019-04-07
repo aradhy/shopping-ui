@@ -7,8 +7,9 @@ import { CategoryComponent } from './category/category.component';
 
 
 export const routes: Routes = [
-  { path: 'product/:id', component: ProductComponent },
-  {path:'single-product-view', component: SingleProductViewComponent},
+  { path: 'product/cat/:id', component: ProductComponent },
+  {path:"product/sub/:id",component: ProductComponent},
+  {path:'single-product-view/:code', component: SingleProductViewComponent},
   {path:'category-view', component: CategoryComponent}
   
 
