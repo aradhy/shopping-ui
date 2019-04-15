@@ -2,9 +2,9 @@
     <div id="singleProductDiv" >
         
        {{product.name}}
-    
-    {{product.price}}
-    {{product.weight}} {{product.weightUnit}}
+    <div id="prodAvail" *ngFor='let prodAvail of product.productAvailList'>
+    {{prodAvail.weight}}  {{prodAvail.weightUnit}}  {{prodAvail.price}}
+  
     </div>
       
 

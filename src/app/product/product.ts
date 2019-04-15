@@ -1,4 +1,5 @@
 import { CodeNode } from 'source-list-map';
+import { ProductAvail } from './productavail';
 
 export class Product {
     
@@ -6,10 +7,9 @@ export class Product {
    private name:String ;
    private brand:String ;
    private  imageLink:String;
-   private categoryId:number ;
-   private price:number;
-   private weight:number;
-   private weightUnit:String;
+   private subId:String ;
+   private productAvailList:ProductAvail[];
+ 
     getCode(): String {
        return this.code;
     }
@@ -37,30 +37,10 @@ export class Product {
     getImageId(): String {
       return this.imageLink;
    }
-   getCategoryId(): number {
-      return this.categoryId;
+   getSubCategoryId(): String {
+      return this.subId;
    }
 
-   setPrice(price:number) {
-      this.price=price;
-   }
-
-   getPrice(): number {
-      return this.price;
-   }
-
-   setWeight(weight:number) {
-      this.weight=weight;
-   }
-   getWeight(weight:number) {
-      return this.weight;
-   }
-   setWeightUnit(weightUnit:string) {
-      this.weightUnit=weightUnit;
-   }
-   getWeightUnit() {
-      return this.weightUnit;
-   }
-	
+  
 	
 }
