@@ -11,6 +11,7 @@ export class ProductService {
   baseUrlCategory: string = 'http://localhost:8090/product-category';
   baseUrlSubCategory: string = 'http://localhost:8090/product-subCategoryId';
   baseUrlProduct: string = 'http://localhost:8090/product';
+  baseUrlProductName:string="http://localhost:8090/product-name";
   httpClient:HttpClient;
 
   
@@ -34,5 +35,11 @@ export class ProductService {
   public productBasedOnCode(code: string): Observable<Product> {
     
     return this.httpClient.get<Product>(this.baseUrlProduct+"/"+code);
+  }
+
+  
+  public productBasedOnName(name: string): Observable<Product[]> {
+   
+    return this.httpClient.get<Product[]>(this.baseUrlProductName+"?productName="+name);
   }
 }

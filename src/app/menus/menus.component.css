@@ -6,7 +6,8 @@
 	}
 #menu ul{
 	list-style:none;
-	
+	top:7px;
+	position:absolute;
 }
 
 #menu ul li
@@ -36,7 +37,7 @@ background-color:red;
 }
 #menu ul ul 
 {
-position:absolute;
+position:relative;
 display:none;
 }
 #menu ul li:hover > ul
@@ -49,7 +50,59 @@ display:block;
 margin-left:250px;
 top:0px;
 
+
 }
 
+
+
+
+
+
+*{
+	font-family : Arial;
+  }
+  
+  * {
+	box-sizing: border-box;
+  }
+  .search
+  {
+align:center;
+margin-top:10px;
+
+  }
+
+
+
+  form.example input[type=text] {
+	padding: 10px;
+	font-size: 17px;
+	border: 1px solid grey;
+	float: left;
+	width: 80%;
+	background: #f1f1f1;
+  }
+  
+  form.example button {
+	float: left;
+	width: 20%;
+	padding: 10px;
+	background: #2196F3;
+	color: white;
+	font-size: 17px;
+	border: 1px solid grey;
+	
+	cursor: pointer;
+  }
+  
+  form.example button:hover {
+	background: #0b7dda;
+  }
+  
+  form.example::after {
+	content: "";
+	clear: both;
+	display: table;
+  }
 
 

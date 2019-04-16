@@ -4,21 +4,23 @@
 
 
 
-<div  *ngFor='let category of categoryListAll'>
+    <table class="galleryTable"  *ngFor='let category of categoryListAll'>
+ 
+        <div>
+          {{category.name}}
+         </div>
+         <tr>
+      <th><div class="gallery" *ngFor='let subcategory of category.subCategory' >
+       <div class="desc"> {{subcategory.name}}</div>
+       <a target="_blank" [routerLink]="['/product/1']">
+         <img src="{{subcategory.imageLink}}" alt="{{subcategory.name}}" width="5" height="5">
+        </a>
+      </div>
+       </th>
+        </tr>
+        
+       </table>
 
 
-    <div class="gallery" *ngFor='let subcategory of category.subCategory'>
-        <div class="desc">{{subcategory.name}}</div>
-        <a [routerLink]="['/product/1']">
-            <img src="{{subcategory.imageLink}}" alt="{{subcategory.name}}" width="200" height="200">
-          </a>
-    </div>
-    
-      
-    
-  </div>
-
-
-
-
+ 
 </body>

@@ -9,6 +9,7 @@ import { CategoryComponent } from './category/category.component';
 export const routes: Routes = [
   { path: 'product/cat/:id', component: ProductComponent },
   {path:"product/sub/:id",component: ProductComponent},
+  {path:"product-name",component: ProductComponent},
   {path:'single-product-view/:code', component: SingleProductViewComponent},
   {path:'category-view', component: CategoryComponent}
   

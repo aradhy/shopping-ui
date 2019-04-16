@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CategoryService } from '../category/category.service';
 import { Category } from '../category/category';
 import { SubCategory } from '../category/sub-category';
+import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -14,7 +16,7 @@ export class MenusComponent implements OnInit {
   public categoryList:Category[];
   public categoryListAll:Category[];
   public sub_categoryList:SubCategory[];
-  constructor(private categoryService: CategoryService) {
+  constructor(private categoryService: CategoryService,private router:Router) {
 
    
    }
@@ -26,6 +28,14 @@ export class MenusComponent implements OnInit {
    
     
 
+  }
+
+  searchProduct(regForm:NgForm)
+  {
+    var productSearch=regForm.controls.search.value;
+    if(productSearch!='')
+    this.router.navigate(['product-name'],{ queryParams: { productName: productSearch } });
+  
   }
 
   mouse_event()

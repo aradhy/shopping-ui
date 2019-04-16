@@ -1,21 +1,34 @@
 
-    <div id="menu">
-        <ul>
-      
-           <li><a href="#" (mouseenter)="mouse_event()" >SHOP BY CATEGORY</a>
-           
-                      <ul>
-                             <li *ngFor='let category of categoryList'  (mouseenter)="mouse_event_sub(category.id)">
-                              <a [routerLink]="['/product/cat',category.id]">{{category.name}}</a>
-               <ul>
-                          <li *ngFor='let subcategory of sub_categoryList'><a [routerLink]="['/product/sub',subcategory.id]">{{subcategory.name}}</a></li>
-                         
-               </ul>
-         
-          </li>
-        </ul>               
-    </ul>
     
-    
-    </div>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+ 
 
+    
+
+<!-- The form -->
+<div class="search">
+<form class="example" #regForm='ngForm' (ngSubmit)="searchProduct(regForm)" style="margin:auto;max-width:600px">
+  <input type="text" placeholder="Search.." name="search" ngModel>
+  <button type="submit" ><div class="fa fa-search"></div></button>
+</form>
+
+        <div id="menu">
+                <ul>
+              
+                   <li><a href="#" (mouseenter)="mouse_event()" >SHOP BY CATEGORY</a>
+                   
+                              <ul>
+                                     <li *ngFor='let category of categoryList'  (mouseenter)="mouse_event_sub(category.id)">
+                                      <a [routerLink]="['/product/cat',category.id]">{{category.name}}</a>
+                       <ul>
+                                  <li *ngFor='let subcategory of sub_categoryList'><a [routerLink]="['/product/sub',subcategory.id]">{{subcategory.name}}</a></li>
+                                 
+                       </ul>
+                 
+                  </li>
+                </ul>               
+            </ul>
+            
+            
+            </div>
+            <div>

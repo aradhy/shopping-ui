@@ -27,7 +27,8 @@ export class ProductComponent implements OnInit {
  
 
   ngOnInit() {
-   //alert(this.router.url)
+  
+   
   if (this.router.url.includes('sub'))
   {
    
@@ -41,10 +42,19 @@ export class ProductComponent implements OnInit {
    
   this.activatedRoute.params.subscribe(routeParams => {
    this.productBasedOnCategory(routeParams.id);
-  });
+  })
+
 }
 
-   
+   else{
+  
+
+    this.activatedRoute.queryParams.subscribe(queryParams => {
+      
+      this.productBasedSearch (queryParams['productName']);
+      
+     })
+   }
     
  }
   
@@ -88,6 +98,23 @@ export class ProductComponent implements OnInit {
   
   }
 
+  productBasedSearch (name)
+  {
+
+   
+    this.name=name;
+    alert('hiii>>>'+this.name)
+    this.productService.productBasedOnName(name).subscribe(response =>
+      {
+       
+        this.productList = response;
+        console.log('Products based on name  search')
+       
+      });
+      
+    return this.productList;
+  
+  }
 }
 
  
