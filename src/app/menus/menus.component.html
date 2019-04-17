@@ -1,14 +1,14 @@
 
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
- 
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
     
 
 <!-- The form -->
 <div class="search">
 <form class="example" #regForm='ngForm' (ngSubmit)="searchProduct(regForm)" style="margin:auto;max-width:600px">
-  <input type="text" placeholder="Search.." name="search" ngModel>
+  <input type="text" placeholder="Search.." name="search" autocomplete="off" ngModel>
   <button type="submit" ><div class="fa fa-search"></div></button>
 </form>
 
@@ -31,4 +31,31 @@
             
             
             </div>
-            <div>
+
+
+            <div class="cartdiv">
+
+              <div class="material-icons" id="material-icons-id" style="font-size:25px;color:red">brightness_1
+              </div>
+              <div class="cart-count" id="cart-count-id" >{{totalItems}}</div>
+              <img src="images\images.png" alt="Avatar" class="cart">
+              <div class="tooltiptext">
+              <table>
+               <tr>
+                  <th>Month</th>
+                  <th>Savings</th>
+                </tr>
+                <tr>
+                  <td>January</td>
+                  <td>$100</td>
+                </tr>
+                <tr>
+                  <td>February</td>
+                  <td>$80</td>
+                </tr>
+                </table>
+              
+              </div>
+              
+              </div>
+              

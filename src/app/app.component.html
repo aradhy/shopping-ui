@@ -1,6 +1,6 @@
 
 
 
-<app-menus></app-menus>
+<app-menus [totalItems]=totalItems></app-menus>
 
-<router-outlet></router-outlet>
+<router-outlet (activate)="onActivate($event)"></router-outlet>

@@ -1,48 +1,51 @@
 /*CSS Document*/
 *
 {
+
     margin:0px;
 	padding:0px;
 	}
 #menu ul{
 	list-style:none;
-	top:7px;
-	position:absolute;
 }
 
 #menu ul li
 {
-	background-color:green;
-	border:1px solid white;
+	background-color:#f1f1f1;
+	border:ridge  0.5px  grey;
 	width:250px;
 	height:35px;
 	line-height:35px;
 	text-align:center;
 	position:relative;
+	
 }
 
 #menu ul li a
 {
 	
 	text-decoration:none;
-	color:white;
+	color:black;
 	Display:block;
 
 }
 
 #menu ul li a:hover
 {
-background-color:red;
-
+background-color:tan;
+border: none;
 }
 #menu ul ul 
 {
-position:relative;
+top:30px;	
+position:absolute;
 display:none;
+
 }
 #menu ul li:hover > ul
 {
 display:block;
+
 
 }
 #menu ul ul ul
@@ -67,7 +70,7 @@ top:0px;
   }
   .search
   {
-align:center;
+
 margin-top:10px;
 
   }
@@ -87,7 +90,7 @@ margin-top:10px;
 	float: left;
 	width: 20%;
 	padding: 10px;
-	background: #2196F3;
+	background:limegreen;
 	color: white;
 	font-size: 17px;
 	border: 1px solid grey;
@@ -96,7 +99,7 @@ margin-top:10px;
   }
   
   form.example button:hover {
-	background: #0b7dda;
+	background: seagreen;
   }
   
   form.example::after {
@@ -106,3 +109,77 @@ margin-top:10px;
   }
 
 
+	.cartdiv {
+		top:0px;
+		float: right;
+	 
+		display: inline-block;
+	}
+	
+	.cartdiv:hover  {
+		visibility: visible;
+		 display: inline-block;
+	}
+	
+	
+	.cartdiv:hover .tooltiptext {
+		visibility: visible;
+		 display: inline-block;
+		 
+			 
+	 
+	}
+	
+	.tooltiptext:hover  {
+		visibility: visible;
+		 display: inline-block;
+	}
+	.tooltiptext ,table.tooltip{
+		top:105px;
+		visibility: hidden;
+	 
+		border: 1px solid black;
+		box-shadow: 0 0 0 8px grey;
+		position:absolute;
+		width: 350px;
+		height:auto;
+		z-index: 1;
+		right:150px;
+		padding: 5px 0;
+		border-style: solid;
+		background-color: white;
+		
+		
+			
+			-webkit-transition-delay: .30s; 
+		 
+				
+		 
+		
+		
+		
+		
+	}
+	
+	
+	.cart
+	{
+	top:55px;
+	right:135px;	
+	position:absolute;
+	width:50px;	
+	}
+	.material-icons,.cart-count {
+	 top:34px;
+	right:110px;	
+	position:absolute;
+	width:50px;
+	}
+	.cart-count
+	{
+	top:38px;
+	right:102px;
+	color:black;
+	font-weight:bold;
+	}
+	

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { CategoryService } from '../category/category.service';
 import { Category } from '../category/category';
 import { SubCategory } from '../category/sub-category';
@@ -12,10 +12,11 @@ import { Router } from '@angular/router';
   styleUrls: ['./menus.component.css']
 })
 export class MenusComponent implements OnInit {
-
+  @Input() totalItems: number;
   public categoryList:Category[];
   public categoryListAll:Category[];
   public sub_categoryList:SubCategory[];
+  
   constructor(private categoryService: CategoryService,private router:Router) {
 
    
@@ -24,11 +25,17 @@ export class MenusComponent implements OnInit {
 
    
   ngOnInit() {
-   
-   
+   if(sessionStorage.getItem("totalCardItems")!=undefined)
+{
+   this.totalItems=parseInt(sessionStorage.getItem("totalCardItems"));
+}
+else{
+  sessionStorage.setItem("totalCardItems","0")
+  this.totalItems=0;
     
 
   }
+}
 
   searchProduct(regForm:NgForm)
   {

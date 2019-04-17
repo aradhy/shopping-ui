@@ -242,18 +242,30 @@ body {font-family: Arial, Helvetica, sans-serif;}
   cursor: pointer;
 }
 
-.demo {
+.cartdiv {
 	top:0px;
 	float: right;
  
   display: inline-block;
 }
 
-
-
-
-.demo:hover .tooltiptext {
+.cartdiv:hover  {
   visibility: visible;
+   display: inline-block;
+}
+
+
+.cartdiv:hover .tooltiptext {
+  visibility: visible;
+   display: inline-block;
+   
+     
+ 
+}
+
+.tooltiptext:hover  {
+  visibility: visible;
+   display: inline-block;
 }
 .tooltiptext ,table.tooltip{
   top:105px;
@@ -271,6 +283,13 @@ body {font-family: Arial, Helvetica, sans-serif;}
   background-color: white;
   
   
+    
+    -webkit-transition-delay: .30s; 
+   
+      
+   
+  
+  
 	
   
 }
@@ -283,7 +302,7 @@ right:135px;
 position:absolute;
 width:50px;	
 }
-m {
+.material-icons,.cart-count {
  top:34px;
 right:110px;	
 position:absolute;

@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter } from '@angular/core';
 import { ProductService } from './product.service';
 import { Product } from './product';
 import { Router,ActivatedRoute } from '@angular/router';
+import {Output} from '@angular/core';
 
 
 @Component({
@@ -13,10 +14,12 @@ import { Router,ActivatedRoute } from '@angular/router';
 
 export class ProductComponent implements OnInit {
   
+  @Output() totalItems: EventEmitter<String> = new EventEmitter(); 
  public productList:Product[];
  public name:String;
  url:string;
  id:string;
+ productIdCount:number;
 
   constructor(private productService: ProductService,private activatedRoute:ActivatedRoute,private router:Router) {
 
@@ -27,7 +30,7 @@ export class ProductComponent implements OnInit {
  
 
   ngOnInit() {
-  
+   
    
   if (this.router.url.includes('sub'))
   {
@@ -103,7 +106,7 @@ export class ProductComponent implements OnInit {
 
    
     this.name=name;
-    alert('hiii>>>'+this.name)
+ 
     this.productService.productBasedOnName(name).subscribe(response =>
       {
        
@@ -113,6 +116,19 @@ export class ProductComponent implements OnInit {
       });
       
     return this.productList;
+  
+  }
+
+   addToCart()
+  {
+ this.totalItems.emit(sessionStorage.getItem("totalCardItems"));
+
+  }
+  removeFromCart(productId)
+  {
+    
+    var totalCount=parseInt(localStorage.getItem("totalCardItems")) -1;
+    localStorage.setItem("totalCardItems",totalCount.toString());
   
   }
 }

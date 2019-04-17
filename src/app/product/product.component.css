@@ -1,0 +1,38 @@
+div.gallery {
+    margin: 5px;
+    border: 2px solid green;
+    float: left;
+    width:180px;
+    padding:50px;
+   
+  }
+  div.gallery:hover {
+    border: 2px solid red;
+    background-color:light gray;
+  }
+  
+  div.gallery img {
+    width: 125%;
+    height: 20%;
+    margin-top:0px;
+  }
+  
+  div.desc {
+    padding: 5px;
+    text-align: center;
+    margin-left:20px;
+    font-size:15px;
+    text-decoration:underline;
+  }
+  
+  .countIncrease
+  {
+  display:none;
+  }
+  
+  .center{
+  background-color:yellow;
+  width: 80px;
+    margin:0px;
+    
+  }

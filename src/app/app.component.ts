@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 })
 export class AppComponent {
   title = 'MyFirstApp';
-  
+  totalItems:string;
 
   
   constructor(private router:Router)
@@ -23,4 +23,16 @@ export class AppComponent {
     this.router.navigateByUrl('/category-view');
   }
   
+  onActivate(componentReference) {
+    console.log(componentReference)
+  
+    //componentReference.anyFunction();
+    componentReference.totalItems.subscribe((data) => {
+      // Will receive the data from child here 
+    
+     this.totalItems=data;
+    
+   })
+ }
+
 }
