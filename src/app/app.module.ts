@@ -10,6 +10,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { CategoryComponent } from './category/category.component';
 import { SingleProductViewComponent } from './product/single-product-view/single-product-view.component';
 import { MenusComponent } from './menus/menus.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
@@ -19,7 +20,7 @@ import { MenusComponent } from './menus/menus.component';
     UserComponent,
     CategoryComponent,
     SingleProductViewComponent,
-    MenusComponent,
+    MenusComponent
    
   ],
   imports: [
@@ -27,7 +28,7 @@ import { MenusComponent } from './menus/menus.component';
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,NgbModule
   ],
   providers: [],
   bootstrap: [AppComponent]

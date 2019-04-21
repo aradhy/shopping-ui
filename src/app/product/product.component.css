@@ -1,9 +1,11 @@
+
 div.gallery {
     margin: 5px;
     border: 2px solid green;
-    float: left;
-    width:180px;
+    float: center;
+    width:300px;
     padding:50px;
+    
    
   }
   div.gallery:hover {
@@ -12,9 +14,10 @@ div.gallery {
   }
   
   div.gallery img {
-    width: 125%;
+    width: 100%;
     height: 20%;
     margin-top:0px;
+    align:center
   }
   
   div.desc {
@@ -23,16 +26,12 @@ div.gallery {
     margin-left:20px;
     font-size:15px;
     text-decoration:underline;
-  }
-  
-  .countIncrease
-  {
-  display:none;
-  }
-  
-  .center{
-  background-color:yellow;
-  width: 80px;
-    margin:0px;
+    top:200px;
     
   }
+  
+ 
+
+
+
+  

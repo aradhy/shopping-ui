@@ -6,9 +6,9 @@ export class ProductAvail {
    private  id:String;
 	private productId:String ;
    private totalAvailUnits:number ;
-   private price:number ;
-   private weight:number;
-   private weightUnit:String;
+   public price:number ;
+   public weight:number;
+   public weightUnit:String;
 
     getId(): String {
        return this.id;

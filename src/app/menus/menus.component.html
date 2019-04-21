@@ -33,26 +33,19 @@
             </div>
 
 
-            <div class="cartdiv">
+            <div class="cartdiv" (mouseover)="test()">
 
               <div class="material-icons" id="material-icons-id" style="font-size:25px;color:red">brightness_1
               </div>
               <div class="cart-count" id="cart-count-id" >{{totalItems}}</div>
               <img src="images\images.png" alt="Avatar" class="cart">
-              <div class="tooltiptext">
-              <table>
+             
+              <div class="tooltiptext" >
+                <table *ngFor="let tdx of testData">
                <tr>
-                  <th>Month</th>
-                  <th>Savings</th>
+                 <th>{{tdx}}</th>
                 </tr>
-                <tr>
-                  <td>January</td>
-                  <td>$100</td>
-                </tr>
-                <tr>
-                  <td>February</td>
-                  <td>$80</td>
-                </tr>
+               
                 </table>
               
               </div>

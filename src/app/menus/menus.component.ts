@@ -17,6 +17,7 @@ export class MenusComponent implements OnInit {
   public categoryListAll:Category[];
   public sub_categoryList:SubCategory[];
   
+  
   constructor(private categoryService: CategoryService,private router:Router) {
 
    
@@ -25,12 +26,13 @@ export class MenusComponent implements OnInit {
 
    
   ngOnInit() {
-   if(sessionStorage.getItem("totalCardItems")!=undefined)
+   if(localStorage.getItem("totalCardItems")!=undefined)
 {
-   this.totalItems=parseInt(sessionStorage.getItem("totalCardItems"));
+   this.totalItems=parseInt(localStorage.getItem("totalCardItems"));
 }
 else{
-  sessionStorage.setItem("totalCardItems","0")
+ 
+  localStorage.setItem("totalCardItems","0")
   this.totalItems=0;
     
 
@@ -79,7 +81,7 @@ else{
     return this.sub_categoryList;
   }
 
- 
+
  
 
 }

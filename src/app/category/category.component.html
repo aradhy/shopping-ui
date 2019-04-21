@@ -1,5 +1,42 @@
+<div class='carousel slide carousel-fade' id="myCarouselId" data-ride="carousel">
+   
+ 
+    
+  <div class='col-12'>
+     
+  <ngb-carousel  #myCarousel="ngbCarousel" id="myCarouselId">
 
-<body>
+
+  <ng-template ngbSlide [id]="55">
+    <img src="images\summer-sale.jpg" alt="Random first slide">
+ 
+  </ng-template>
+  <ng-template ngbSlide [id]="56">
+    <img src="images\gym-shaker.jpg" alt="Random second slide">
+   
+  </ng-template>
+  <ng-template ngbSlide [id]="57">
+    <img src="images\cleaners-tissue.jpg" alt="Random third slide">
+  
+  </ng-template>
+ 
+</ngb-carousel>
+
+
+
+
+  </div>
+ 
+  
+
+
+
+  </div>
+
+
+  <button (click)="tellMeTheSlide(55)">Go To 1</button>
+  <button (click)="tellMeTheSlide(56)">Go To 2</button>
+  <button (click)="tellMeTheSlide(57)">Go To 3</button>
 
 
 
@@ -20,7 +57,3 @@
         </tr>
         
        </table>
-
-
- 
-</body>

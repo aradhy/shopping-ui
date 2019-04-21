@@ -8,8 +8,16 @@ export class Product {
    private brand:String ;
    private  imageLink:String;
    private subId:String ;
-   private productAvailList:ProductAvail[];
- 
+   public productAvailList:ProductAvail[];
+   public selectedProductAvail:string="1";
+   public quantityList:string[]=['1','2','3','4'];
+   public selectedQuantity:string='1';
+
+
+
+
+   public tryNewOne:string='Try New One';
+   public tryNewOneList:string[]=['Price1','Price2','Price3','Price4'];
     getCode(): String {
        return this.code;
     }
@@ -40,7 +48,31 @@ export class Product {
    getSubCategoryId(): String {
       return this.subId;
    }
+   setProductAvailList(productAvailList: ProductAvail[]) {
+      this.productAvailList=productAvailList;
+    }
+    getProductAvailList() {
+     return this.productAvailList;
+    }
+   
 
-  
-	
+    setSelectedQuantity(selectedQuantity: string) {
+      this.selectedQuantity=selectedQuantity;
+    }
+    getSelectedQuantity(): string {
+      return this.selectedQuantity;
+   }
+   
+   setQuantityList(quantityList: string[]) {
+      this.quantityList=quantityList;
+    }
+    getQuantityList() {
+     return this.quantityList;
+    }
+    setSelectedProductAvail(selectedProductAvail: string) {
+      this.selectedProductAvail=selectedProductAvail;
+    }
+    getSelectedProductAvail():string {
+     return this.selectedProductAvail;
+    }
 }

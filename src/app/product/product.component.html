@@ -1,38 +1,52 @@
-<div id="productDiv" *ngFor='let product of productList'>
-    <a  [routerLink]="['/single-product-view',product.code]">{{product.name}}</a>
 
-{{product.price}}
-{{product.weight}} {{product.weightUnit}}
-</div>
 
    
-    
 
-<th><div class="gallery" id="soapId">
-    <div class="desc">Soap</div>
-    
- <img src="images\1200370.jpg" alt="apples.jpg" width="250" height="200">
+  
+<table>
+<tr >
+    <td *ngFor="let prod of productList" >
+    <div class="gallery" id="soapId" > 
+    <div class="desc">{{prod.name}}</div>
+   
+ <img src="images\1200370.jpg" alt="apples.jpg" width="200" height="200">
  <div>
- <select>
-  &nbsp;&nbsp;&nbsp;&nbsp&nbsp;&nbsp;&nbsp;&nbsp&nbsp;&nbsp;&nbsp;&nbsp&nbsp;&nbsp;&nbsp;&nbsp; <option >&nbsp;&nbsp;&nbsp;&nbsp;4pcs-500g Rs 75 &nbsp;&nbsp;&nbsp;&nbsp;</option>
-   <option>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1kg Rs 150 &nbsp;&nbsp;&nbsp;</option>
-          
- </select>    
+
+  <select  name="quantity" [(ngModel)]="prod.selectedProductAvail">
+    <option *ngFor='let prod1 of prod.productAvailList'>{{prod1.weight+'-'+prod1.weightUnit+' Rs '+prod1.price}}</option>
+  
+       </select>
+
+
+
+<br>
+Quantity
+<br>
+<select  name="quantity" [(ngModel)]="prod.selectedQuantity">
+  <option *ngFor='let prod of prod.quantityList'>{{prod}}</option>
+
+     </select>
+   
+
+
+<br><br>
+<button type="submit" class="btn btn-success" (click)="addToCart(prod.code,prod.selectedQuantity,prod.selectedProductAvail)" >Add To Cart</button>
+<br><br>
+<button type="submit" class="btn btn-success" (click)="removeFromCart(prod.code)">Remove From Cart</button>
   </div>
  
-   <div id="demo1" ><input type="submit" value="ADD" ></div>
- 
- <div id="demo2" class="countIncrease"><input type="submit"  value="+"/>
- <input type="button" id='count' value="1" class="center" />
- <input type="submit"  (click)="removeFromCart('soapId','count')" value="-"/>
- </div>
- </div>
- </th>
-  
- 
- 
- 
- 
+
 
  
+ </div>
+</td>
+
+
+ </tr>
+
+</table>
+
  
+
+
+
