@@ -8,7 +8,10 @@
 #menu ul{
 	list-style:none;
 	z-index: 2;
+<<<<<<< HEAD
 	
+=======
+>>>>>>> 2d12be6c09d3a33817f2708712d8dee53af4bbc0
 }
 
 #menu ul li
@@ -170,20 +173,20 @@ margin-top:10px;
 	
 	.cart
 	{
-	top:55px;
+	top:45px;
 	right:135px;	
 	position:absolute;
 	width:50px;	
 	}
 	.material-icons,.cart-count {
-	 top:34px;
+	 top:25px;
 	right:110px;	
 	position:absolute;
 	width:50px;
 	}
 	.cart-count
 	{
-	top:38px;
+	top:25px;
 	right:102px;
 	color:black;
 	font-weight:bold;
