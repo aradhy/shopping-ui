@@ -49,7 +49,7 @@ custom(ev.current,ev.prev);
    
   ngOnInit() {
     this.categoryListAll=this.categoriesOnload();
-   // custom(0,1);
+    custom(0,1);
     
 
   }
@@ -84,7 +84,7 @@ categoriesOnload()
 tellMeTheSlide(x)
 {
   
- // alert("Active==" +this.myCarousel.activeId)
+
   this.myCarousel.select(x);
   
 }

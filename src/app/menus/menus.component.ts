@@ -14,7 +14,7 @@ import { CookieService } from 'ngx-cookie-service';
   providers:[CookieService ]
 })
 export class MenusComponent implements OnInit {
-  @Input() totalItems: number;
+  @Input() totalItems: string;
   public categoryList:Category[];
   public categoryListAll:Category[];
   public sub_categoryList:SubCategory[];
@@ -30,19 +30,20 @@ export class MenusComponent implements OnInit {
    
   ngOnInit() {
    alert(this.cookieService.check("totalCardItems"))
-if((this.cookieService.check("totalCardItems")))
-{
-  var totalCartItemCount=this.cookieService.get('totalCardItems');
-   this.totalItems=parseInt(totalCartItemCount);
-}
-else
+
+if(isNaN(parseInt(this.cookieService.get("totalCardItems"))) || (!this.cookieService.check("totalCardItems")))
 {
 
  
-  this.totalItems=0;
+  this.totalItems="0";
     
 
   }
+else{
+  var totalCartItemCount=this.cookieService.get('totalCardItems');
+  this.totalItems=totalCartItemCount;
+}
+
 }
 
   searchProduct(regForm:NgForm)

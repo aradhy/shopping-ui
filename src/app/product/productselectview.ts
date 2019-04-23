@@ -2,7 +2,7 @@ export class ProductSelect {
     
 	 private  code:String;
     private quantity:String;
-    
+    private itemCount:number;
 
     
     getCode(): String {
@@ -21,7 +21,13 @@ export class ProductSelect {
         this.quantity=quantity;
      }
 
- 
-  
+     setItemCount(itemCount:number)
+     {
+        this.itemCount=itemCount;
+     }
+  getItemCount()
+  {
+     return this.itemCount;
+  }
 	
 }

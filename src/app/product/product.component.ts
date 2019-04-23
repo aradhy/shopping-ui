@@ -138,7 +138,7 @@ export class ProductComponent implements OnInit {
   
   }
  
-   addToCart(productId:any,quantity:any)
+   addToCart(productId:any,itemCount:any,selectedQuant:any)
   {
    if(!(this.cookieService.check("totalCardItems")))
    {
@@ -147,48 +147,52 @@ export class ProductComponent implements OnInit {
     var totalCartItems='0';
     
    }
- 
+
    if(!(this.cookieService.check(productId)))
    {
-  
+
     var  productSelectItemNew=new ProductSelect();
     productSelectItemNew.setCode(productId)
-    productSelectItemNew.setQuantity(quantity);
+    productSelectItemNew.setQuantity(selectedQuant);
+    productSelectItemNew.setItemCount(itemCount);
     this.cookieService.set(productId,JSON.stringify(productSelectItemNew));
-    var totalCartItems=this.cookieService.get("totalCardItems");
+   var totalCartItems=this.cookieService.get("totalCardItems");
    }
   else{
   
     var singleProductItem= this.cookieService.get(productId);
-    var totalCartItems=this.cookieService.get("totalCardItems");
+   var totalCartItems=this.cookieService.get("totalCardItems");
     var productItem=JSON.parse(singleProductItem);
-    var newCount=(parseInt(quantity)+parseInt(productItem.quantity)).toString();
-    productItem.quantity =newCount;
+    var newCount=(parseInt(itemCount)+parseInt(productItem.itemCount)).toString();
+    productItem.itemCount =newCount;
     
     this.cookieService.set(productId,JSON.stringify(productItem));
     }
   
-    this.cookieService.set("totalCardItems",(parseInt(totalCartItems)+parseInt(quantity)).toString());
-    this.totalItems.emit(this.cookieService.get("totalCardItems"));
-
+    this.cookieService.set("totalCardItems",(parseInt(totalCartItems)+parseInt(itemCount)).toString());
+   
+    this.totalItems.emit(this.cookieService.get("totalCardItems"))
 
   }
   removeFromCart(productId:any,quantity:any)
   {
-
+ 
  if(this.cookieService.check(productId) && this.cookieService.check("totalCardItems"))
  {
-   
+
   var singleProductItem=this.cookieService.get(productId);
   var totalCartItems= parseInt(this.cookieService.get("totalCardItems"));
-  var singleProductItemCount=parseInt(JSON.parse(singleProductItem).quantity);
+  var singleProductItemCount=parseInt(JSON.parse(singleProductItem).itemCount);
+
   this.cookieService.delete(productId)
   this.cookieService.set("totalCardItems",(totalCartItems-singleProductItemCount).toString());
   this.totalItems.emit(this.cookieService.get("totalCardItems"));
   }
 
   if(!this.cookieService.check("totalCardItems"))
-  this.totalItems.emit('0');
+  this.totalItems.emit("0");
+  else
+  this.totalItems.emit(this.cookieService.get("totalCardItems"))
  }
 
 
