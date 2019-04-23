@@ -1,5 +1,5 @@
 
-    
+    <link data-require="bootstrap-css@3.3.6" data-semver="3.3.6" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
@@ -41,14 +41,16 @@
               <img src="images\images.png" alt="Avatar" class="cart">
              
               <div class="tooltiptext" >
-                <table *ngFor="let tdx of testData">
+                <table *ngFor="let tdx of totalBucketItems" >
                <tr>
-                 <th>{{tdx}}</th>
+                 <th>{{tdx}}</th>  <a  (click)="removeFromBucket(tdx);">
+                  <span class="glyphicon glyphicon-trash"></span>
+                </a>
                 </tr>
-               
+             
                 </table>
-              
+                
               </div>
-              
+            
               </div>
-              
+           

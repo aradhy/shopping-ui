@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 
 
 
+
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -12,7 +14,7 @@ import { Router } from '@angular/router';
 export class AppComponent {
   title = 'MyFirstApp';
   totalItems:string;
-
+  
   
   constructor(private router:Router)
   {
@@ -20,6 +22,7 @@ export class AppComponent {
   }
   
   ngOnInit() {
+  
     this.router.navigateByUrl('/category-view');
   }
   

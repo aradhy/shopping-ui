@@ -1,13 +1,10 @@
 export class ProductSelect {
     
-	private  code:String;
-    private quantity:String='1';
+	 private  code:String;
+    private quantity:String;
+    
 
-    constructor(private _code: string,private _quantity) {
-this.code=_code;
-this.quantity=_quantity;
-    }
- 
+    
     getCode(): String {
        return this.code;
     }

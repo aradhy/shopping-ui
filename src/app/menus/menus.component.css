@@ -7,6 +7,8 @@
 	}
 #menu ul{
 	list-style:none;
+	z-index: 2;
+	
 }
 
 #menu ul li
@@ -19,6 +21,7 @@
 	text-align:center;
 	position:relative;
 	
+	
 }
 
 #menu ul li a
@@ -28,18 +31,21 @@
 	color:black;
 	Display:block;
 
+
 }
 
 #menu ul li a:hover
 {
 background-color:tan;
 border: none;
+
 }
 #menu ul ul 
 {
 top:30px;	
 position:absolute;
 display:none;
+
 
 }
 #menu ul li:hover > ul
@@ -52,7 +58,7 @@ display:block;
 {
 margin-left:250px;
 top:0px;
-
+z-index: 1;
 
 }
 
@@ -143,7 +149,7 @@ margin-top:10px;
 		position:absolute;
 		width: 350px;
 		height:auto;
-		z-index: 1;
+		z-index: 2;
 		right:150px;
 		padding: 5px 0;
 		border-style: solid;

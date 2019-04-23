@@ -5,15 +5,15 @@ import { Router,ActivatedRoute } from '@angular/router';
 import {Output} from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ProductSelect } from './productselectview';
-import { TestBed } from '@angular/core/testing';
 
+import { CookieService } from 'ngx-cookie-service';
 declare var custom:any;
 
 @Component({
   selector: 'app-product',
   templateUrl: './product.component.html',
   styleUrls: ['./product.component.css'],
-  providers:[ProductService]
+  providers:[ProductService,CookieService ]
 })
 
 export class ProductComponent implements OnInit {
@@ -30,13 +30,9 @@ export class ProductComponent implements OnInit {
 
  
 
-  constructor(private productService: ProductService,private activatedRoute:ActivatedRoute,private router:Router) {
-
-
-   }
+  constructor(private productService: ProductService,private activatedRoute:ActivatedRoute,private router:Router,private cookieService:CookieService ) {
   
-
- 
+  }
 
   ngOnInit() {
   
@@ -60,7 +56,6 @@ export class ProductComponent implements OnInit {
 
    else{
   
-
     this.activatedRoute.queryParams.subscribe(queryParams => {
       
       this.productBasedSearch (queryParams['productName']);
@@ -143,43 +138,68 @@ export class ProductComponent implements OnInit {
   
   }
  
-   addToCart(productId:any,cartItemToAdd:any,availQuantPrice:any)
+   addToCart(productId:any,quantity:any)
   {
-    
-alert(availQuantPrice)
-   var singleProductItemCount=localStorage.getItem(productId);
-   var totalCartItems=localStorage.getItem("totalCardItems");
-   if(singleProductItemCount==null && totalCartItems==null)
-   {
-      localStorage.setItem(productId,cartItemToAdd);
-      localStorage.setItem("totalCardItems",cartItemToAdd)
-   }
-   else{
-   if(singleProductItemCount==null)
-   {
-     localStorage.setItem(productId,cartItemToAdd);
-   }
-    localStorage.setItem(productId,(parseInt(cartItemToAdd)+parseInt(localStorage.getItem(productId))).toString());
-    localStorage.setItem("totalCardItems",(parseInt(totalCartItems)+parseInt(cartItemToAdd)).toString());
-
-   }
- 
-   this.totalItems.emit(localStorage.getItem("totalCardItems"));
-
-  }
-  removeFromCart(productId:any,cartItemToAdd:any,availQuantPrice:any)
-  {
-    
-   var singleProductItemCount=parseInt(localStorage.getItem(productId));
-
-    var totalCartItems=parseInt(localStorage.getItem("totalCardItems"));
    
- if(singleProductItemCount!=null && singleProductItemCount>0 && totalCartItems>=singleProductItemCount) 
- {
-  localStorage.setItem(productId,'0');
-  localStorage.setItem("totalCardItems",(totalCartItems-singleProductItemCount).toString());
-   this.totalItems.emit(localStorage.getItem("totalCardItems"));
+
+  
+   if(!(this.cookieService.check("totalCardItems")))
+   {
+   //alert("Inside totalCardItems not present ");
+    this.cookieService.set("totalCardItems","0")
+    var totalCartItems='0';
+    
+   }
+  // alert("total Cart Items=  "+this.cookieService.get("totalCardItems"));
+   if(!(this.cookieService.check(productId)))
+   {
+   // alert("Inside if  item not present ");
+    var  productSelectItemNew=new ProductSelect();
+    productSelectItemNew.setCode(productId)
+    productSelectItemNew.setQuantity(quantity);
+    this.cookieService.set(productId,JSON.stringify(productSelectItemNew));
+   var totalCartItems=this.cookieService.get("totalCardItems");
+   }
+  else{
+   // alert("Inside item  present "+this.cookieService.get("totalCardItems"));
+    var singleProductItem= this.cookieService.get(productId);
+   var totalCartItems=this.cookieService.get("totalCardItems");
+    var productItem=JSON.parse(singleProductItem);
+    var newCount=(parseInt(quantity)+parseInt(productItem.quantity)).toString();
+    productItem.quantity =newCount;
+    
+    this.cookieService.set(productId,JSON.stringify(productItem));
+    }
+   // alert("after else item  present "+this.cookieService.get("totalCardItems"));
+    this.cookieService.set("totalCardItems",(parseInt(totalCartItems)+parseInt(quantity)).toString());
+    //alert("Finally total Cart Items= "+this.cookieService.get("totalCardItems"))
+  this.totalItems.emit(this.cookieService.get("totalCardItems"));
+
+//  localStorage.clear();
+  /*for ( var i = 0, len = localStorage.length; i < len; ++i ) {
+    if(localStorage.key( i )!="totalCardItems")
+   alert( localStorage.key( i )  );
+  }*/
   }
+  removeFromCart(productId:any,quantity:any)
+  {
+  //this.cookieService.deleteAll();
+   //alert(this.cookieService.check(productId))
+   //alert(this.cookieService.get("totalCardItems"))
+ if(this.cookieService.check(productId) && this.cookieService.check("totalCardItems"))
+ {
+   //alert("Inside remove if ")
+  var singleProductItem=this.cookieService.get(productId);
+  var totalCartItems= parseInt(this.cookieService.get("totalCardItems"));
+  var singleProductItemCount=parseInt(JSON.parse(singleProductItem).quantity);
+
+  this.cookieService.delete(productId)
+  this.cookieService.set("totalCardItems",(totalCartItems-singleProductItemCount).toString());
+  this.totalItems.emit(this.cookieService.get("totalCardItems"));
+  }
+
+  if(!this.cookieService.check("totalCardItems"))
+  this.totalItems.emit('0');
  }
 
 
