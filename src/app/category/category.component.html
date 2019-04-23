@@ -1,47 +1,28 @@
+
+
 <div class='carousel slide carousel-fade' id="myCarouselId" data-ride="carousel">
-   
- 
+
     
   <div class='col-12'>
      
-  <ngb-carousel  #myCarousel="ngbCarousel" id="myCarouselId">
+  <ngb-carousel  #myCarousel="ngbCarousel" id="myCarouselId"   (slide)="onSlideChanged($event)">
 
 
-  <ng-template ngbSlide [id]="55">
-    <img src="images\summer-sale.jpg" alt="Random first slide">
+    <ng-template ngbSlide [id]='i' *ngFor="let slider of sliderList;let i = index">
  
-  </ng-template>
-  <ng-template ngbSlide [id]="56">
-    <img src="images\gym-shaker.jpg" alt="Random second slide">
+      <img src="{{slider.imageLink}}"  alt="summer sale.jpg" >
+    </ng-template>
    
-  </ng-template>
-  <ng-template ngbSlide [id]="57">
-    <img src="images\cleaners-tissue.jpg" alt="Random third slide">
-  
-  </ng-template>
  
 </ngb-carousel>
 
-
-
-
-  </div>
- 
-  
-
-
-
   </div>
 
-
-  <button (click)="tellMeTheSlide(55)">Go To 1</button>
-  <button (click)="tellMeTheSlide(56)">Go To 2</button>
-  <button (click)="tellMeTheSlide(57)">Go To 3</button>
-
-
-
-
-    <table class="galleryTable"  *ngFor='let category of categoryListAll'>
+  </div>
+<div style="text-align:center" >
+  <a  href="javascript:void(0)" class="active"  *ngFor="let slider of sliderList;let i = index" (click)="tellMeTheSlide(i);" [id]='i'>{{slider.name}}</a>
+</div>   
+  <table class="galleryTable"  *ngFor='let category of categoryListAll'>
  
         <div>
           {{category.name}}
@@ -57,3 +38,4 @@
         </tr>
         
        </table>
+
