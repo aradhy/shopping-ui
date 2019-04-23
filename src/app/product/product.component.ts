@@ -140,59 +140,48 @@ export class ProductComponent implements OnInit {
  
    addToCart(productId:any,quantity:any)
   {
-   
-
-  
    if(!(this.cookieService.check("totalCardItems")))
    {
-   //alert("Inside totalCardItems not present ");
+  
     this.cookieService.set("totalCardItems","0")
     var totalCartItems='0';
     
    }
-  // alert("total Cart Items=  "+this.cookieService.get("totalCardItems"));
+ 
    if(!(this.cookieService.check(productId)))
    {
-   // alert("Inside if  item not present ");
+  
     var  productSelectItemNew=new ProductSelect();
     productSelectItemNew.setCode(productId)
     productSelectItemNew.setQuantity(quantity);
     this.cookieService.set(productId,JSON.stringify(productSelectItemNew));
-   var totalCartItems=this.cookieService.get("totalCardItems");
+    var totalCartItems=this.cookieService.get("totalCardItems");
    }
   else{
-   // alert("Inside item  present "+this.cookieService.get("totalCardItems"));
+  
     var singleProductItem= this.cookieService.get(productId);
-   var totalCartItems=this.cookieService.get("totalCardItems");
+    var totalCartItems=this.cookieService.get("totalCardItems");
     var productItem=JSON.parse(singleProductItem);
     var newCount=(parseInt(quantity)+parseInt(productItem.quantity)).toString();
     productItem.quantity =newCount;
     
     this.cookieService.set(productId,JSON.stringify(productItem));
     }
-   // alert("after else item  present "+this.cookieService.get("totalCardItems"));
+  
     this.cookieService.set("totalCardItems",(parseInt(totalCartItems)+parseInt(quantity)).toString());
-    //alert("Finally total Cart Items= "+this.cookieService.get("totalCardItems"))
-  this.totalItems.emit(this.cookieService.get("totalCardItems"));
+    this.totalItems.emit(this.cookieService.get("totalCardItems"));
 
-//  localStorage.clear();
-  /*for ( var i = 0, len = localStorage.length; i < len; ++i ) {
-    if(localStorage.key( i )!="totalCardItems")
-   alert( localStorage.key( i )  );
-  }*/
+
   }
   removeFromCart(productId:any,quantity:any)
   {
-  //this.cookieService.deleteAll();
-   //alert(this.cookieService.check(productId))
-   //alert(this.cookieService.get("totalCardItems"))
+
  if(this.cookieService.check(productId) && this.cookieService.check("totalCardItems"))
  {
-   //alert("Inside remove if ")
+   
   var singleProductItem=this.cookieService.get(productId);
   var totalCartItems= parseInt(this.cookieService.get("totalCardItems"));
   var singleProductItemCount=parseInt(JSON.parse(singleProductItem).quantity);
-
   this.cookieService.delete(productId)
   this.cookieService.set("totalCardItems",(totalCartItems-singleProductItemCount).toString());
   this.totalItems.emit(this.cookieService.get("totalCardItems"));
