@@ -17,6 +17,12 @@
   
        </select>
 
+       <div *ngIf ="productSelectViewMap?.get(prod.code)?.itemCount>0" >
+
+        Item Added To Cart :{{productSelectViewMap.get(prod.code).itemCount}}
+        
+        
+        </div>
 
 
 <br>
@@ -30,9 +36,10 @@ Quantity
 {{prod.code}}
 
 <br><br>
-<button type="submit" class="btn btn-success" (click)="addToCart(prod.code,prod.selectedQuantity)" >Add To Cart</button>
+
+<button type="submit" class="btn btn-success" (click)="addToCart(prod.code,prod.selectedQuantity,prod.selectedProductAvail)" >Add To Cart</button>
 <br><br>
-<button type="submit" class="btn btn-success" (click)="removeFromCart(prod.code)">Remove From Cart</button>
+<button type="submit" class="btn btn-success" (click)="removeFromCart(prod.code,prod.selectedQuantity)">Remove From Cart</button>
   </div>
  
 

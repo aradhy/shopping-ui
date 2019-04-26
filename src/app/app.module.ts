@@ -11,6 +11,8 @@ import { CategoryComponent } from './category/category.component';
 import { SingleProductViewComponent } from './product/single-product-view/single-product-view.component';
 import { MenusComponent } from './menus/menus.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { CommonModule } from '@angular/common';
+import { SharedService } from './sharedservice.service';
 
 
 @NgModule({
@@ -28,9 +30,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
-    FormsModule,NgbModule
+    FormsModule,NgbModule,CommonModule
   ],
-  providers: [],
+  providers: [SharedService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -8,10 +8,6 @@
 #menu ul{
 	list-style:none;
 	z-index: 2;
-<<<<<<< HEAD
-	
-=======
->>>>>>> 2d12be6c09d3a33817f2708712d8dee53af4bbc0
 }
 
 #menu ul li
@@ -144,14 +140,14 @@ margin-top:10px;
 		 display: inline-block;
 	}
 	.tooltiptext ,table.tooltip{
-		top:105px;
+		top:5px;
 		visibility: hidden;
 	 
 		border: 1px solid black;
 		box-shadow: 0 0 0 8px grey;
-		position:absolute;
+		position:relative;
 		width: 350px;
-		height:auto;
+		height:100px;
 		z-index: 2;
 		right:150px;
 		padding: 5px 0;

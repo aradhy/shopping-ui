@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { BucketView } from './menus/bucketview';
 
 
 
@@ -13,8 +14,8 @@ import { Router } from '@angular/router';
 })
 export class AppComponent {
   title = 'MyFirstApp';
-  totalItems:string;
-  
+  bucketView:BucketView;
+  selectedMap:Map<string,string>;
   
   constructor(private router:Router)
   {
@@ -28,14 +29,24 @@ export class AppComponent {
   
   onActivate(componentReference) {
     console.log(componentReference)
-  
-    //componentReference.anyFunction();
-    componentReference.totalItems.subscribe((data) => {
-      // Will receive the data from child here 
     
-     this.totalItems=data;
+    //componentReference.anyFunction();
+    componentReference.bucketViewEmitter.subscribe((data) => {
+      // Will receive the data from child here 
+     
+     this.bucketView=data;
     
    })
+
+   componentReference.selectedMapEmitter.subscribe((data) => {
+    // Will receive the data from child here 
+ 
+   this.selectedMap=data;
+  
+ })
+
+
+   
  }
 
 }

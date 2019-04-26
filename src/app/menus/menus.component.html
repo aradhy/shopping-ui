@@ -19,6 +19,7 @@
                    
                               <ul>
                                      <li *ngFor='let category of categoryList'  (mouseenter)="mouse_event_sub(category.id)">
+                                   
                                       <a [routerLink]="['/product/cat',category.id]">{{category.name}}</a>
                        <ul>
                                   <li *ngFor='let subcategory of sub_categoryList'><a [routerLink]="['/product/sub',subcategory.id]">{{subcategory.name}}</a></li>
@@ -33,26 +34,40 @@
             </div>
 
 
-            <div class="cartdiv" (mouseover)="test()">
+            <div class="cartdiv" >
 
               <div class="material-icons" id="material-icons-id" style="font-size:25px;color:red">brightness_1
               </div>
 
               
-              <div class="cart-count" id="cart-count-id" >{{totalItems}}</div>
+              <div class="cart-count" id="cart-count-id">{{bucketView?.totalItems}}</div>
+             
+             
+             
+             
               <img src="images\images.png" alt="Avatar" class="cart">
              
-              <div class="tooltiptext" >
-                <table *ngFor="let tdx of totalBucketItems" >
-               <tr>
-                 <th>{{tdx}}</th>  <a  (click)="removeFromBucket(tdx);">
-                  <span class="glyphicon glyphicon-trash"></span>
-                </a>
+              <div class="tooltiptext" (mouseenter)="showCart()">
+                 
+                    
+                  <table *ngIf = "bucketView?.productSelectViewMap !=undefined" >
+                    <tr  *ngFor="let tdx of bucketView?.productSelectViewMap?.values()" >
+                      <th>{{tdx.code}}</th>
+                     <th>{{tdx.quantity}}</th> &nbsp;&nbsp;
+                     <th>{{tdx.itemCount}}items</th> 
+                     <a  (click)="removeFromBucket(tdx.code);">
+                      <span class="glyphicon glyphicon-trash"></span>
+                    </a>
                 </tr>
-             
-                </table>
+                     
+              </table>
                 
+              
               </div>
+          
+
+
+              
             
               </div>
            

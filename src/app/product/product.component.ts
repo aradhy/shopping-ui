@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter } from '@angular/core';
+import { Component, OnInit, EventEmitter, Input } from '@angular/core';
 import { ProductService } from './product.service';
 import { Product } from './product';
 import { Router,ActivatedRoute } from '@angular/router';
@@ -7,6 +7,9 @@ import { NgForm } from '@angular/forms';
 import { ProductSelect } from './productselectview';
 
 import { CookieService } from 'ngx-cookie-service';
+import { BucketView } from '../menus/bucketview';
+import { Subscription } from 'rxjs';
+import { SharedService } from '../sharedservice.service';
 declare var custom:any;
 
 @Component({
@@ -18,25 +21,49 @@ declare var custom:any;
 
 export class ProductComponent implements OnInit {
  
-  @Output() totalItems: EventEmitter<String> = new EventEmitter(); 
+  //@Output() totalBucketItems: EventEmitter<string> = new EventEmitter();  
+@Output() bucketViewEmitter: EventEmitter<BucketView> = new EventEmitter();  
+
  public productList:Product[];
 
  public name:String;
  url:string;
  id:string;
-
+ totalProductSelect:Array<ProductSelect>=[];
+ 
  productIdCount:number;
-
-
+productSelectViewMap:Map<string,ProductSelect>;
+private subscription: Subscription;
  
 
-  constructor(private productService: ProductService,private activatedRoute:ActivatedRoute,private router:Router,private cookieService:CookieService ) {
+  constructor(private productService: ProductService,private activatedRoute:ActivatedRoute,private router:Router,private cookieService:CookieService ,private sharedService:SharedService) {
   
+    this.subscription = this.sharedService.getState().subscribe(
+      productSelectViewMap => {
+      
+        this.productSelectViewMap = productSelectViewMap;
+      });
+
   }
 
   ngOnInit() {
   
+  //  this.selectedMap.
 
+   // this.cookieService.deleteAll();
+if(localStorage.getItem("BucketItemView")!="null")
+{
+    //this.selectedMap=new Map<string,string>();
+    var bucketItemString= localStorage.getItem("BucketItemView");
+  
+    var bucketView= this.fetchbucketfrombucketstring(bucketItemString);
+     this.productSelectViewMap= this.fetchmapfrombucketstring(bucketView);
+   
+    
+    
+  
+}
+  
   if (this.router.url.includes('sub'))
   {
    
@@ -140,59 +167,86 @@ export class ProductComponent implements OnInit {
  
    addToCart(productId:any,itemCount:any,selectedQuant:any)
   {
-   if(!(this.cookieService.check("totalCardItems")))
-   {
-  
-    this.cookieService.set("totalCardItems","0")
-    var totalCartItems='0';
-    
-   }
+ 
 
-   if(!(this.cookieService.check(productId)))
+  if(itemCount==null &&  selectedQuant==null)
+  {
+    return ;
+  }
+   if(localStorage.getItem("BucketItemView")=="null")
    {
-
-    var  productSelectItemNew=new ProductSelect();
-    productSelectItemNew.setCode(productId)
-    productSelectItemNew.setQuantity(selectedQuant);
-    productSelectItemNew.setItemCount(itemCount);
-    this.cookieService.set(productId,JSON.stringify(productSelectItemNew));
-   var totalCartItems=this.cookieService.get("totalCardItems");
-   }
-  else{
-  
-    var singleProductItem= this.cookieService.get(productId);
-   var totalCartItems=this.cookieService.get("totalCardItems");
-    var productItem=JSON.parse(singleProductItem);
-    var newCount=(parseInt(itemCount)+parseInt(productItem.itemCount)).toString();
-    productItem.itemCount =newCount;
+     
+     var bucketView=new BucketView();
+     var  productSelectItemNew=new ProductSelect(productId,selectedQuant,itemCount);
+     bucketView.getProductSelectMapView().set(productId,productSelectItemNew);
+     this.productSelectViewMap=bucketView.productSelectViewMap;
     
-    this.cookieService.set(productId,JSON.stringify(productItem));
-    }
-  
-    this.cookieService.set("totalCardItems",(parseInt(totalCartItems)+parseInt(itemCount)).toString());
+     bucketView.setTotalItems(itemCount);
+  }
+  else
+  {
+    
+     var bucketItemString= localStorage.getItem("BucketItemView");
+     var bucketView= this.fetchbucketfrombucketstring(bucketItemString);
+     this.productSelectViewMap= this.fetchmapfrombucketstring(bucketView);
+     
+    if(this.productSelectViewMap.has(productId))
+    {
+     
+    
+      this.productSelectViewMap.get(productId).itemCount=(parseInt(this.productSelectViewMap.get(productId).itemCount)+parseInt(itemCount)).toString();
+    
+      bucketView.totalItems=(parseInt(bucketView.totalItems)+parseInt(itemCount)).toString();
+      bucketView.productSelectViewMap=this.productSelectViewMap;
    
-    this.totalItems.emit(this.cookieService.get("totalCardItems"))
+    }
+    else
+    {
+      
+      var productSelect=new ProductSelect(productId,selectedQuant,itemCount);
+      this.productSelectViewMap.set(productId,productSelect)
+      bucketView.totalItems=(parseInt(bucketView.totalItems)+parseInt(itemCount)).toString();
+     
+      bucketView.productSelectViewMap=this.productSelectViewMap;
+    }
+
+    }
+    
+    localStorage.setItem("BucketItemView",this.ObjectToJsonString(bucketView));
+      this.bucketViewEmitter.emit(bucketView)
+     
 
   }
-  removeFromCart(productId:any,quantity:any)
+  removeFromCart(productId:any,itemCount:any)
   {
  
- if(this.cookieService.check(productId) && this.cookieService.check("totalCardItems"))
+ 
+    if(!(localStorage.getItem("BucketItemView")=="null"))
  {
 
-  var singleProductItem=this.cookieService.get(productId);
-  var totalCartItems= parseInt(this.cookieService.get("totalCardItems"));
-  var singleProductItemCount=parseInt(JSON.parse(singleProductItem).itemCount);
+     var bucketItemString= localStorage.getItem("BucketItemView");
+     var bucketView:BucketView=this.fetchbucketfrombucketstring(bucketItemString);
+     this.productSelectViewMap= this.fetchmapfrombucketstring(bucketView);
 
-  this.cookieService.delete(productId)
-  this.cookieService.set("totalCardItems",(totalCartItems-singleProductItemCount).toString());
-  this.totalItems.emit(this.cookieService.get("totalCardItems"));
+  if(this.productSelectViewMap.has(productId) )
+  {
+
+    var totalCartItems:string=bucketView.totalItems;
+    bucketView.totalItems= (parseInt(bucketView.totalItems)-parseInt(this.productSelectViewMap.get(productId).itemCount)).toString();
+    
+    this.productSelectViewMap.delete(productId);
+    bucketView.productSelectViewMap=this.productSelectViewMap;
+   
+    localStorage.setItem("BucketItemView",this.ObjectToJsonString(bucketView));
+    this.bucketViewEmitter.emit(bucketView)
   }
 
-  if(!this.cookieService.check("totalCardItems"))
-  this.totalItems.emit("0");
-  else
-  this.totalItems.emit(this.cookieService.get("totalCardItems"))
+
+
+  }
+
+
+
  }
 
 
@@ -201,7 +255,39 @@ selectChange(selectedValue)
 alert(selectedValue)
 }
 
+ ObjectToJsonString(bucketItem:BucketView):string
+{
+  
+  var bucketString = JSON.stringify(bucketItem, function (key, value) {
 
+    if (value instanceof (Map)) {
+      return JSON.stringify(Array.from(value))
+    } else {
+      return value;
+    }
+  });
+
+ 
+  return bucketString;
+
+}
+
+
+fetchbucketfrombucketstring(bucketItemString:string):BucketView
+{
+
+  var bucketViewFromString=JSON.parse(bucketItemString);
+  return bucketViewFromString;
+
+}
+
+fetchmapfrombucketstring(bucketViewFromString:any):Map<string,ProductSelect>
+{
+
+  var map = new Map<string,ProductSelect>(JSON.parse(bucketViewFromString.productSelectViewMap));
+  bucketViewFromString.productSelectViewMap=null;
+  return map;
+}
 
 
 

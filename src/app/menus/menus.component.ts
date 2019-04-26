@@ -1,10 +1,16 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { CategoryService } from '../category/category.service';
 import { Category } from '../category/category';
 import { SubCategory } from '../category/sub-category';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
+import { ProductSelect } from '../product/productselectview';
+import { BucketView } from './bucketview';
+import { stringify } from 'querystring';
+import { ProductService } from '../product/product.service';
+import { Subscription } from 'rxjs';
+import { SharedService } from '../sharedservice.service';
 
 
 @Component({
@@ -14,14 +20,19 @@ import { CookieService } from 'ngx-cookie-service';
   providers:[CookieService ]
 })
 export class MenusComponent implements OnInit {
-  @Input() totalItems: string;
+  
+
+  @Input() bucketView: BucketView;
+
   public categoryList:Category[];
   public categoryListAll:Category[];
   public sub_categoryList:SubCategory[];
-  totalBucketItems:string[]=['1','2','3','4']
+
+
+ 
   
 
-  constructor(private categoryService: CategoryService,private router:Router,private cookieService:CookieService) {
+  constructor(private categoryService: CategoryService,private router:Router,private sharedSerevice: SharedService) {
    
    
    }
@@ -29,20 +40,10 @@ export class MenusComponent implements OnInit {
 
    
   ngOnInit() {
-   alert(this.cookieService.check("totalCardItems"))
-
-if(isNaN(parseInt(this.cookieService.get("totalCardItems"))) || (!this.cookieService.check("totalCardItems")))
-{
-
+   
+    this.showCart()
+  
  
-  this.totalItems="0";
-    
-
-  }
-else{
-  var totalCartItemCount=this.cookieService.get('totalCardItems');
-  this.totalItems=totalCartItemCount;
-}
 
 }
 
@@ -90,13 +91,78 @@ else{
 
 removeFromBucket(x:string)
 {
- 
-  this.totalBucketItems= this.totalBucketItems.filter(item => {
-  return  item !=x;
-  })
 
+
+  this.bucketView.totalItems=(parseInt(this.bucketView.totalItems)- parseInt(this.bucketView.productSelectViewMap.get(x).itemCount)).toString();
+ 
+  this.bucketView.productSelectViewMap.delete(x);
+  this.sharedSerevice.setSet(this.bucketView.productSelectViewMap);
+  
+  localStorage.setItem("BucketItemView",this.ObjectToJsonString(this.bucketView));
  
 }
  
+
+
+showCart()
+{
+
+  
+ 
+  if(localStorage.getItem("BucketItemView")=="null")
+ {
+   var bucketView=new BucketView();
+   bucketView.setTotalItems("0");
+   this.bucketView=bucketView;
+}
+else
+{
+ 
+   var bucketItemString= localStorage.getItem("BucketItemView");
+   var bucketView= this.fetchbucketfrombucketstring(bucketItemString);
+   var productSelectViewMap= this.fetchmapfrombucketstring(bucketView);
+   this.bucketView=bucketView
+   this.bucketView.productSelectViewMap=productSelectViewMap;
+  
+  
+}
+
+   
+   
+
+}
+
+fetchbucketfrombucketstring(bucketItemString:string):BucketView
+{
+
+  var bucketViewFromString=JSON.parse(bucketItemString);
+  return bucketViewFromString;
+
+}
+
+fetchmapfrombucketstring(bucketViewFromString:any):Map<string,ProductSelect>
+{
+
+  var map = new Map<string,ProductSelect>(JSON.parse(bucketViewFromString.productSelectViewMap));
+  bucketViewFromString.productSelectViewMap=null;
+  return map;
+}
+
+ObjectToJsonString(bucketItem:BucketView):string
+{
+  
+  var bucketString = JSON.stringify(bucketItem, function (key, value) {
+
+    if (value instanceof (Map)) {
+      return JSON.stringify(Array.from(value))
+    } else {
+      return value;
+    }
+  });
+
+ 
+  return bucketString;
+
+}
 
 }
