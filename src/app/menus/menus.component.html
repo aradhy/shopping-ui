@@ -40,26 +40,38 @@
               </div>
 
               
-              <div class="cart-count" id="cart-count-id">{{bucketView?.totalItems}}</div>
-             
-             
-             
+              <div class="cart-count" id="cart-count-id">{{bucketView?.totalItemCount}}</div>
              
               <img src="images\images.png" alt="Avatar" class="cart">
              
-              <div class="tooltiptext" (mouseenter)="showCart()">
-                 
+              <div class="tooltiptext">
+     
                     
-                  <table *ngIf = "bucketView?.productSelectViewMap !=undefined" >
-                    <tr  *ngFor="let tdx of bucketView?.productSelectViewMap?.values()" >
-                      <th>{{tdx.code}}</th>
-                     <th>{{tdx.quantity}}</th> &nbsp;&nbsp;
-                     <th>{{tdx.itemCount}}items</th> 
+                  <table *ngIf = "bucketView?.productFullInfoBucketMap !=undefined" >
+                    <tr  *ngFor="let tdx of bucketView?.productFullInfoBucketMap?.values()" >
+                        <th>{{tdx.name}}</th>
+                       <th>{{tdx.selectedItemCount}}items</th> 
+                
+                      <th>
+                      <select [compareWith]="compareFn"  name="avail" [(ngModel)]="tdx.selectedProductAvail">
+                        <option *ngFor='let prodAvail of tdx.productAvailList' [ngValue]="prodAvail">{{prodAvail.weight+'-'+prodAvail.weightUnit+' Rs '+prodAvail.price}}</option>
+                       </select>
+                      </th>
+                      <th>Quantity:
+                          <select  name="quantity" [(ngModel)]="tdx.selectedItemCount">
+                             <option *ngFor='let prod of tdx.itemCountList'>{{prod}}</option>
+                           
+                                </select>
+                        </th>      
+                         
                      <a  (click)="removeFromBucket(tdx.code);">
                       <span class="glyphicon glyphicon-trash"></span>
                     </a>
+                
                 </tr>
                      
+
+             
               </table>
                 
               

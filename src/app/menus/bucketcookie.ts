@@ -1,6 +1,6 @@
 import { ProductSelect } from '../product/productselectview';
 
-export class BucketView {
+export class CookieBucket {
 
     
      productSelectViewMap: Map<string,ProductSelect>=new Map<string,ProductSelect>(); 

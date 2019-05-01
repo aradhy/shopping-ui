@@ -13,7 +13,8 @@ import { MenusComponent } from './menus/menus.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CommonModule } from '@angular/common';
 import { SharedService } from './sharedservice.service';
-
+import {MatGridListModule} from '@angular/material';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,7 @@ import { SharedService } from './sharedservice.service';
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
-    FormsModule,NgbModule,CommonModule
+    FormsModule,NgbModule,CommonModule, BrowserAnimationsModule,MatGridListModule
   ],
   providers: [SharedService],
   bootstrap: [AppComponent]

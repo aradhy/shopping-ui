@@ -1,45 +1,43 @@
-import { CodeNode } from 'source-list-map';
 import { ProductAvail } from './productavail';
 
+
 export class Product {
+    prodAvailId:string;
+	 productCode:string;
+    name:string ;
+    brand:string ;
+    imageLink:string;
+    subId:string ;
     
-	private  code:String;
-   private name:String ;
-   private brand:String ;
-   private  imageLink:String;
-   private subId:String ;
    public productAvailList:ProductAvail[];
-   public selectedProductAvail:string="1";
-   public quantityList:string[]=['1','2','3','4'];
-   public selectedQuantity:string='1';
+   public selectedProductAvail:ProductAvail;
+   public itemCountList:string[];
+   public selectedItemCount:number;
 
+   
 
-
-
-   public tryNewOne:string='Try New One';
-   public tryNewOneList:string[]=['Price1','Price2','Price3','Price4'];
     getCode(): String {
-       return this.code;
+       return this.productCode;
     }
 
-    setCode(code:String) {
-       this.code=code;
+    setCode(productCode:string) {
+       this.productCode=productCode;
     }
 
     getName(): String {
         return this.name;
      }
  
-     setName(name:String) {
+     setName(name:string) {
         this.name=name;
      }
-     getBrand(): String {
+     getBrand(): string {
       return this.brand;
     }
-    setBrand(brand: String) {
+    setBrand(brand: string) {
       return this.brand;
     }
-    setImageId(imageLink: String) {
+    setImageId(imageLink: string) {
       this.imageLink=imageLink;
     }
     getImageId(): String {
@@ -56,23 +54,23 @@ export class Product {
     }
    
 
-    setSelectedQuantity(selectedQuantity: string) {
-      this.selectedQuantity=selectedQuantity;
+    setSelectedQuantity(selectedQuantity: number) {
+      this.selectedItemCount=selectedQuantity;
     }
-    getSelectedQuantity(): string {
-      return this.selectedQuantity;
+    getSelectedQuantity(): number {
+      return this.selectedItemCount;
    }
    
    setQuantityList(quantityList: string[]) {
-      this.quantityList=quantityList;
+      this.itemCountList=quantityList;
     }
     getQuantityList() {
-     return this.quantityList;
+     return this.itemCountList;
     }
-    setSelectedProductAvail(selectedProductAvail: string) {
+    setSelectedProductAvail(selectedProductAvail: ProductAvail) {
       this.selectedProductAvail=selectedProductAvail;
     }
-    getSelectedProductAvail():string {
+    getSelectedProductAvail():ProductAvail {
      return this.selectedProductAvail;
     }
 }

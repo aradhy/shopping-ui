@@ -1,59 +1,70 @@
 
-
-   
-
-  
 <table>
-<tr >
-    <td *ngFor="let prod of productList" >
-    <div class="gallery" id="soapId" > 
-    <div class="desc">{{prod.name}}</div>
+    <tr>
+        <td *ngFor="let prod of productList let i=index">
+         
+        <div class="gallery" id="soapId" > 
+        <div class="desc">{{prod.name}}</div>
+       
+     <img src="images\1200370.jpg" alt="apples.jpg" width="200" height="200">
+     <div>
+    
+      <select  name="avail" [(ngModel)]="prod.selectedProductAvail">
+        <option *ngFor='let prodAvail of prod.productAvailList' [ngValue]="prodAvail">{{prodAvail.weight+'-'+prodAvail.weightUnit+' Rs '+prodAvail.price}}</option>
+      
+           </select>
+         
+    
+    
+    <br>
+    Quantity
+    <br>
+    <select  name="quantity" [(ngModel)]="prod.selectedItemCount">
+      <option *ngFor='let prod of prod.itemCountList'>{{prod}}</option>
+    
+         </select>
+       
+    
+    
+    <br><br>
    
- <img src="images\1200370.jpg" alt="apples.jpg" width="200" height="200">
- <div>
-
-  <select  name="quantity" [(ngModel)]="prod.selectedProductAvail">
-    <option *ngFor='let prod1 of prod.productAvailList'>{{prod1.weight+'-'+prod1.weightUnit+' Rs '+prod1.price}}</option>
-  
-       </select>
-
-       <div *ngIf ="productSelectViewMap?.get(prod.code)?.itemCount>0" >
-
-        Item Added To Cart :{{productSelectViewMap.get(prod.code).itemCount}}
-        
-        
-        </div>
-
-
-<br>
-Quantity
-<br>
-<select  name="quantity" [(ngModel)]="prod.selectedQuantity">
-  <option *ngFor='let prod of prod.quantityList'>{{prod}}</option>
-
-     </select>
-   
-{{prod.code}}
-
-<br><br>
-
-<button type="submit" class="btn btn-success" (click)="addToCart(prod.code,prod.selectedQuantity,prod.selectedProductAvail)" >Add To Cart</button>
-<br><br>
-<button type="submit" class="btn btn-success" (click)="removeFromCart(prod.code,prod.selectedQuantity)">Remove From Cart</button>
-  </div>
- 
-
-
- 
- </div>
-</td>
-
-
- </tr>
-
-</table>
-
- 
-
-
-
+    <div *ngIf ="bucketView?.productFullInfoBucketMap?.get(prod.code)?.selectedItemCount>0 then bucketcount; else emptybucket " >
+    
+      
+      
+      
+      </div>
+     <ng-template #bucketcount>
+          <div>
+           {{bucketView.productFullInfoBucketMap.get(prod.code).selectedItemCount}} Items
+          </div>
+        </ng-template>
+        <ng-template #emptybucket>
+          <div>
+           0 Item
+          </div>
+        </ng-template>
+    
+    
+    <button type="submit" class="btn btn-success" (click)="addToCart(prod.code,prod.selectedProductAvail,prod.selectedItemCount)" >Add To Cart</button>
+    <br><br>
+    <button type="submit" class="btn btn-success" (click)="removeFromCart(prod.code,prod.selectedQuantity)">Remove From Cart</button>
+      </div>
+     
+    
+    
+    
+     
+     </div>
+    </td>
+    
+    
+     </tr>
+    
+    </table>
+    
+     
+    
+    
+    
+    

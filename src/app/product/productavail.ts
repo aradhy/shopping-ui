@@ -3,18 +3,19 @@ import { CodeNode } from 'source-list-map';
 export class ProductAvail {
     
 
-   private  id:String;
+   public  id:string;
 	private productId:String ;
    private totalAvailUnits:number ;
    public price:number ;
    public weight:number;
    public weightUnit:String;
 
+
     getId(): String {
        return this.id;
     }
 
-    setId(id:String) {
+    setId(id:string) {
        this.id=id;
     }
 

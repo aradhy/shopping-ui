@@ -1,5 +1,5 @@
 
-
+<div class="boxcontainer">
 <div class='carousel slide carousel-fade' id="myCarouselId" data-ride="carousel">
 
     
@@ -19,9 +19,13 @@
   </div>
 
   </div>
-<div style="text-align:center" >
-  <a  href="javascript:void(0)" class="active"  *ngFor="let slider of sliderList;let i = index" (click)="tellMeTheSlide(i);" [id]='i'>{{slider.name}}</a>
-</div>   
+  <div class="navigationlink">  <a  href="javascript:void(0)" class="active"  *ngFor="let slider of sliderList;let i = index" (click)="tellMeTheSlide(i);" [id]='i'>{{slider.name}}</a>
+  </div>
+
+  </div>
+
+  
+ 
   <table class="galleryTable"  *ngFor='let category of categoryListAll'>
  
         <div>

@@ -6,11 +6,13 @@ import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { ProductSelect } from '../product/productselectview';
-import { BucketView } from './bucketview';
-import { stringify } from 'querystring';
+import { CookieBucket } from './bucketcookie';
 import { ProductService } from '../product/product.service';
 import { Subscription } from 'rxjs';
 import { SharedService } from '../sharedservice.service';
+import { Product } from '../product/product';
+import { ProductAvail } from '../product/productavail';
+import { BucketView } from '../product/bucketview';
 
 
 @Component({
@@ -22,8 +24,9 @@ import { SharedService } from '../sharedservice.service';
 export class MenusComponent implements OnInit {
   
 
-  @Input() bucketView: BucketView;
+  @Input() cookieBucket: CookieBucket;
 
+  @Input() bucketView:BucketView;
   public categoryList:Category[];
   public categoryListAll:Category[];
   public sub_categoryList:SubCategory[];
@@ -32,7 +35,7 @@ export class MenusComponent implements OnInit {
  
   
 
-  constructor(private categoryService: CategoryService,private router:Router,private sharedSerevice: SharedService) {
+  constructor(private categoryService: CategoryService,private router:Router,private sharedSerevice: SharedService,private productService: ProductService) {
    
    
    }
@@ -46,6 +49,7 @@ export class MenusComponent implements OnInit {
  
 
 }
+
 
   searchProduct(regForm:NgForm)
   {
@@ -93,12 +97,12 @@ removeFromBucket(x:string)
 {
 
 
-  this.bucketView.totalItems=(parseInt(this.bucketView.totalItems)- parseInt(this.bucketView.productSelectViewMap.get(x).itemCount)).toString();
+  this.cookieBucket.totalItems=(parseInt(this.cookieBucket.totalItems)- parseInt(this.cookieBucket.productSelectViewMap.get(x).itemCount)).toString();
  
-  this.bucketView.productSelectViewMap.delete(x);
-  this.sharedSerevice.setSet(this.bucketView.productSelectViewMap);
+  this.cookieBucket.productSelectViewMap.delete(x);
+ // this.sharedSerevice.setSet(this.cookieBucket.productSelectViewMap);
   
-  localStorage.setItem("BucketItemView",this.ObjectToJsonString(this.bucketView));
+  localStorage.setItem("CookieBucket",this.ObjectToJsonString(this.cookieBucket));
  
 }
  
@@ -107,32 +111,60 @@ removeFromBucket(x:string)
 showCart()
 {
 
-  
- 
-  if(localStorage.getItem("BucketItemView")=="null")
+  this.bucketView=new BucketView();
+  this.bucketView.productFullInfoBucketMap=new Map<string,Product>();
+  if(localStorage.getItem("CookieBucket")=="null")
  {
-   var bucketView=new BucketView();
-   bucketView.setTotalItems("0");
-   this.bucketView=bucketView;
+  this.bucketView.totalItemCount=0;
 }
 else
 {
+  
  
-   var bucketItemString= localStorage.getItem("BucketItemView");
-   var bucketView= this.fetchbucketfrombucketstring(bucketItemString);
-   var productSelectViewMap= this.fetchmapfrombucketstring(bucketView);
-   this.bucketView=bucketView
-   this.bucketView.productSelectViewMap=productSelectViewMap;
+
+   var cookieBucketString= localStorage.getItem("CookieBucket");
+   var cookieBucket= this.fetchbucketfrombucketstring(cookieBucketString);
+   var productSelectViewMap= this.fetchmapfrombucketstring(cookieBucket);
+   this.bucketView.totalItemCount=parseInt(cookieBucket.totalItems);
+
+   var keyString=Array.from(productSelectViewMap.keys()).join()
+   var productList;
   
+   this.productService.bucketProductInfo(keyString).subscribe(response =>
+    {
+      
+      productList = response;
+      productList.forEach(product=>{ 
+       var productSelect= productSelectViewMap.get(product.code);
+    
+       for(let productAvail of product.productAvailList)
+       {
+       
+        if(productSelect.selctedProdAvailCode==productAvail.id)
+        {
+         
+          product.selectedProductAvail=productAvail;
+        }
+       }
+       product.selectedItemCount=productSelect.itemCount;
+       product.itemCountList=['1','2','3','4']
+       this.bucketView.productFullInfoBucketMap.set(product.code,product);
+       
+      });
+   
+      this.sharedSerevice.setSet(this.bucketView);
+    });
+
   
 }
+
 
    
    
 
 }
 
-fetchbucketfrombucketstring(bucketItemString:string):BucketView
+fetchbucketfrombucketstring(bucketItemString:string):CookieBucket
 {
 
   var bucketViewFromString=JSON.parse(bucketItemString);
@@ -148,7 +180,7 @@ fetchmapfrombucketstring(bucketViewFromString:any):Map<string,ProductSelect>
   return map;
 }
 
-ObjectToJsonString(bucketItem:BucketView):string
+ObjectToJsonString(bucketItem:CookieBucket):string
 {
   
   var bucketString = JSON.stringify(bucketItem, function (key, value) {
@@ -165,4 +197,9 @@ ObjectToJsonString(bucketItem:BucketView):string
 
 }
 
+
+
+compareFn(pAv1: ProductAvail, pAv2: ProductAvail): boolean {
+  return pAv1 && pAv2 ? pAv1.id === pAv2.id : pAv1 === pAv2;
+}
 }

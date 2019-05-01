@@ -1,27 +1,36 @@
 export class ProductSelect {
-    
-	 private  code:String;
-    private quantity:String;
-    private itemCount:number;
+       
+      code:string=null;
+      selctedProdAvailCode:string=null;
+      itemCount:string=null;
 
     
-    getCode(): String {
+     constructor(_code:any,_quantity:any,_itemCount:any)
+     {
+          this.code=_code;
+          this.selctedProdAvailCode=_quantity;
+          this.itemCount=_itemCount;
+
+     }
+
+
+    getCode(): string {
        return this.code;
     }
 
-    setCode(code:String) {
+    setCode(code:string) {
        this.code=code;
     }
 
-    getQuantity(): String {
-        return this.quantity;
+    getSelctedProdAvail(): string {
+        return this.selctedProdAvailCode;
      }
  
-     setQuantity(quantity:String) {
-        this.quantity=quantity;
+     setSelctedProdAvail(selctedProdAvail:string) {
+        this.selctedProdAvailCode=selctedProdAvail;
      }
 
-     setItemCount(itemCount:number)
+     setItemCount(itemCount:string)
      {
         this.itemCount=itemCount;
      }

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { BucketView } from './menus/bucketview';
+import { CookieBucket } from './menus/bucketcookie';
+import { Product } from './product/product';
 
 
 
@@ -14,8 +15,8 @@ import { BucketView } from './menus/bucketview';
 })
 export class AppComponent {
   title = 'MyFirstApp';
-  bucketView:BucketView;
-  selectedMap:Map<string,string>;
+  bucketView:CookieBucket;
+  productFullInfoBucketMap:Map<string,Product>;
   
   constructor(private router:Router)
   {
@@ -38,10 +39,10 @@ export class AppComponent {
     
    })
 
-   componentReference.selectedMapEmitter.subscribe((data) => {
+   componentReference.bucketViewEmitter.subscribe((data) => {
     // Will receive the data from child here 
  
-   this.selectedMap=data;
+   this.productFullInfoBucketMap=data;
   
  })
 
