@@ -5,6 +5,7 @@ export class CookieBucket {
     
      productSelectViewMap: Map<string,ProductSelect>=new Map<string,ProductSelect>(); 
      totalItems:string=null;
+     totalPrice:number;
 
       setProductSelectViewMap(productSelectViewMap:Map<string,ProductSelect>)
       {

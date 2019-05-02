@@ -3,7 +3,7 @@ import { Product } from './product';
 export class BucketView {
 
     productFullInfoBucketMap:Map<string,Product>;
-    totalPrice:number;
+    totalPrice:number=0;
     totalItemCount:number;
 
     public setProductFullInfoBucketMap(productFullInfoBucketMap:Map<string,Product>)

@@ -295,7 +295,7 @@ getTheFullViewMap(productId:any,selectedProdAvail:string,itemCount:number)
  
  
     this.bucketView.productFullInfoBucketMap.get(productId).selectedItemCount=itemCount;
-
+    this.bucketView.totalPrice=this.bucketView.totalPrice+itemCount*this.bucketView.productFullInfoBucketMap.get(productId).selectedProductAvail.price
     this.bucketView.productFullInfoBucketMap.set(productId, this.bucketView.productFullInfoBucketMap.get(productId))
 
    }
@@ -329,7 +329,8 @@ var productList;
         this.setProductForQuantityPriceDropDowns(product,selectedProdAvail,itemCount)
       
         this.bucketView.productFullInfoBucketMap.set(productId,product);
-    
+        this.bucketView.totalPrice=this.bucketView.totalPrice+product.selectedProductAvail.price*itemCount;
+       
         this.bucketViewEmitter.emit(this.bucketView);
        
       });
@@ -345,7 +346,7 @@ setProductForQuantityPriceDropDowns(product:Product,selectedProdAvail:any,select
 
   product.selectedItemCount=selectedItemCount;
   product.itemCountList=['1','2','3','4']
-
+  
  
 if(selectedProdAvail==null)
   product.selectedProductAvail=product.productAvailList[0];
