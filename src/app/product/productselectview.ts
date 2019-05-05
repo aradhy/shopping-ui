@@ -2,7 +2,7 @@ export class ProductSelect {
        
       code:string=null;
       selctedProdAvailCode:string=null;
-      itemCount:string=null;
+      itemCount:number=0;
 
     
      constructor(_code:any,_quantity:any,_itemCount:any)
@@ -30,7 +30,7 @@ export class ProductSelect {
         this.selctedProdAvailCode=selctedProdAvail;
      }
 
-     setItemCount(itemCount:string)
+     setItemCount(itemCount:number)
      {
         this.itemCount=itemCount;
      }

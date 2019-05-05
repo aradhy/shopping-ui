@@ -44,39 +44,50 @@
              
               <img src="images\images.png" alt="Avatar" class="cart">
              
-              <div class="tooltiptext">
-     
-                    
-                  <table *ngIf = "bucketView?.productFullInfoBucketMap !=undefined" >
-                    <tr  *ngFor="let tdx of bucketView?.productFullInfoBucketMap?.values()" >
-                        <th>{{tdx.name}}</th>
-                       <th>{{tdx.selectedItemCount}}items</th> 
-                
-                      <th>
-                      <select [compareWith]="compareFn"  name="avail" [(ngModel)]="tdx.selectedProductAvail">
-                        <option *ngFor='let prodAvail of tdx.productAvailList' [ngValue]="prodAvail">{{prodAvail.weight+'-'+prodAvail.weightUnit+' Rs '+prodAvail.price}}</option>
-                       </select>
-                      </th>
-                      <th>Quantity:
-                          <select  name="quantity" [(ngModel)]="tdx.selectedItemCount">
-                             <option *ngFor='let prod of tdx.itemCountList'>{{prod}}</option>
-                           
-                                </select>
-                        </th>      
-                         
-                     <a  (click)="removeFromBucket(tdx.code);">
-                      <span class="glyphicon glyphicon-trash"></span>
-                    </a>
-                
-                </tr>
-                     
-
-             
-              </table>
-                
-              
+              <div *ngIf ="bucketView?.totalItemCount>0 then bucketitems; else emptybucket ">
               </div>
-          
+             <ng-template #bucketitems>
+                      <div class="tooltiptext">
+             
+                            
+                          <table *ngIf = "bucketView?.productFullInfoBucketMap !=undefined" >
+                            <tr  *ngFor="let tdx of bucketView?.productFullInfoBucketMap?.values()" >
+                                <th>{{tdx.name}}</th>&nbsp;
+                                <th>{{tdx.brand}}</th>
+                               
+                                &nbsp;
+                              <th>
+                                {{tdx.weight+'-'+tdx.weightUnit+' Rs '+tdx.price}}
+                              </th>
+                              
+                              <th>&nbsp;Qty:
+                                  <input type="button"  style= "width:15%;text-align:center" value="-" (click)="subQty(tdx.prodAvailId,tdx.selectedItemCount)"/>    
+                                <input type="text" name="tdx.selectedItemCount"  [(ngModel)]="tdx.selectedItemCount"  style= "width:15%;text-align:center" (focusout)="updateItemCount(tdx.prodAvailId,tdx.selectedItemCount)" />    
+                                <input type="button"  style= "width:15%;text-align:center" value="+" (click)="addQty(tdx.prodAvailId,tdx.selectedItemCount)"/>  
+                              </th>  
+                              
+                                 
+                             <a  (click)="removeFromBucket(tdx.prodAvailId);">
+                              <span class="glyphicon glyphicon-trash"></span>
+                            </a>
+                        
+                        </tr>
+                       
+                       
+                      </table>
+                        <div *ngIf = "bucketView?.totalPrice>0">
+                          
+                          Total Price {{bucketView?.totalPrice}}  
+        
+                        </div>
+                      
+                      </div>
+                </ng-template>
+                <ng-template #emptybucket>
+                  <div class="tooltiptext" style="text-align:center;width:300px;height:50px">
+                   No Item in the Cart.Let's shop now   
+                  </div>
+                </ng-template>
 
 
               

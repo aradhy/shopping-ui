@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Product } from './product';
 import { Observable, Subject } from 'rxjs';
 import { ProductSelect } from './productselectview';
+import { BucketModel } from './bucketmodel';
 
 @Injectable({
   providedIn: 'root'
@@ -64,8 +65,8 @@ export class ProductService {
   }
 
 
-  getProductByCode(productId:string): Observable<Product[]>
+  getProductByCode(productId:string,productAvailId:string): Observable<BucketModel>
   {
-    return this.httpClient.get<Product[]>(this.addProductForBucketUrl+productId);
+    return this.httpClient.get<BucketModel>(this.addProductForBucketUrl+productId+"/avId/"+productAvailId);
   }
 }

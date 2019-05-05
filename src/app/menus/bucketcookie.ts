@@ -4,7 +4,7 @@ export class CookieBucket {
 
     
      productSelectViewMap: Map<string,ProductSelect>=new Map<string,ProductSelect>(); 
-     totalItems:string=null;
+     totalItems:number=0;
      totalPrice:number;
 
       setProductSelectViewMap(productSelectViewMap:Map<string,ProductSelect>)
@@ -17,7 +17,7 @@ export class CookieBucket {
           return this.productSelectViewMap;
       }
 
-      setTotalItems(totalItems:string)
+      setTotalItems(totalItems:number)
       {
           this.totalItems=totalItems;
       }

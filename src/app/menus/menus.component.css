@@ -134,20 +134,28 @@ margin-top:10px;
 			 
 	 
 	}
-	
+	.cartdiv:hover .tooltip {
+		visibility: visible;
+		 display: inline-block;
+		 
+			 
+	 
+	}
 	.tooltiptext:hover  {
 		visibility: visible;
 		 display: inline-block;
 	}
-	.tooltiptext ,table.tooltip{
+
+
+	.tooltiptext ,.tooltip{
 		top:5px;
 		visibility: hidden;
 	 
 		border: 1px solid black;
 		box-shadow: 0 0 0 8px grey;
 		position:relative;
-		width: 350px;
-		height:100px;
+		width: auto;
+		height:auto;
 		z-index: 10;
 		right:150px;
 		padding: 5px 0;

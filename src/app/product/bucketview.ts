@@ -1,12 +1,13 @@
 import { Product } from './product';
+import { BucketModel } from './bucketmodel';
 
 export class BucketView {
 
-    productFullInfoBucketMap:Map<string,Product>;
+    productFullInfoBucketMap:Map<string,BucketModel>;
     totalPrice:number=0;
     totalItemCount:number;
 
-    public setProductFullInfoBucketMap(productFullInfoBucketMap:Map<string,Product>)
+    public setProductFullInfoBucketMap(productFullInfoBucketMap:Map<string,BucketModel>)
     {
            this.productFullInfoBucketMap=productFullInfoBucketMap;
     }

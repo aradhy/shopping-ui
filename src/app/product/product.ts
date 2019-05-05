@@ -11,8 +11,8 @@ export class Product {
     
    public productAvailList:ProductAvail[];
    public selectedProductAvail:ProductAvail;
-   public itemCountList:string[];
-   public selectedItemCount:number;
+   public itemCountList:number[]=[];
+   public selectedItemCount:number=0;
 
    
 
@@ -61,7 +61,7 @@ export class Product {
       return this.selectedItemCount;
    }
    
-   setQuantityList(quantityList: string[]) {
+   setQuantityList(quantityList: number[]) {
       this.itemCountList=quantityList;
     }
     getQuantityList() {
