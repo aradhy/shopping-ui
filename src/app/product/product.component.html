@@ -6,7 +6,10 @@
         <div class="gallery" id="soapId" > 
         <div class="desc">{{prod.name}}</div>
        
-     <img src="images\1200370.jpg" alt="apples.jpg" width="200" height="200">
+     
+    <a  [routerLink]="['/single-product-view/1']" >
+      <img src="images\1200370.jpg" alt="apples.jpg" width="200" height="200">
+    </a>
      <div>
     
       <select  name="avail" [(ngModel)]="prod.selectedProductAvail">

@@ -8,13 +8,15 @@ import { HttpClientModule } from '@angular/common/http';
 import { UserComponent } from './user/user.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CategoryComponent } from './category/category.component';
-import { SingleProductViewComponent } from './product/single-product-view/single-product-view.component';
+import { SingleProductViewComponent } from './single-product-view/single-product-view.component';
 import { MenusComponent } from './menus/menus.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CommonModule } from '@angular/common';
 import { SharedService } from './sharedservice.service';
 import {MatGridListModule} from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgxImageZoomModule } from 'ngx-image-zoom';
+import * as $ from "jquery";
 
 @NgModule({
   declarations: [
@@ -31,7 +33,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
-    FormsModule,NgbModule,CommonModule, BrowserAnimationsModule,MatGridListModule
+    FormsModule,NgbModule,CommonModule, BrowserAnimationsModule,MatGridListModule,NgxImageZoomModule
   ],
   providers: [SharedService],
   bootstrap: [AppComponent]
