@@ -1,76 +1,71 @@
-div.gallery {
-	margin: 5px;
-	border: 1px solid #ccc;
-	float: left;
-	width:200px;
-  }
-  
-  div.gallery:hover {
-	border: 2px solid red;
-	background-color:light gray;
-  }
-  
-  div.gallery img {
-	width: 50px;
-	height: 50px;
-  }
-  
-  div.desc {
-	padding: 15px;
+div.float-left {
+	margin-top:35px;
+	margin-left:15em;
+	position:relative;
+	margin-right: 100px;
 	text-align: center;
-	}
-	
-	table.galleryTable {
+	font-size: 20px;
+	text-decoration: underline;
+  }
   
-		margin-left:250px;
-		margin-top:10px;
-		 border-spacing: 5px;
-	 
+  div.gallery {
+	  margin: 3px;
+	  border: 1px solid whitesmoke;
+	  float: left;
+	  width:200px;
+	   
+	}
+	div.gallery:hover {
+	  border: 1px solid grey;
 	}
 	
-	th.galleryTable, td.galleryTable
-	{
-	border: none;
-		width:150px;
+	div.gallery img {
+	  width: 100%;
+	  height: auto;
 	}
-
+	
+	div.desc {
+	  padding: 5px;
+	  text-align: center;
+	  margin-left:20px;
+	  font-size:15px;
+	  text-decoration:underline;
+	  top:200px;
+	  }
+  
 	img{
-    width: 100%;
-		height: 400px;
+	  width: 100%;
+	  height: 400px;
 	
 	}
-
+  
 	 .carousel-item {
-		height: 15px;
-		width: 15px;
-		margin: 5px;
-		background-color: white;
-		text-decoration: none;
-
+	  height: 15px;
+	  width: 15px;
+	  margin: 5px;
+	  background-color: white;
+	  text-decoration: none;
+  
 	 
 	 } 
-
+  
 	 .boxcontainer{
-		position: absolute;
-    width:1500px;
-		height:500px;
-		float:none
-}
-
+	  position: absolute;
+	  width:1200px;
+	  height:500px;
+	  float:none
+  }
+  
 	 .active {
 	  position: relative;
-		text-decoration: none;
-		margin:5px;
-		text-align:center;
-		
-		
+	  text-decoration: none;
+	  margin:5px;
+	  text-align:center;
+	  
+	  
 	}
-
-
-.navigationlink
-{
+  .navigationlink
+  {
 	text-align:center;
 	margin-top:10px;
-}
-
-
+  }

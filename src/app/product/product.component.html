@@ -12,6 +12,7 @@
     </a>
      <div>
     
+
       <select  name="avail" [(ngModel)]="prod.selectedProductAvail">
         <option *ngFor='let prodAvail of prod.productAvailList' [ngValue]="prodAvail">{{prodAvail.weight+'-'+prodAvail.weightUnit+' Rs '+prodAvail.price}}</option>
       
@@ -30,7 +31,7 @@
     
     
     <br><br>
-    
+    {{bucketView}}
 
     <div *ngIf ="bucketView?.productFullInfoBucketMap?.get(prod.selectedProductAvail.id)?.selectedItemCount>0 then bucketcount; else emptybucket " >
     

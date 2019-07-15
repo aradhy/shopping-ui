@@ -42,7 +42,7 @@ export class CategoryComponent implements OnInit,AfterViewInit {
    onSlideChanged(ev)
    {
      
-custom(ev.current,ev.prev);
+      custom(ev.current,ev.prev);
 
    }
 

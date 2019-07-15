@@ -30,7 +30,7 @@ export class ProductComponent implements OnInit {
 @Output() bucketViewEmitter: EventEmitter<BucketView> = new EventEmitter();  
 
 
- public productList:Product[]=[];
+ public productList:Product[];
 
  public name:String;
  url:string;
@@ -60,9 +60,10 @@ private subscription: Subscription;
   
   
     this.showCart();
+    
   if (this.router.url.includes('sub'))
   {
-   
+ 
     this.activatedRoute.params.subscribe(routeParams => {
       this.productBasedOnSubCategory(routeParams.id);
      });
@@ -96,8 +97,35 @@ private subscription: Subscription;
   
    this.id=id;
     
-   
+ 
     this.productService.getProductByCategory(this.id).subscribe(response =>
+      {
+       
+        this.productList = response;
+        console.log('Products based on Category From DB')
+
+          this.productList.forEach(product=>{
+           
+            product.selectedItemCount=1;
+            product.itemCountList=[1,2,3,4];
+           
+           product.selectedProductAvail= product.productAvailList[0];
+          }  
+        )
+        return this.productList;
+    
+          });
+         
+       
+  }
+
+  productBasedOnSubCategory(id)
+  {
+
+   
+    this.id=id;
+   
+    this.productService.getProductBySubCategory(this.id).subscribe(response =>
       {
        
         this.productList = response;
@@ -112,23 +140,8 @@ private subscription: Subscription;
         return this.productList;
     
           });
-       
-  }
-
-  productBasedOnSubCategory(id)
-  {
-
-   
-    this.id=id;
-    this.productService.getProductBySubCategory(this.id).subscribe(response =>
-      {
-       
-        this.productList = response;
-        console.log('Products based on Sub Category From DB')
-       
-      });
       
-    return this.productList;
+   
   
   }
 
@@ -212,6 +225,9 @@ addToCart(productId:any,selectedProductAvail:any,itemCount:any)
 
      
   }
+ 
+
+
   removeFromCart(selectProdAvail:any,itemCount:any)
   {
  
@@ -222,21 +238,19 @@ if(!(localStorage.getItem("CookieBucket")==null))
      var bucketItemString= localStorage.getItem("CookieBucket");
      var cookieBucket:CookieBucket=this.fetchbucketfrombucketstring(bucketItemString);
      var productSelectViewMap= this.fetchmapfrombucketstring(cookieBucket);
-    
-
-  if(productSelectViewMap.has(selectProdAvail) && productSelectViewMap.get(selectProdAvail).itemCount>0 && cookieBucket.totalItems>=itemCount)
+  if(productSelectViewMap.has(selectProdAvail.id) && productSelectViewMap.get(selectProdAvail.id).itemCount>0 && cookieBucket.totalItems>=itemCount)
   {
-    this.bucketView.productFullInfoBucketMap.get(selectProdAvail).selectedItemCount=this.bucketView.productFullInfoBucketMap.get(selectProdAvail).selectedItemCount-parseInt(itemCount);
-    this.bucketView.totalPrice=this.bucketView.totalPrice-(parseInt(itemCount)*this.bucketView.productFullInfoBucketMap.get(selectProdAvail).price)
-    productSelectViewMap.get(selectProdAvail).itemCount=productSelectViewMap.get(selectProdAvail).itemCount-parseInt(itemCount)
+    this.bucketView.productFullInfoBucketMap.get(selectProdAvail.id).selectedItemCount=this.bucketView.productFullInfoBucketMap.get(selectProdAvail.id).selectedItemCount-parseInt(itemCount);
+    this.bucketView.totalPrice=this.bucketView.totalPrice-(parseInt(itemCount)*this.bucketView.productFullInfoBucketMap.get(selectProdAvail.id).price)
+    productSelectViewMap.get(selectProdAvail.id).itemCount=productSelectViewMap.get(selectProdAvail.id).itemCount-parseInt(itemCount)
   
     cookieBucket.totalItems= cookieBucket.totalItems-parseInt(itemCount)
     this.bucketView.totalItemCount= this.bucketView.totalItemCount-parseInt(itemCount)
   
-   if(productSelectViewMap.get(selectProdAvail).itemCount==0 && this.bucketView.productFullInfoBucketMap.get(selectProdAvail).selectedItemCount==0)
+   if(productSelectViewMap.get(selectProdAvail.id).itemCount==0 && this.bucketView.productFullInfoBucketMap.get(selectProdAvail.id).selectedItemCount==0)
    {
-    this.bucketView.productFullInfoBucketMap.delete(selectProdAvail)
-    productSelectViewMap.delete(selectProdAvail)
+    this.bucketView.productFullInfoBucketMap.delete(selectProdAvail.id)
+    productSelectViewMap.delete(selectProdAvail.id)
     
    }
    cookieBucket.productSelectViewMap=productSelectViewMap;
@@ -256,7 +270,6 @@ if(!(localStorage.getItem("CookieBucket")==null))
 
 
 
-
  
 
 
@@ -266,12 +279,14 @@ getTheFullViewMap(productId:any,selectedProdAvail:any,itemCount:any, cookieBucke
 
    if(this.bucketView.productFullInfoBucketMap.has(selectedProdAvail.id))
    {
+   
     this.bucketView.productFullInfoBucketMap.get(selectedProdAvail.id).selectedItemCount=this.bucketView.productFullInfoBucketMap.get(selectedProdAvail.id).selectedItemCount+parseInt(itemCount);
     this.bucketView.totalPrice=cookieBucket.totalPrice+(itemCount*this.bucketView.productFullInfoBucketMap.get(selectedProdAvail.id).price)
     cookieBucket.totalItems=cookieBucket.totalItems+parseInt(itemCount)
     this.bucketView.productFullInfoBucketMap.set(selectedProdAvail.id, this.bucketView.productFullInfoBucketMap.get(selectedProdAvail.id))
     this.bucketView.totalItemCount=cookieBucket.totalItems
     cookieBucket.totalPrice=this.bucketView.totalPrice;
+   
     this.bucketViewEmitter.emit(this.bucketView)
    }
   else

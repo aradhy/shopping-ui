@@ -1,45 +1,42 @@
 
-<div class="boxcontainer">
 <div class='carousel slide carousel-fade' id="myCarouselId" data-ride="carousel">
-
-    
-  <div class='col-12'>
-     
-  <ngb-carousel  #myCarousel="ngbCarousel" id="myCarouselId"   (slide)="onSlideChanged($event)">
-
-
-    <ng-template ngbSlide [id]='i' *ngFor="let slider of sliderList;let i = index">
- 
-      <img src="{{slider.imageLink}}"  alt="summer sale.jpg" >
-    </ng-template>
    
+<div class='col-12'>
+   
+<ngb-carousel  #myCarousel="ngbCarousel" id="myCarouselId"   (slide)="onSlideChanged($event)">
+
+  <ng-template ngbSlide [id]='i' *ngFor="let slider of sliderList;let i = index">
+
+    <img src="{{slider.imageLink}}"  alt="summer sale.jpg" >
+  </ng-template>
  
 </ngb-carousel>
 
-  </div>
+</div>
 
-  </div>
-  <div class="navigationlink">  <a  href="javascript:void(0)" class="active"  *ngFor="let slider of sliderList;let i = index" (click)="tellMeTheSlide(i);" [id]='i'>{{slider.name}}</a>
-  </div>
+</div>
 
-  </div>
+<div style="text-align:center" >
+<a  href="javascript:void(0)" class="active"  *ngFor="let slider of sliderList;let i = index" (click)="tellMeTheSlide(i);" [id]='i'>{{slider.name}}</a>
 
-  
+
+</div>
+
+
+
+<div class="float-left"  *ngFor='let category of categoryListAll'>
+
+  <div>
+    {{category.name}}
+   </div>
+    <br>
+<div class="gallery" *ngFor='let subcategory of category.subCategoryList' >
+ <div class="desc"> {{subcategory.name}}</div>
  
-  <table class="galleryTable"  *ngFor='let category of categoryListAll'>
- 
-        <div>
-          {{category.name}}
-         </div>
-         <tr>
-      <th><div class="gallery" *ngFor='let subcategory of category.subCategory' >
-       <div class="desc"> {{subcategory.name}}</div>
-       <a target="_blank" [routerLink]="['/product/1']">
-         <img src="{{subcategory.imageLink}}" alt="{{subcategory.name}}" width="5" height="5">
-        </a>
-      </div>
-       </th>
-        </tr>
-        
-       </table>
+ <a href="javascript:void(0)" [routerLink]="['/product/sub/1']">
+   <img src="{{subcategory.imageLink}}" alt="{{subcategory.name}}" width="5" height="5">
+  </a>
+
+ </div>
+ </div>
 

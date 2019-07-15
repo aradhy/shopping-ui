@@ -16,6 +16,7 @@ import { Product } from './product/product';
 export class AppComponent {
   title = 'MyFirstApp';
   bucketView:CookieBucket;
+  customerName:string;
   productFullInfoBucketMap:Map<string,Product>;
   
   constructor(private router:Router)
@@ -26,12 +27,15 @@ export class AppComponent {
   ngOnInit() {
   
     this.router.navigateByUrl('/category-view');
+   
   }
   
   onActivate(componentReference) {
-    console.log(componentReference)
-    
+ 
+  
     //componentReference.anyFunction();
+   if( componentReference.bucketViewEmitter!==undefined)
+   {
     componentReference.bucketViewEmitter.subscribe((data) => {
       // Will receive the data from child here 
      
@@ -39,15 +43,24 @@ export class AppComponent {
     
    })
 
+  
    componentReference.bucketViewEmitter.subscribe((data) => {
     // Will receive the data from child here 
  
    this.productFullInfoBucketMap=data;
   
+  
  })
-
+   }
+    componentReference.customerNameEmitter.subscribe((data) => {
+      // Will receive the data from child here 
+     
+     this.customerName=data;
+    
+   })
 
    
- }
+ 
 
+}
 }

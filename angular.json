@@ -32,12 +32,9 @@
               
               "./node_modules/jquery/dist/jquery.js",
               "./node_modules/jquery/dist/jquery.min.js",
-              "./node_modules/bootstrap/dist/js/bootstrap.min.js",
               "./node_modules/imagesloaded/imagesloaded.pkgd.min.js",
               "src/assets/js/jsfile.js","src/assets/single-prodview/singleview.js",
-              "src/assets/single-prodview/jquery.exzoom.js"
-
-              
+              "src/assets/single-prodview/jquery.exzoom.js","src/assets/js/user.js"
 
             ]
           },

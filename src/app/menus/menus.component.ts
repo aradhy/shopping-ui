@@ -28,6 +28,7 @@ export class MenusComponent implements OnInit {
   
 
   @Input() bucketView:BucketView;
+  @Input() customerName:string;
   public categoryList:Category[];
   public categoryListAll:Category[];
   public sub_categoryList:SubCategory[];
@@ -44,9 +45,17 @@ export class MenusComponent implements OnInit {
 
    
   ngOnInit() {
-   
-    this.showCart()
+    
   
+    if(localStorage.getItem("customerName")!='null' || localStorage.getItem("customerName")!="null")
+    {
+      this.customerName=localStorage.getItem("customerName");
+
+    }
+    else{
+      this.customerName=null;
+    }
+    this.showCart()
  
 
 }
@@ -96,6 +105,7 @@ export class MenusComponent implements OnInit {
 
 removeFromBucket(x:string)
 {
+ 
   var selectedCount=this.bucketView.productFullInfoBucketMap.get(x).selectedItemCount;
   this.bucketView.totalItemCount=(this.bucketView.totalItemCount)- selectedCount;
   this.bucketView.totalPrice=this.bucketView.totalPrice-(selectedCount*this.bucketView.productFullInfoBucketMap.get(x).price)
@@ -110,7 +120,7 @@ addQty(selectedProdAvail:any,selectedItemCount:any)
   this.bucketView.productFullInfoBucketMap.get(selectedProdAvail).selectedItemCount=parseInt(selectedItemCount)+1
   var updatedSelectedItemCount=this.bucketView.productFullInfoBucketMap.get(selectedProdAvail).selectedItemCount;
   this.bucketView.totalItemCount=this.bucketView.totalItemCount+ 1;
-  this.bucketView.totalPrice=this.bucketView.totalPrice+(this.bucketView.productFullInfoBucketMap.get(selectedProdAvail).price)
+  this.bucketView.totalPrice=this.bucketView.totalPrice+(this.bucketView.productFullInfoBucketMap.get(selectedProdAvail.id).price)
   this.sharedSerevice.setSet(this.bucketView);
   this.updateCookieBucket(selectedProdAvail,this.bucketView.productFullInfoBucketMap.get(selectedProdAvail).selectedItemCount,this.bucketView.totalItemCount,this.bucketView.totalPrice)
  
@@ -205,9 +215,10 @@ showCart()
  
   this.bucketView=new BucketView();
   this.bucketView.productFullInfoBucketMap=new Map<string,BucketModel>();
-  if(localStorage.getItem("CookieBucket")=="null")
- {
  
+  if(localStorage.getItem("CookieBucket")=="null" || localStorage.getItem("CookieBucket")==null)
+ {
+
   this.bucketView.totalItemCount=0;
 }
 else
@@ -289,5 +300,16 @@ ObjectToJsonString(bucketItem:CookieBucket):string
 
 compareFn(pAv1: ProductAvail, pAv2: ProductAvail): boolean {
   return pAv1 && pAv2 ? pAv1.id === pAv2.id : pAv1 === pAv2;
+}
+
+logout()
+{
+  localStorage.setItem("JWT-TOKEN",null)
+  localStorage.setItem("X-CSRF-TOKEN",null)
+  localStorage.setItem("PROVIDER",null)
+  localStorage.setItem("customerName",null)
+  this.router.navigateByUrl("/category-view");
+  this.customerName=null;
+ 
 }
 }

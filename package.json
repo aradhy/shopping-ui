@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --ssl --port 4200 --ssl-key C:\\Users\\ShivNarayanMishra\\Documents\\Softwares\\SSL\\localhost.key  --ssl-cert C:\\Users\\ShivNarayanMishra\\Documents\\Softwares\\SSL\\localhost.crt",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
@@ -24,6 +24,7 @@
     "@ng-bootstrap/ng-bootstrap": "^4.1.1",
     "angular-es6": "^3.2.1",
     "angular-material": "^1.1.18",
+    "angularx-social-login": "^1.2.7",
     "bootstrap": "^4.3.1",
     "core-js": "^2.5.4",
     "hammerjs": "^2.0.8",
