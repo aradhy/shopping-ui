@@ -59,7 +59,7 @@ private subscription: Subscription;
   ngOnInit() {
   
   
-    this.showCart();
+  //  this.showCart();
     
   if (this.router.url.includes('sub'))
   {
@@ -156,6 +156,13 @@ private subscription: Subscription;
        
         this.productList = response;
         console.log('Products based on name  search')
+        this.productList.forEach(product=>{
+          product.selectedItemCount=1;
+          product.itemCountList=[1,2,3,4];
+          product.selectedProductAvail= product.productAvailList[0];
+        }  
+      )
+      return this.productList;
        
       });
       

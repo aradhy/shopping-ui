@@ -9,6 +9,7 @@
     <div id="id01" >
    
       </div>
+      
         <div id="signUpId" class="formClass">
           <form  [formGroup]="signUpForm" (ngSubmit)="onSignUp(signUpForm)">
              
@@ -18,13 +19,14 @@
                 </div>
               <a href="javascript:void(0)" (click)="changeForm('signUp')" class="Up">Sign Up</a>
               <a href="javascript:void(0)" (click)="changeForm('signIn')" class="In">Sign In</a><br>
-              <a href="javascript:void(0)" class="facebookicon" (click)="socialLogin('facebook')"  ><i class="fa fa-facebook" style="font-size:34px;color:#3b5998 "></i></a>
+              
+              <a href="javascript:void(0)"  (click)="socialLogin('facebook')"  ><i class="fa fa-facebook" style="font-size:34px;color:#3b5998 "></i></a>
              
-              <a href="javascript:void(0)" class="googleicon" (click)="socialLogin('google')" >
-                <img border="0" alt="W3Schools" src="images/google.jpeg" width="30" height="30">
+              <a href="javascript:void(0)"  (click)="socialLogin('google')" >
+                <img  alt="W3Schools" src="images/google.jpeg" width="30" height="30">
                 </a>
               <br>
-            <div class="label">
+              
               <label id="labelName" for="uname"><b>Your Name</b></label>
               <input id='name' type="text" placeholder="Enter Your Name" formControlName="name" required>
               <label for="mobile" id="labelMobile"><b>Mobile</b></label>
@@ -36,7 +38,7 @@
               <button id="formSignUp" type="submit"  >Sign Up</button>
           
               <button type="button" (click)="close()" class="cancelbtn">Cancel</button>
-            </div>
+            
             
                 
                 
@@ -58,7 +60,7 @@
                   <img border="0" alt="google" src="images/google.jpeg" width="30" height="30">
                   </a>
              <br>
-             <div class="label">
+             
               <label for="mobileOrEmail" id="labelMobileOrEmail"><b>Mobile or Email</b></label>
                  <input type="text" placeholder="Enter Mobile or Email" id="mobileOrEmail" formControlName="mobileOrEmail" required>
                  <label for="psw"><b>Password</b></label>
@@ -66,7 +68,7 @@
                  <button id="formSignUp" type="submit"  >Sign In</button>
           
                  <button type="button" (click)="close()" class="cancelbtn">Cancel</button>
-             </div>
+             
                
               
                 </form>

@@ -18,9 +18,7 @@
 	height:35px;
 	line-height:35px;
 	text-align:center;
-	position:relative;
-	
-	
+	position:relative;	
 }
 
 #menu ul li a
@@ -29,8 +27,6 @@
 	text-decoration:none;
 	color:black;
 	Display:block;
-
-
 }
 
 #menu ul li a:hover
@@ -45,12 +41,10 @@ top:30px;
 position:absolute;
 display:none;
 
-
 }
 #menu ul li:hover > ul
 {
 display:block;
-
 
 }
 #menu ul ul ul
@@ -58,13 +52,7 @@ display:block;
 margin-left:250px;
 top:0px;
 z-index: 1;
-
 }
-
-
-
-
-
 
 *{
 	font-family : Arial;
@@ -79,8 +67,6 @@ z-index: 1;
 margin-top:10px;
 
   }
-
-
 
   form.example input[type=text] {
 	padding: 10px;
@@ -126,31 +112,22 @@ margin-top:10px;
 		 display: inline-block;
 	}
 	
-	
 	.cartdiv:hover .tooltiptext {
 		visibility: visible;
-		 display: inline-block;
-		 
-			 
-	 
+		 display: inline-block; 
 	}
 	.cartdiv:hover .tooltip {
 		visibility: visible;
-		 display: inline-block;
-		 
-			 
-	 
+		 display: inline-block; 
 	}
 	.tooltiptext:hover  {
 		visibility: visible;
 		 display: inline-block;
 	}
 
-
 	.tooltiptext ,.tooltip{
 		top:5px;
 		visibility: hidden;
-	 
 		border: 1px solid black;
 		box-shadow: 0 0 0 8px grey;
 		position:relative;
@@ -161,19 +138,9 @@ margin-top:10px;
 		padding: 5px 0;
 		border-style: solid;
 		background-color: white;
-		
-		
-			
-			-webkit-transition-delay: .30s; 
-		 
-				
-		 
-		
-		
-		
-		
-	}
 	
+			-webkit-transition-delay: .30s; 	
+	}
 	
 	.cart
 	{
@@ -195,4 +162,10 @@ margin-top:10px;
 	color:black;
 	font-weight:bold;
 	}
-	
+.pass{
+    margin-left: 72em;
+    margin-top: 0em;
+}
+#signIn{
+    margin-left: 0.6em;
+}

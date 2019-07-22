@@ -120,7 +120,7 @@ addQty(selectedProdAvail:any,selectedItemCount:any)
   this.bucketView.productFullInfoBucketMap.get(selectedProdAvail).selectedItemCount=parseInt(selectedItemCount)+1
   var updatedSelectedItemCount=this.bucketView.productFullInfoBucketMap.get(selectedProdAvail).selectedItemCount;
   this.bucketView.totalItemCount=this.bucketView.totalItemCount+ 1;
-  this.bucketView.totalPrice=this.bucketView.totalPrice+(this.bucketView.productFullInfoBucketMap.get(selectedProdAvail.id).price)
+  this.bucketView.totalPrice=this.bucketView.totalPrice+(this.bucketView.productFullInfoBucketMap.get(selectedProdAvail).price)
   this.sharedSerevice.setSet(this.bucketView);
   this.updateCookieBucket(selectedProdAvail,this.bucketView.productFullInfoBucketMap.get(selectedProdAvail).selectedItemCount,this.bucketView.totalItemCount,this.bucketView.totalPrice)
  
