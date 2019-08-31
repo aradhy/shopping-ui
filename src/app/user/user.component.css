@@ -4,7 +4,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
 .formClass {
 
   width:30%;
-  padding:8px 12px;
+  padding:12px 18px;
   margin-top: 25px;
   margin-left:20em;
   border:1px solid black;
@@ -153,7 +153,7 @@ p{
 }
 #formSignUp{
 width:30%;
-margin-left: 3em;
+margin-left: 4em;
 margin-top: 1em;
 }
 #formSignIn{
@@ -176,4 +176,14 @@ margin-left: 7em;
 }
 .In{
   margin-left: 1em;
+}
+.facebook{
+margin-left: 5em;
+font-size:33px;
+color:#3b5998;
+}
+.google{
+margin-left: 2em;
+position: absolute;
+margin-top: 0.4em;
 }

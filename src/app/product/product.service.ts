@@ -4,6 +4,7 @@ import { Product } from './product';
 import { Observable, Subject } from 'rxjs';
 import { ProductSelect } from './productselectview';
 import { BucketModel } from './bucketmodel';
+import { CustomerOrder } from '../customerorder';
 
 @Injectable({
   providedIn: 'root'
@@ -69,4 +70,10 @@ export class ProductService {
   {
     return this.httpClient.get<BucketModel>(this.addProductForBucketUrl+productId+"/avId/"+productAvailId);
   }
+
+  subCall(order:CustomerOrder):Observable<string>{
+   
+    return this.httpClient.post<string>("http://localhost:8080/orderStatus",order);
+    }
+    
 }

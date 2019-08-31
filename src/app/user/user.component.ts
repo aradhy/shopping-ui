@@ -121,7 +121,7 @@ export class UserComponent implements OnInit {
           }
         ).subscribe(
           tokenResponse  => {
-           
+            localStorage.setItem("JWT-TOKEN",tokenResponse.obj.jwtToken)
           if(tokenResponse.obj!=null && tokenResponse.obj.jwtToken!=null && tokenResponse.obj.csrfToken!=null )
            {
             if(tokenResponse.obj.userName!=null)

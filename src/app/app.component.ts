@@ -2,6 +2,12 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { CookieBucket } from './menus/bucketcookie';
 import { Product } from './product/product';
+import { CustomerOrder } from './customerorder';
+import { HttpClient } from '@angular/common/http';
+import { Observable, Subject } from 'rxjs';
+import { ProductService } from './product/product.service';
+import { OrderStatus } from './orderstatus';
+import { OrderItem } from './orderitem';
 
 
 
@@ -14,22 +20,51 @@ import { Product } from './product/product';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  [x: string]: any;
   title = 'MyFirstApp';
   bucketView:CookieBucket;
-  customerName:string;
+  customerName:string; 
   productFullInfoBucketMap:Map<string,Product>;
-  
-  constructor(private router:Router)
+  order:CustomerOrder; 
+  constructor(private router:Router,private productService: ProductService)
   {
 
   }
   
   ngOnInit() {
-  
-    this.router.navigateByUrl('/category-view');
+    this.createCustomerOrder();
+   // this.router.navigateByUrl('/category-view');
    
   }
   
+  createCustomerOrder()
+{
+  let order=new CustomerOrder();
+  order.id=558
+  order.orderDetails='now slee'
+    let orderStatus=new OrderStatus();
+    orderStatus.status='fin updated';
+    order.orderStatusList.push(orderStatus)
+   // orderStatus.status='order updated again'
+   // orderStatus.order=order
+   // order.orderStatusList.push(orderStatus);
+
+   this.order=order;
+this.productService.subCall(this.order).subscribe( data=>
+  {
+ alert(data)
+  }
+);
+;
+
+
+
+
+
+}
+
+
+
   onActivate(componentReference) {
  
   
