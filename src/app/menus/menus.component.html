@@ -51,7 +51,7 @@
 
 
 
-            <div class="cartdiv" >
+            <div class="cartdiv" id="cartdiv" >
               
               <div class="material-icons" id="material-icons-id" style="font-size:25px;color:red">brightness_1
               
@@ -66,7 +66,7 @@
               <div *ngIf ="bucketView?.totalItemCount>0 then bucketitems; else emptybucket ">
               </div>
              <ng-template #bucketitems>
-                      <div class="tooltiptext">
+                      <div id="tooltiptextId" class="tooltiptext" >
              
                             
                           <table *ngIf = "bucketView?.productFullInfoBucketMap !=undefined" >
@@ -99,7 +99,9 @@
                           Total Price {{bucketView?.totalPrice}}  
         
                         </div>
-                      
+                        <div>
+                          <button class="checkout"  type="submit"  value="Submit" size="100px" (click)="openUser()">View Basket & Checkout</button>
+                        </div>
                       </div>
                 </ng-template>
                 <ng-template #emptybucket>

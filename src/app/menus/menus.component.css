@@ -120,10 +120,13 @@ margin-top:10px;
 		visibility: visible;
 		 display: inline-block; 
 	}
+
+	
 	.tooltiptext:hover  {
 		visibility: visible;
 		 display: inline-block;
 	}
+	
 
 	.tooltiptext ,.tooltip{
 		top:5px;
@@ -168,4 +171,9 @@ margin-top:10px;
 }
 #signIn{
     margin-left: 0.6em;
+}
+.checkout{
+	margin-left: 10em;
+	background-color:olivedrab;
+	color:white
 }

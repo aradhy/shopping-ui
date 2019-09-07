@@ -18,6 +18,7 @@ import { NgxImageZoomModule } from 'ngx-image-zoom';
 import { UserComponent } from './user/user.component';
 import { SocialLoginModule, AuthServiceConfig, GoogleLoginProvider, FacebookLoginProvider, LoginOpt } from 'angularx-social-login';
 import { TokenInterceptor } from './token-interceptor';
+import { CheckOutViewComponent } from './check-out-view/check-out-view.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,7 @@ import { TokenInterceptor } from './token-interceptor';
     ProductComponent,
     CategoryComponent,
     SingleProductViewComponent,
-    MenusComponent,UserComponent
+    MenusComponent,UserComponent, CheckOutViewComponent
    
   ],
   imports: [

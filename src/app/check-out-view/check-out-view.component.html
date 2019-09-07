@@ -1,0 +1,79 @@
+<div class="container1">
+     
+  
+  <div *ngIf ="bucketView?.totalItemCount>0 then bucketitems; else emptybucket ">
+  </div>
+
+ <ng-template #bucketitems>
+          
+              <table *ngIf = "bucketView?.productFullInfoBucketMap !=undefined" >
+                <th><a href="#ITEM DESCRIPTION" class="id">ITEM DESCRIPTION</a></th>
+                <th><a href="#WEIGHT" class="wgt">   WEIGHT          </a></th>
+                <th><a href="#UNIT PRICE" class="up">   UNIT PRICE        </a></th> 
+                <th><a href="#QUANTITY" class="qty">  QUANTITY    </a></th>
+                <th><a href="#SUBTOTAL" class="sub">    SUBTOTAL         </a></th>
+                <th></th>
+                      
+              
+                <tr *ngFor="let tdx of bucketView?.productFullInfoBucketMap?.values()">
+                
+                <td >{{tdx.brand}} {{tdx.name}}</td>
+                <td>  {{tdx.weight +' '+tdx.weightUnit}}    </td>
+                <td> Rs  {{tdx.price}}  </td>
+                <td>    <input type="button"  style= "width:15%;text-align:center" value="-" (click)="subQty(tdx.prodAvailId,1)"/>    
+                 <input type="text" name="tdx.selectedItemCount"  [(ngModel)]="tdx.selectedItemCount"  style= "width:15%;text-align:center" (focusout)="updateItemCount(tdx.prodAvailId,tdx.selectedItemCount)" />    
+                 <input type="button"  style= "width:15%;text-align:center" value="+" (click)="addQty(tdx.prodAvailId,1)"/>  
+                  </td>
+                  <td>{{tdx.price * tdx.selectedItemCount}} </td>
+                  <td>  <a  (click)="removeFromBucket(tdx.prodAvailId);">
+                  <span class="glyphicon glyphicon-trash"></span>
+                   </a></td>
+
+                  
+                </table>
+                <div class="container2">
+  
+                  <p>Subtotal Rs {{bucketView?.totalPrice}}</p>
+                  <p>Delivery charges 60</p>
+                  <hr width="100%">
+                  <p> TOTAL  {{bucketView?.totalPrice+60}}</p>
+                  
+                  <br>
+                  <hr width="100%">
+                  <button  type="button" class="add">CHECKOUT</button>
+                  </div>
+              
+       
+    </ng-template>
+    <ng-template #emptybucket>
+      <table>
+        <th><a href="#ITEM DESCRIPTION" class="id">ITEM DESCRIPTION</a></th>
+        <th><a href="#WEIGHT" class="wgt">   WEIGHT          </a></th>
+        <th><a href="#UNIT PRICE" class="up">   UNIT PRICE        </a></th> 
+        <th><a href="#QUANTITY" class="qty">  QUANTITY    </a></th>
+        <th><a href="#SUBTOTAL" class="sub">    SUBTOTAL         </a></th>
+        <th></th>
+   
+     
+   
+      </table>
+
+      <div style="text-align: center">
+      
+        Cart is Empty
+  
+       </div>
+     
+    </ng-template>
+   
+  
+
+    <div style="text-align: center">
+      <button  type="button" class="add">CONTINUE SHOPPING</button>
+    </div>
+ 
+  
+ 
+  
+  </div>
+  

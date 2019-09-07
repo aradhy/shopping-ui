@@ -59,7 +59,22 @@ export class MenusComponent implements OnInit {
  
 
 }
+displayBucket()
+{
+ 
+ // document.getElementById('cartdiv').style.visibility = 'block';
+ 
+ 
+}
 
+openUser()
+{
+
+//document.getElementById('tooltiptextId').style.visibility = 'hidden';
+this.router.navigate(['checkout'])
+
+
+}
 
   searchProduct(regForm:NgForm)
   {
@@ -121,7 +136,7 @@ addQty(selectedProdAvail:any,selectedItemCount:any)
   this.bucketView.totalItemCount=this.bucketView.totalItemCount+ 1;
   this.bucketView.totalPrice=this.bucketView.totalPrice+(this.bucketView.productFullInfoBucketMap.get(selectedProdAvail).price)
   this.sharedSerevice.setSet(this.bucketView);
-  this.updateCookieBucket(selectedProdAvail,this.bucketView.productFullInfoBucketMap.get(selectedProdAvail).selectedItemCount,this.bucketView.totalItemCount,this.bucketView.totalPrice
+  this.updateCookieBucket(selectedProdAvail,this.bucketView.productFullInfoBucketMap.get(selectedProdAvail).selectedItemCount,this.bucketView.totalItemCount,this.bucketView.totalPrice)
 }
 
 subQty(selectedProdAvail:any,selectedItemCount:any)
