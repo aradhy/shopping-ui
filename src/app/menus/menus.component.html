@@ -80,9 +80,9 @@
                               </th>
                               
                               <th>&nbsp;Qty:
-                                  <input type="button"  style= "width:15%;text-align:center" value="-" (click)="subQty(tdx.prodAvailId,tdx.selectedItemCount)"/>    
+                                  <input type="button"  style= "width:15%;text-align:center" value="-" (click)="subQty(tdx.prodAvailId,1)"/>    
                                 <input type="text" name="tdx.selectedItemCount"  [(ngModel)]="tdx.selectedItemCount"  style= "width:15%;text-align:center" (focusout)="updateItemCount(tdx.prodAvailId,tdx.selectedItemCount)" />    
-                                <input type="button"  style= "width:15%;text-align:center" value="+" (click)="addQty(tdx.prodAvailId,tdx.selectedItemCount)"/>  
+                                <input type="button"  style= "width:15%;text-align:center" value="+" (click)="addQty(tdx.prodAvailId,1)"/>  
                               </th>  
                               
                                  

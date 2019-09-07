@@ -59,7 +59,7 @@ private subscription: Subscription;
   ngOnInit() {
   
   
-  //  this.showCart();
+    this.showCart();
     
   if (this.router.url.includes('sub'))
   {
