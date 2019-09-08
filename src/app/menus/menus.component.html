@@ -26,18 +26,18 @@
   <input type="text" placeholder="Search.." name="search" autocomplete="off" ngModel>
   <button type="submit" ><div class="fa fa-search"></div></button>
 </form>
-
-        <div id="menu">
+</div>
+        <div id="menu" >
                 <ul>
               
-                   <li><a href="#" (mouseenter)="mouse_event()" >SHOP BY CATEGORY</a>
+                   <li><a href="#" (mouseenter)="mouse_event()"  >SHOP BY CATEGORY</a>
                    
                               <ul>
-                                     <li *ngFor='let category of categoryList'  (mouseenter)="mouse_event_sub(category.id)">
+                                     <li  class="dropdown" *ngFor='let category of categoryList'  (mouseenter)="mouse_event_sub(category.id)" (click)="collapse()">
                                    
-                                      <a [routerLink]="['/product/cat',category.id]">{{category.name}}</a>
-                       <ul>
-                                  <li *ngFor='let subcategory of sub_categoryList'><a [routerLink]="['/product/sub',subcategory.id]">{{subcategory.name}}</a></li>
+                                      <a [routerLink]="['/product/cat',category.id]" >{{category.name}}</a>
+                       <ul >
+                                  <li class="dropdown" *ngFor='let subcategory of sub_categoryList'><a [routerLink]="['/product/sub',subcategory.id]">{{subcategory.name}}</a></li>
                                  
                        </ul>
                  
@@ -48,10 +48,10 @@
             
             </div>
            
+            <a  href="javascript:void" id="add" (click)="openAddress()"  >Address</a>
 
 
-
-            <div class="cartdiv" id="cartdiv" >
+            <div class="cartdiv" (mouseover)="displayCart()">
               
               <div class="material-icons" id="material-icons-id" style="font-size:25px;color:red">brightness_1
               
@@ -60,13 +60,13 @@
   
               
               <div class="cart-count" id="cart-count-id">{{bucketView?.totalItemCount}}</div>
-             
+             <div class="imageCart">
               <img src="images\images.png" alt="Avatar" class="cart">
-             
+            </div>
               <div *ngIf ="bucketView?.totalItemCount>0 then bucketitems; else emptybucket ">
               </div>
              <ng-template #bucketitems>
-                      <div id="tooltiptextId" class="tooltiptext" >
+                      <div class="tooltiptext">
              
                             
                           <table *ngIf = "bucketView?.productFullInfoBucketMap !=undefined" >
@@ -80,9 +80,9 @@
                               </th>
                               
                               <th>&nbsp;Qty:
-                                  <input type="button"  style= "width:15%;text-align:center" value="-" (click)="subQty(tdx.prodAvailId,1)"/>    
+                                  <input type="button"  style= "width:15%;text-align:center" value="-" (click)="subQty(tdx.prodAvailId,tdx.selectedItemCount)"/>    
                                 <input type="text" name="tdx.selectedItemCount"  [(ngModel)]="tdx.selectedItemCount"  style= "width:15%;text-align:center" (focusout)="updateItemCount(tdx.prodAvailId,tdx.selectedItemCount)" />    
-                                <input type="button"  style= "width:15%;text-align:center" value="+" (click)="addQty(tdx.prodAvailId,1)"/>  
+                                <input type="button"  style= "width:15%;text-align:center" value="+" (click)="addQty(tdx.prodAvailId,tdx.selectedItemCount)"/>  
                               </th>  
                               
                                  
@@ -99,9 +99,7 @@
                           Total Price {{bucketView?.totalPrice}}  
         
                         </div>
-                        <div>
-                          <button class="checkout"  type="submit"  value="Submit" size="100px" (click)="openUser()">View Basket & Checkout</button>
-                        </div>
+                        <input type="button"  style= "width:15%;text-align:center" value="CheckOut" (click)="displayBucket()"/>  
                       </div>
                 </ng-template>
                 <ng-template #emptybucket>
@@ -109,8 +107,8 @@
                    No Item in the Cart.Let's shop now   
                   </div>
                 </ng-template>
-
-
+              
+               
               
             
               </div>

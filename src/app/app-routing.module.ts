@@ -6,6 +6,7 @@ import { CategoryComponent } from './category/category.component';
 import { UserComponent } from './user/user.component';
 import { CheckOutViewComponent } from './check-out-view/check-out-view.component';
 import { MenusComponent } from './menus/menus.component';
+import { AddressComponent } from './address/address.component';
 
 
 
@@ -17,7 +18,8 @@ export const routes: Routes = [
   {path:'category-view', component: CategoryComponent},
   { path: 'user/:id', component: UserComponent },
   { path: 'checkout', component: CheckOutViewComponent },
-  { path: 'menu', component: MenusComponent }
+  { path: 'menu', component: MenusComponent },
+  {path:'address',component:AddressComponent}
   
 
   

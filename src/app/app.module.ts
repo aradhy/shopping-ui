@@ -19,6 +19,7 @@ import { UserComponent } from './user/user.component';
 import { SocialLoginModule, AuthServiceConfig, GoogleLoginProvider, FacebookLoginProvider, LoginOpt } from 'angularx-social-login';
 import { TokenInterceptor } from './token-interceptor';
 import { CheckOutViewComponent } from './check-out-view/check-out-view.component';
+import { AddressComponent } from './address/address.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,7 @@ import { CheckOutViewComponent } from './check-out-view/check-out-view.component
     ProductComponent,
     CategoryComponent,
     SingleProductViewComponent,
-    MenusComponent,UserComponent, CheckOutViewComponent
+    MenusComponent,UserComponent, CheckOutViewComponent, AddressComponent
    
   ],
   imports: [

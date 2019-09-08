@@ -4,6 +4,7 @@ import { BucketViewService } from '../bucket-view-service.service';
 import { CookieBucket } from '../menus/bucketcookie';
 import { Subscription } from 'rxjs';
 import { SharedService } from '../sharedservice.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-check-out-view',
@@ -14,7 +15,7 @@ export class CheckOutViewComponent implements OnInit {
   bucketView:BucketView;
   private subscription: Subscription;
   @Output() bucketViewEmitter: EventEmitter<BucketView> = new EventEmitter(); 
-  constructor(private bucketViewService:BucketViewService,private sharedService:SharedService) { 
+  constructor(private bucketViewService:BucketViewService,private sharedService:SharedService,private router:Router) { 
 
    this.subscription= this.sharedService.getState().subscribe(bucketView=>{
     this.bucketView=bucketView
@@ -27,6 +28,12 @@ export class CheckOutViewComponent implements OnInit {
    
     this.showCart()
   } 
+
+  openAddress()
+  {
+//    this.router.navigate(['address'])
+  }
+
 
   removeFromBucket(x:string)
   {

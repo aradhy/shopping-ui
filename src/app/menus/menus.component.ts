@@ -14,7 +14,7 @@ import { Product } from '../product/product';
 import { ProductAvail } from '../product/productavail';
 import { BucketView } from '../product/bucketview';
 import { BucketModel } from '../product/bucketmodel';
-
+import * as $ from 'jquery';
 
 @Component({
   selector: 'app-menus',
@@ -59,23 +59,26 @@ export class MenusComponent implements OnInit {
  
 
 }
+collapse()
+  {
+    $(".dropdown").slideUp("fast")
+  }
+ 
+
 displayBucket()
 {
- 
- // document.getElementById('cartdiv').style.visibility = 'block';
- 
- 
-}
 
-openUser()
-{
-
-//document.getElementById('tooltiptextId').style.visibility = 'hidden';
-this.router.navigate(['checkout'])
-
+this.router.navigateByUrl('/checkout')
+$(".tooltiptext").slideUp("fast")
 
 }
 
+displayCart()
+  {
+  
+    $(".tooltiptext").show()
+    
+  }
   searchProduct(regForm:NgForm)
   {
     var productSearch=regForm.controls.search.value;
