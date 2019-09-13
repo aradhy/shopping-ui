@@ -31,7 +31,7 @@ export class CheckOutViewComponent implements OnInit {
 
   openAddress()
   {
-//    this.router.navigate(['address'])
+   this.router.navigate(['address'])
   }
 
 

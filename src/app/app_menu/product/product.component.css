@@ -1,0 +1,87 @@
+div.float-center {
+  margin-top:8em;
+  margin-left: 320px;
+  position:relative;
+  
+}
+
+div.gallery {
+    margin: 3px;
+    border: 1px solid gainsboro;
+    float: left;
+    width:200px;
+  
+  }
+  div.gallery:hover {
+    border: 1px solid gray;
+    
+  }
+  
+  div.gallery img {
+    width: 100%;
+    height: auto;
+    
+  }
+  
+ .cate{
+   margin-bottom:3em;
+   margin-left:1em;
+   font-size: 20px; 
+ }
+
+  div.desc {
+    padding: 5px;
+    text-align: center;
+    margin-left:20px;
+    font-size:15px;
+    text-decoration:underline;
+    top:200px;
+    
+  }
+  .Quantity{
+    background-color: whitesmoke;
+    margin-left: 5px;
+    border:none;
+    margin-bottom: 25px;
+  }
+ .selectedQuantity{
+  background-color:gainsboro;
+  width:50px;
+  height: 19px;
+  margin-bottom: 30px;
+  font-size: 15px;
+  text-align:center; 
+ }
+
+ .product{
+   margin-left: 25px;
+   width:150px;
+ }
+ .item{
+   margin-left: 25px;
+ }
+
+ .btn1{
+   background-color: wheat;
+   height: 20px;
+   width:50px;
+   color:black;
+   margin-left: 15px;
+   margin-bottom: 15px;
+   text-align: center;
+   font-size:12px; 
+   border-color: grey;
+ }
+
+ .btn2{
+    background-color:wheat;
+    width: 50px;
+    text-align: center;
+    color: black;
+    font-size: 15px;
+    margin-left: 1px;
+    margin-bottom: 20px;
+    border-color: grey;
+
+  }
+  

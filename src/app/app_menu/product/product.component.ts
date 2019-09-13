@@ -13,6 +13,7 @@ import { SharedService } from '../sharedservice.service';
 import { ProductAvail } from './productavail';
 import { BucketView } from './bucketview';
 import { BucketModel } from './bucketmodel';
+import { FilterParams } from 'src/app/filter/filterparams';
 
 
 @Component({
@@ -36,15 +37,42 @@ export class ProductComponent implements OnInit {
  url:string;
  id:string;
  bucketView:BucketView;
+ catId:string;
+ subId:string;
 
-private subscription: Subscription;
+ @Input() filterParams:FilterParams=new FilterParams();
+
+ private subscription: Subscription;
+  
+ fetchFilters(event) { 
+
+ this.filterParams=event
+ this.productService.productByFilter(this.catId,this.subId,this.filterParams).subscribe(response =>
+  {
+   
+    this.productList = response;
+    console.log('Products based on Category From DB')
+
+      this.productList.forEach(product=>{
+       
+        product.selectedItemCount=1;
+        product.itemCountList=[1,2,3,4];
+       
+       product.selectedProductAvail= product.productAvailList[0];
+      }  
+    )
+    return this.productList;
+
+      });
+
+ } 
  
-
 
 
   constructor(private productService: ProductService,private activatedRoute:ActivatedRoute,private router:Router,private cookieService:CookieService ,private sharedService:SharedService) {
    
     this.subscription= this.sharedService.getState().subscribe(bucketView=>{
+     
       this.bucketView=bucketView
      
     });
@@ -64,16 +92,21 @@ private subscription: Subscription;
   if (this.router.url.includes('sub'))
   {
  
+   
     this.activatedRoute.params.subscribe(routeParams => {
-      this.productBasedOnSubCategory(routeParams.id);
+      this.catId=routeParams.catId
+      this.subId=routeParams.subId
+      
+      this.productBasedOnSubCategory(this.subId);
      });
     
   }
-  else if(this.router.url.includes('cat'))
+  else if(this.router.url.includes('cat')) 
   {
    
   this.activatedRoute.params.subscribe(routeParams => {
-   this.productBasedOnCategory(routeParams.id);
+    this.catId=routeParams.catId
+   this.productBasedOnCategory( this.catId);
   })
 
  
@@ -264,7 +297,7 @@ if(!(localStorage.getItem("CookieBucket")==null))
    cookieBucket.totalPrice=this.bucketView.totalPrice;
     localStorage.setItem("CookieBucket",this.ObjectToJsonString(cookieBucket));
     
-    this.bucketViewEmitter.emit(this.bucketView);
+     this.sharedService.setSet(this.bucketView);
   }
 
 
@@ -294,7 +327,7 @@ getTheFullViewMap(productId:any,selectedProdAvail:any,itemCount:any, cookieBucke
     this.bucketView.totalItemCount=cookieBucket.totalItems
     cookieBucket.totalPrice=this.bucketView.totalPrice;
    
-    this.bucketViewEmitter.emit(this.bucketView)
+    this.sharedService.setSet(this.bucketView);
    }
   else
   {
@@ -329,7 +362,7 @@ var productList;
         cookieBucket.totalPrice=this.bucketView.totalPrice;
         cookieBucket.totalItems=this.bucketView.totalItemCount;
         localStorage.setItem("CookieBucket",this.ObjectToJsonString(cookieBucket));
-        this.bucketViewEmitter.emit(this.bucketView);
+         this.sharedService.setSet(this.bucketView);
        
    
    
@@ -378,7 +411,7 @@ else
        product.selectedItemCount=productSelect.itemCount;
       
        this.bucketView.productFullInfoBucketMap.set(product.prodAvailId,product);
-       this.bucketViewEmitter.emit(this.bucketView);
+        this.sharedService.setSet(this.bucketView);
       });
   
     });

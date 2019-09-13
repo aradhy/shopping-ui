@@ -1,4 +1,4 @@
-@import '../../assets/css/jquery.exzoom.css' ;
+@import '../../../assets/css/jquery.exzoom.css' ;
 
 body { min-height: 100vh; }
 #exzoom {

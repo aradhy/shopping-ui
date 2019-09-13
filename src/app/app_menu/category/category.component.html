@@ -30,7 +30,7 @@
     {{category.name}}
    </div>
     <br>
-<div class="gallery" *ngFor='let subcategory of category.subCategoryList' >
+<div class="gallery" *ngFor='let subcategory of category.subCategory' >
  <div class="desc"> {{subcategory.name}}</div>
  
  <a href="javascript:void(0)" [routerLink]="['/product/sub/1']">

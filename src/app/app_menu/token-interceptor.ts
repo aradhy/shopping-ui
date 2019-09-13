@@ -39,9 +39,7 @@ if(( request.url.match('http://localhost:8080/signUp') || request.url.match('htt
    
     request = request.clone({
       headers: new HttpHeaders({
-        'Content-Type':  'application/json',
-        'Authorization':localStorage.getItem('JWT-TOKEN'),
-        'X-CSRF-TOKEN':localStorage.getItem('X-CSRF-TOKEN')
+        'Content-Type':  'application/json'
         
       }),withCredentials: true,params: request.params.set('provider', localStorage.getItem("PROVIDER"))
     });

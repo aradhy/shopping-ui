@@ -1,35 +1,35 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule }    from '@angular/forms';
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { ProductComponent } from './product/product.component';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { ReactiveFormsModule } from '@angular/forms';
-import { CategoryComponent } from './category/category.component';
-import { SingleProductViewComponent } from './single-product-view/single-product-view.component';
-import { MenusComponent } from './menus/menus.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { CommonModule } from '@angular/common';
-import { SharedService } from './sharedservice.service';
 import {MatGridListModule} from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxImageZoomModule } from 'ngx-image-zoom';
-import { UserComponent } from './user/user.component';
-import { SocialLoginModule, AuthServiceConfig, GoogleLoginProvider, FacebookLoginProvider, LoginOpt } from 'angularx-social-login';
-import { TokenInterceptor } from './token-interceptor';
-import { CheckOutViewComponent } from './check-out-view/check-out-view.component';
-import { AddressComponent } from './address/address.component';
+import { AppComponent } from './app.component';
+import { AppComponent_Menu } from './app_menu/app_menu.component';
+import { ProductComponent } from './app_menu/product/product.component';
+import { CategoryComponent } from './app_menu/category/category.component';
+import { SingleProductViewComponent } from './app_menu/single-product-view/single-product-view.component';
+import { MenusComponent } from './app_menu/menus/menus.component';
+import { UserComponent } from './app_menu/user/user.component';
+import { CheckOutViewComponent } from './app_menu/check-out-view/check-out-view.component';
+import { AddressComponent } from './app_menu/address/address.component';
+import { SocialLoginModule, AuthServiceConfig, FacebookLoginProvider, GoogleLoginProvider, LoginOpt } from 'angularx-social-login';
+import { AppRoutingModule } from './app-routing.module';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { CommonModule } from '@angular/common';
+import { SharedService } from './app_menu/sharedservice.service';
+import { TokenInterceptor } from './app_menu/token-interceptor';
+import { FilterComponent } from './filter/filter.component';
+
+
 
 @NgModule({
   declarations: [
-    AppComponent,
-    ProductComponent,
+    AppComponent,AppComponent_Menu,  ProductComponent,
     CategoryComponent,
     SingleProductViewComponent,
-    MenusComponent,UserComponent, CheckOutViewComponent, AddressComponent
-   
-  ],
+    MenusComponent,UserComponent, CheckOutViewComponent, AddressComponent, FilterComponent  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -44,6 +44,7 @@ import { AddressComponent } from './address/address.component';
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
 const googleLoginOptions: LoginOpt = {
   scope: 'profile email'
  
@@ -64,7 +65,6 @@ let config = new AuthServiceConfig([
     provider: new FacebookLoginProvider("2190645354387980",faceBookLoginOptions)
   }
 ]);
-
 
 export function provideConfig() {
   return config;

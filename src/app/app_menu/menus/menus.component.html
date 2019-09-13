@@ -27,28 +27,29 @@
   <button type="submit" ><div class="fa fa-search"></div></button>
 </form>
 </div>
-        <div id="menu" >
+<div id="menu">
+  <ul>
+
+     <li><a href="#" (mouseenter)="mouse_event()" >SHOP BY CATEGORY</a>
+     
                 <ul>
-              
-                   <li><a href="#" (mouseenter)="mouse_event()"  >SHOP BY CATEGORY</a>
+                       <li *ngFor='let category of categoryList'  (mouseenter)="mouse_event_sub(category.id)">
+                     
+                        <a [routerLink]="['/product/cat',category.id]">{{category.name}}</a>
+         <ul>
+                    <li *ngFor='let subcategory of sub_categoryList'><a [routerLink]="['/product/cat',category.id,'sub',subcategory.id]">{{subcategory.name}}</a></li>
                    
-                              <ul>
-                                     <li  class="dropdown" *ngFor='let category of categoryList'  (mouseenter)="mouse_event_sub(category.id)" (click)="collapse()">
-                                   
-                                      <a [routerLink]="['/product/cat',category.id]" >{{category.name}}</a>
-                       <ul >
-                                  <li class="dropdown" *ngFor='let subcategory of sub_categoryList'><a [routerLink]="['/product/sub',subcategory.id]">{{subcategory.name}}</a></li>
-                                 
-                       </ul>
-                 
-                  </li>
-                </ul>               
-            </ul>
-            
-            
-            </div>
+         </ul>
+   
+    </li>
+  </ul>               
+</ul>
+
+
+</div>
+
            
-            <a  href="javascript:void" id="add" (click)="openAddress()"  >Address</a>
+    
 
 
             <div class="cartdiv" (mouseover)="displayCart()">
@@ -112,4 +113,4 @@
               
             
               </div>
-           
+        

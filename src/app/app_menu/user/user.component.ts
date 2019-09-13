@@ -58,13 +58,13 @@ export class UserComponent implements OnInit {
   close()
   {
     document.getElementById('id01').style.display='none';
-    this.router.navigateByUrl('/category-view');
+    this.router.navigateByUrl('/appChild');
   }
 
 
   onSignUp(signUpForm:any)
   {    
-    alert(signUpForm)
+    
    let name=signUpForm.controls.name.value;
     let mobileNumber=signUpForm.controls.mobile.value;
     let email=signUpForm.controls.email.value;
@@ -138,7 +138,7 @@ export class UserComponent implements OnInit {
             alert(tokenResponse.message)
           }
           
-          this.router.navigateByUrl('/category-view');
+          this.router.navigateByUrl('/appChild');
      },
      error => {
        alert("Bhai error aa gayee")
@@ -182,7 +182,7 @@ export class UserComponent implements OnInit {
              localStorage.setItem("customerName",tokenResponse.obj.userName)
             }
              localStorage.setItem("X-CSRF-TOKEN",tokenResponse.obj.csrfToken)
-             this.router.navigateByUrl("/category-view");
+             this.router.navigateByUrl("/appChild");
             
           }
        //alert("Signed Up SuccessFully  via FaceBook by"+userData.email)
@@ -209,7 +209,7 @@ export class UserComponent implements OnInit {
                localStorage.setItem("customerName",tokenResponse.obj.userName)
                }
              localStorage.setItem("X-CSRF-TOKEN",tokenResponse.obj.csrfToken)
-             this.router.navigateByUrl("/category-view");
+             this.router.navigateByUrl("/appChild");
           }
         //   alert("Signed Up SuccessFully via Google by "+userData.email)
             

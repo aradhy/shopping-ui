@@ -1,0 +1,54 @@
+<app-menus></app-menus>
+
+
+<app-filter [filterParams]='filterParams' [catId]='catId' [subId]='subId' (filterParamsEmitter)=fetchFilters($event)></app-filter> 
+
+
+
+<div class="float-center">
+    
+          
+  <div class="gallery" *ngFor="let prod of productList"  > 
+   <a  [routerLink]="['/single-product-view/1']" >
+   <img src="images\1200370.jpg" alt="{{prod.name}}" width="200" height="200">
+  </a>
+   <div>
+                
+        <div *ngIf ="bucketView?.productFullInfoBucketMap?.get(prod.selectedProductAvail.id)?.selectedItemCount>0 then bucketcount; else emptybucket " >
+       
+          </div>
+         <ng-template #bucketcount>
+              <div>
+               {{bucketView.productFullInfoBucketMap.get(prod.selectedProductAvail.id).selectedItemCount}} Items
+              </div>
+            </ng-template>
+            <ng-template #emptybucket>
+              <div class="item">
+               0 Item
+              </div>
+            </ng-template>
+        
+            <select  name="avail" [(ngModel)]="prod.selectedProductAvail" class="product">
+              <option *ngFor='let prodAvail of prod.productAvailList' [ngValue]="prodAvail">{{prodAvail.weight+'-'+prodAvail.weightUnit+' Rs '+prodAvail.price}}</option>
+             
+                  </select>
+            <br><br>
+            <span class="Quantity">Qty</span>
+            
+     <select  name="quantity" [(ngModel)]="prod.selectedItemCount" class="selectedQuantity">
+       <option *ngFor='let prod of prod.itemCountList'>{{prod}}</option>
+     
+          </select>
+    
+        <button type="submit" class="btn1 btn-success" (click)="addToCart(prod.code,prod.selectedProductAvail,prod.selectedItemCount)" > Add </button>
+        <button type="submit" class="btn2 btn-success fa fa-trash" (click)="removeFromCart(prod.selectedProductAvail,prod.selectedItemCount)"></button>
+          </div>
+        
+         </div>
+        </div>
+  
+   
+  
+  
+  
+  

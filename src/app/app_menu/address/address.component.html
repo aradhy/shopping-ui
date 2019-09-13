@@ -1,0 +1,77 @@
+
+<body>
+<div *ngFor="let address of addressList">
+<textarea id="text1Id" style="overflow:hidden" rows="5" cols="30" disabled  value="{{address.name}}{{address.email}}
+{{address.houseNo}}{{address.addressDetails}}{{address.landmark}}
+{{address.city}} {{address.country}}"></textarea>
+</div>
+
+
+<div *ngIf="addressList?.length > 0  && addressList?.length < 2"> 
+  <button  type="button"  type="submit"  class="addNew" (click)="showForm()">Add New Address</button>
+</div>
+  <div id="container1" > 
+ <div id="1"  class="container1" >
+</div>
+
+
+<div id="2">
+
+</div>
+<input type="checkbox" id="chkbox" />deliver here 
+<br>
+<button id="open-button" onclick="openNewForm()">Add New Address</button>
+
+</div> 
+
+
+ <div class="row" id="addrFormId">
+ <div class="col-75" id="col-75">	 
+   <div class="container2">
+     <form  [formGroup]="addressForm" (ngSubmit)="onSubmitAddress(addressForm)">    
+       <div class="row">
+         <div class="col-50">
+           <h3>Billing Address</h3>
+
+  <label for="name"> Full Name</label>
+  <input type="text" id="name" formControlName="name" placeholder="">
+  
+   <label for="email"> Email</label>
+   <input type="text" id="email" formControlName="email" placeholder="">
+
+   <label for="houseNo">HouseNo</label>
+   <input type="text" id="houseNo" formControlName="houseNo" placeholder="">
+ 
+   <label for="adr"> Address Details</label>
+   <input type="text" id="address" formControlName="address" placeholder="">
+ 
+   <label for="city"> City</label>
+   <input type="text" id="city" formControlName="city" placeholder="">
+ 
+   <label for="state">State</label>
+  <input type="text" id="state" formControlName="state" placeholder="">
+
+  <label for="adr"> Land Mark</label>
+  <input type="text" id="landMark" formControlName="landMark" placeholder="">
+
+   <input type="checkbox" checked="checked" name="sameadr"> Shipping address same as billing
+      <br>
+   <input type="submit" value="Continue to checkout" class="btn">
+   <button  type="button"  type="submit"  class="add">Add Address</button>
+ 
+       </div>
+       </div>
+     </form>
+   </div>
+</div>
+</div>
+
+
+
+
+ <div class="form-popup" id="myForm">
+</div>
+ 
+
+ 
+</body>

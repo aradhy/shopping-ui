@@ -1,0 +1,123 @@
+
+
+/* Create three equal columns that floats next to each other */
+.row {
+    position: absolute;
+     margin-left: 190px;
+     margin-top: 100px;
+     font-size:12px;
+     background-color:  white;
+     width: 50%;
+     padding: 2px;
+     color:black;
+     height: 40%; /* Should be removed. Only for demonstration */
+   }
+   
+   
+   p { 
+     margin-top: 0em;
+     margin-bottom: 0em; 
+     margin-left: 1em;
+   }
+   h1{ 
+     margin-top: 1em;
+     margin-bottom: 0em; 
+     font-size: 15px;
+      
+   }
+   
+   
+   .row1{
+     position: absolute;
+     margin-left: 190px;
+     margin-top: 250px;
+     font-size: 12px;
+   }
+   p{
+     margin-bottom: 0em;
+     margin-top: 0em;
+   }
+   
+   
+   
+   /* visited link */
+   a:visited {
+     color: black;
+   }
+   
+   /* mouse over link */
+   a:hover {
+     color: green;
+   }
+   
+   /* selected link */
+   a:active {
+     color: red;
+   }
+   
+   
+   h2{
+     font-size: 15px;
+     margin-bottom: 0em;
+     margin-top: 3em;
+     
+   }
+   
+   h3{
+     font-size:15px;
+     margin-bottom: 0em;
+     margin-top: 3em;
+     
+   }
+   h4{
+     font-size:15px;
+     margin-bottom: 0em;
+     margin-top: 3em;
+     
+   }
+   .vl {
+     border-left: 1px solid grey;
+     height: 1000px;
+     margin-left:5em;
+    margin-top: 0em;
+   }
+  
+   hr.new2{
+     border-top:1px solid gray;
+     margin-top: 1em;
+     margin-bottom:2em;
+     width:90%;
+     margin-left: 1em;
+   }
+
+
+   
+   hr.new0 {
+    border-bottom: 1px solid green;
+    width:55px;
+    margin-left:0em;
+    margin-top: 0em; 
+  }
+  
+    hr.new1 {
+      border-bottom: 1px solid green;
+      width:40px;
+      margin-left:0em;
+      margin-top: 0em; 
+    }
+
+    hr.new2 {
+      border-bottom: 1px solid green;
+      width:38px;
+      margin-left:0em;
+      margin-top: 0em; 
+    }
+    
+    hr.new3 {
+      border-bottom: 1px solid green;
+      width:55px;
+      margin-left:0em;
+      margin-top: 0em; 
+    }
+    
+   

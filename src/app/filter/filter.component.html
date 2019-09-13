@@ -1,0 +1,53 @@
+
+
+
+
+<div class="row">
+    <div class="column" > 
+        <h1>Category</h1>
+        <hr class="new0">
+      
+        <div  *ngFor="let subcategory of categoryListAll?.subCategory" >
+           
+    <a href="javascript:void(0)" (click)="fetchBasedOnSubCategory(subcategory.id,categoryListAll.id)">{{subcategory.name}}</a>
+
+    </div>
+  </div>
+  <div class="vl"></div>
+  
+  </div>
+
+
+<div class="row1" >
+  <h2>Brand</h2>
+  <hr class="new1">
+  
+  <div *ngFor='let brand of filterMetaData?.brandFilters'>
+     
+      <a href="#"><input type="checkbox" [id]="brandname"  (change)="handleBrand($event,brand)" >
+   {{brand}}
+      </a>
+        </div>
+ 
+ <h3>Price</h3>
+ 
+ <hr class="new2">
+ <div *ngFor='let priceFilter of filterMetaData?.priceFilters'>
+ <a href="#"><input type="checkbox" [id]="pricename"  (change)="handlePrice($event,priceFilter)"   [name]="pricename" >
+{{priceFilter.v1}}Rs-{{priceFilter.v2}}Rs
+</a>
+ </div>
+ 
+
+<h4>Pack Size</h4>
+<hr class="new3">
+<div *ngFor='let weightFilter of filterMetaData?.weightFilters'>
+   
+  <a href="#" ><input type="checkbox" [id]="packsizename"  (change)="handleWeight($event,weightFilter)" >
+    {{weightFilter.v1}}{{weightFilter.u1}}-{{weightFilter.v2}}{{weightFilter.u2}}
+  </a>
+  
+</div>
+    
+    
+</div>

@@ -5,6 +5,7 @@ import { Observable, Subject } from 'rxjs';
 import { ProductSelect } from './productselectview';
 import { BucketModel } from './bucketmodel';
 import { CustomerOrder } from '../customerorder';
+import { FilterParams } from 'src/app/filter/filterparams';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +18,7 @@ export class ProductService {
   baseUrlProductName:string="http://localhost:8090/product-name";
   baseUrlBucketProductInfoUrl="http://localhost:8090/bucketproducts";
   addProductForBucketUrl="http://localhost:8090/product/"
+  baseUrlProductFilter="http://localhost:8090/productFilter/cat/";
   httpClient:HttpClient;
   
   private selectionFormatState = new Subject<any>();
@@ -76,4 +78,13 @@ export class ProductService {
     return this.httpClient.post<string>("http://localhost:8080/orderStatus",order);
     }
     
+  productByFilter(catId:string,subId:string,filterParams:FilterParams): Observable<Product[]>
+  {
+    let brandPayLoad=filterParams.brandFilters.join(",")
+    let pricePayLoad=filterParams.priceFilters.join(",")
+    let weightPayLoad=filterParams.weightFilters.join(",")
+    let productFilterDataUrl=  this.baseUrlProductFilter+catId+"?subId="+subId+'&priceFilters='+pricePayLoad+'&weightFilters='+weightPayLoad+'&brandFilters='+brandPayLoad
+
+    return this.httpClient.get<Product[]>(productFilterDataUrl)
+  }
 }

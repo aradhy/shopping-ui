@@ -33,12 +33,16 @@ export class MenusComponent implements OnInit {
   public categoryListAll:Category[];
   public sub_categoryList:SubCategory[];
 
-
+  private subscription: Subscription;
  
   
 
   constructor(private categoryService: CategoryService,private router:Router,private sharedSerevice: SharedService,private productService: ProductService) {
-   
+    this.subscription= this.sharedSerevice.getState().subscribe(bucketView=>{
+     
+      this.bucketView=bucketView
+     
+    });
    
    }
 
