@@ -1,4 +1,4 @@
-<app-menus></app-menus>
+<app-menus (resetEmitter)=resetFilter($event)></app-menus>
 
 
 <app-filter [filterParams]='filterParams' [catId]='catId' [subId]='subId' (filterParamsEmitter)=fetchFilters($event)></app-filter> 

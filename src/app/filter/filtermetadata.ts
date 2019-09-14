@@ -11,6 +11,7 @@ export class FilterMetaData
     priceFlag:boolean=false;
     weightFlag:boolean=false;
     brandFlag:boolean=false;
+    ifProdListEmpty:boolean=false;
 
 
 }

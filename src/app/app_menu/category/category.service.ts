@@ -27,8 +27,9 @@ export class CategoryService {
   getCategories(): Observable<Category[]>
   {
 
-return  this.httpClient.get<Category[]>(this.baseUrl);
+     return  this.httpClient.get<Category[]>(this.baseUrl);
   }
+
 
   getSubCategories(categoryId): Observable<SubCategory[]>
   {
@@ -53,4 +54,6 @@ return  this.httpClient.get<SubCategory[]>(this.baseUrlSub+categoryId);
  return  this.httpClient.get<Category[]>(this.baseCategoryAll);
    }
  
+
+  
 }

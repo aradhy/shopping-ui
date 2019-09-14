@@ -35,9 +35,9 @@
                 <ul>
                        <li *ngFor='let category of categoryList'  (mouseenter)="mouse_event_sub(category.id)">
                      
-                        <a [routerLink]="['/product/cat',category.id]">{{category.name}}</a>
+                        <a  href="javascript:void(0)" (click)='resetFilter()' >{{category.name}}</a>
          <ul>
-                    <li *ngFor='let subcategory of sub_categoryList'><a [routerLink]="['/product/cat',category.id,'sub',subcategory.id]">{{subcategory.name}}</a></li>
+                    <li *ngFor='let subcategory of subCategoryList'><a  (click)='resetFilter()' [routerLink]="['/product/cat',category.id,'sub',subcategory.id]" >{{subcategory.name}}</a></li>
                    
          </ul>
    

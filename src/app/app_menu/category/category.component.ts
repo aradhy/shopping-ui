@@ -64,15 +64,9 @@ categoriesOnload()
     {
     
       this.categoryListAll = response;
-      console.log('All Category From DB')
      
-      for (var i = 0; i < this.categoryListAll.length; i++) {
-       
-        console.log("Inside sub "+this.categoryListAll[i].name)
-        console.log("Inside sub "+this.categoryListAll[i].subCategory)
-        this.categoryListAll[i].imageLink="images//"+this.categoryListAll[i].imageLink;
-   
-      }
+     
+    
      
     });
     

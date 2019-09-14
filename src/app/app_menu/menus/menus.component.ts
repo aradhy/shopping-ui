@@ -31,11 +31,16 @@ export class MenusComponent implements OnInit {
   @Input() customerName:string;
   public categoryList:Category[];
   public categoryListAll:Category[];
-  public sub_categoryList:SubCategory[];
-
+  public subCategoryList:SubCategory[];
   private subscription: Subscription;
- 
   
+  @Output() resetEmitter = new EventEmitter<boolean>();
+  
+  resetFilter()
+  {
+
+    this.resetEmitter.emit(true)
+  }
 
   constructor(private categoryService: CategoryService,private router:Router,private sharedSerevice: SharedService,private productService: ProductService) {
     this.subscription= this.sharedSerevice.getState().subscribe(bucketView=>{
@@ -50,7 +55,7 @@ export class MenusComponent implements OnInit {
    
   ngOnInit() {
     
-  
+ 
     if(localStorage.getItem("customerName")!='null' || localStorage.getItem("customerName")!="null")
     {
       this.customerName=localStorage.getItem("customerName");
@@ -60,8 +65,6 @@ export class MenusComponent implements OnInit {
       this.customerName=null;
     }
     this.showCart()
- 
-
 }
 collapse()
   {
@@ -114,7 +117,7 @@ displayCart()
       {
        
       
-        this.sub_categoryList = response;
+        this.subCategoryList = response;
         console.log('SubCategory From DB')
        
         
@@ -122,7 +125,7 @@ displayCart()
       });
       
       
-    return this.sub_categoryList;
+    return this.subCategoryList;
   }
 
 removeFromBucket(x:string)

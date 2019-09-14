@@ -1,7 +1,7 @@
-import { Component, OnInit, EventEmitter, Input } from '@angular/core';
+import { Component, OnInit, EventEmitter, Input, ViewChild, ViewChildren, QueryList, ElementRef } from '@angular/core';
 import { ProductService } from './product.service';
 import { Product } from './product';
-import { Router,ActivatedRoute } from '@angular/router';
+import { Router,ActivatedRoute, NavigationStart } from '@angular/router';
 import {Output} from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ProductSelect } from './productselectview';
@@ -14,6 +14,7 @@ import { ProductAvail } from './productavail';
 import { BucketView } from './bucketview';
 import { BucketModel } from './bucketmodel';
 import { FilterParams } from 'src/app/filter/filterparams';
+import { FilterComponent } from 'src/app/filter/filter.component';
 
 
 @Component({
@@ -40,19 +41,35 @@ export class ProductComponent implements OnInit {
  catId:string;
  subId:string;
 
+ @ViewChild(FilterComponent)
+    private filterComponent: FilterComponent;
+
  @Input() filterParams:FilterParams=new FilterParams();
 
  private subscription: Subscription;
+
+ 
+
+ resetFilter(event)
+ {
+
+   this.filterComponent.resetAll();
   
+ }
+ 
  fetchFilters(event) { 
 
  this.filterParams=event
+console.log(this.filterParams)
  this.productService.productByFilter(this.catId,this.subId,this.filterParams).subscribe(response =>
   {
    
     this.productList = response;
+    if(this.productList==[])
+    {
+      this.filterComponent.getFilterMetaData(this.catId,this.subId)
+    }
     console.log('Products based on Category From DB')
-
       this.productList.forEach(product=>{
        
         product.selectedItemCount=1;
@@ -70,7 +87,8 @@ export class ProductComponent implements OnInit {
 
 
   constructor(private productService: ProductService,private activatedRoute:ActivatedRoute,private router:Router,private cookieService:CookieService ,private sharedService:SharedService) {
-   
+ 
+ 
     this.subscription= this.sharedService.getState().subscribe(bucketView=>{
      
       this.bucketView=bucketView
@@ -85,28 +103,33 @@ export class ProductComponent implements OnInit {
     return pAv1 && pAv2 ? pAv1.id === pAv2.id : pAv1 === pAv2;
   }
   ngOnInit() {
-  
+
+ 
   
     this.showCart();
-    
+ 
   if (this.router.url.includes('sub'))
   {
- 
-   
+
     this.activatedRoute.params.subscribe(routeParams => {
       this.catId=routeParams.catId
       this.subId=routeParams.subId
-      
+    
+      this.filterComponent.getFilterMetaData(this.catId,this.subId)
+   
       this.productBasedOnSubCategory(this.subId);
      });
     
   }
   else if(this.router.url.includes('cat')) 
   {
-   
+ 
   this.activatedRoute.params.subscribe(routeParams => {
     this.catId=routeParams.catId
    this.productBasedOnCategory( this.catId);
+  
+   this.filterComponent.getFilterMetaData(this.catId,this.subId)
+   
   })
 
  
