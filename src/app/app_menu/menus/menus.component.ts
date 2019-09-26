@@ -2,13 +2,14 @@ import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { CategoryService } from '../category/category.service';
 import { Category } from '../category/category';
 import { SubCategory } from '../category/sub-category';
-import { NgForm } from '@angular/forms';
+import { NgForm, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { ProductSelect } from '../product/productselectview';
 import { CookieBucket } from './bucketcookie';
 import { ProductService } from '../product/product.service';
-import { Subscription } from 'rxjs';
+import { Subscription, of } from 'rxjs';
+import {map, startWith, debounceTime, catchError, switchMap, distinctUntilChanged, tap, finalize} from 'rxjs/operators';
 import { SharedService } from '../sharedservice.service';
 import { Product } from '../product/product';
 import { ProductAvail } from '../product/productavail';
@@ -33,6 +34,9 @@ export class MenusComponent implements OnInit {
   public categoryListAll:Category[];
   public subCategoryList:SubCategory[];
   private subscription: Subscription;
+  search: FormControl;
+  testFlag:boolean=false;
+  productList: any[];
   
   @Output() resetEmitter = new EventEmitter<boolean>();
   
@@ -64,6 +68,9 @@ export class MenusComponent implements OnInit {
     else{
       this.customerName=null;
     }
+    this.search = new FormControl();
+    
+    this.onchange();
     this.showCart()
 }
 collapse()
@@ -79,6 +86,46 @@ this.router.navigateByUrl('/checkout')
 $(".tooltiptext").slideUp("fast")
 
 }
+
+onchange()
+{
+
+   this.search.valueChanges.pipe(
+    distinctUntilChanged(),
+    debounceTime(1000),
+    switchMap(value =>value?this.productBasedSearch(value):of([]
+      ) 
+    
+    )
+    ).subscribe(productList => 
+      {
+      
+       this.productList = productList
+      this.testFlag = false
+      });
+   
+}
+
+
+productBasedSearch (name)
+{  
+  
+  if(name.length>2)
+  {
+   
+    this.testFlag=true
+   var productObserv= this.productService.productBasedOnName(name)
+ 
+   return productObserv;
+  }
+  else
+  {
+
+     return of([]);
+  }
+
+}
+
 
 displayCart()
   {

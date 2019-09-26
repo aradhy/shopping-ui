@@ -21,12 +21,25 @@
 </div>
 
 <!-- The form -->
-<div class="search">
-<form class="example" #regForm='ngForm' (ngSubmit)="searchProduct(regForm)" style="margin:auto;max-width:600px">
-  <input type="text" placeholder="Search.." name="search" autocomplete="off" ngModel>
-  <button type="submit" ><div class="fa fa-search"></div></button>
-</form>
-</div>
+
+  <form class="example"  (ngSubmit)="searchProduct()" style="margin:auto;max-width:600px">
+    <input type="text" placeholder="Search.."  [formControl]="search"  [matAutocomplete]="auto"  autocomplete="off" size="50" ngModel>
+    <button type="submit" >Submit</button>
+  </form>
+
+  
+  <mat-autocomplete #auto="matAutocomplete">
+      <mat-option *ngIf="testFlag" ><mat-spinner diameter="20"></mat-spinner></mat-option>
+      <ng-container *ngIf="!testFlag">
+      <mat-option   *ngFor="let item of productList" >
+          <div *ngIf="productList!=null">
+              <a href="javascript:void(0)">{{item.name}}-{{item.brand}}</a> 
+              {{item.productAvailList[0].weight}}-{{item.productAvailList[0].weightUnit}}-{{item.productAvailList[0].price}}
+            </div>
+        </mat-option>
+      </ng-container>
+      </mat-autocomplete>
+   
 <div id="menu">
   <ul>
 
@@ -83,7 +96,7 @@
                               <th>&nbsp;Qty:
                                   <input type="button"  style= "width:15%;text-align:center" value="-" (click)="subQty(tdx.prodAvailId,tdx.selectedItemCount)"/>    
                                 <input type="text" name="tdx.selectedItemCount"  [(ngModel)]="tdx.selectedItemCount"  style= "width:15%;text-align:center" (focusout)="updateItemCount(tdx.prodAvailId,tdx.selectedItemCount)" />    
-                                <input type="button"  style= "width:15%;text-align:center" value="+" (click)="addQty(tdx.prodAvailId,tdx.selectedItemCount)"/>  
+                                <input type="button"  style= "width:15%;text-align:center" value="+" (click)="addQty(tdx.prodAvailId ,tdx.selectedItemCount)"/>  
                               </th>  
                               
                                  
