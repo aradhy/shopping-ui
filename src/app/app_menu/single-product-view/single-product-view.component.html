@@ -1,25 +1,32 @@
 <!doctype html>
-<html>
-<head>
 
-    
-   
-</head>
 
-<body>
-
+<app-menus ></app-menus>
+<app-filter [catId]='catId' [subId]='subId'></app-filter>
 <div class="container">
 
+<div>
+        <select  name="avail" [(ngModel)]="product.selectedProductAvail" class="product">
+                <option *ngFor='let prodAvail of product.productAvailList' [ngValue]="prodAvail" >{{prodAvail.weight+'-'+prodAvail.weightUnit+' Rs '+prodAvail.price}}</option>
+              
+                    </select>
+        <input type="button" class="btn1" value="-" />    
+        <input type="text" class="text" name="product.selectedItemCount"  [(ngModel)]="product.selectedItemCount"  autocomplete="off"/>    
+        <input type="button" class="btn2" value="+" />  
+        <button type="submit" class="btn-success"  (click)="addToCart(product.code,product.selectedProductAvail,product.selectedItemCount)"> Add  to Cart</button>
+        <button type="submit" class="btn-success fa fa-trash" (click)="removeFromCart(product.selectedProductAvail,product.selectedItemCount)">Remove From Cart</button>
+    </div> 
+       
 <div class="exzoom hidden" id="exzoom">
     <div class="exzoom_img_box">
         <ul class='exzoom_img_ul'>
-            <li><a href="images/10000200_17-fresho-tomato-hybrid.jpg">
+       <li><a href="images/10000200_17-fresho-tomato-hybrid.jpg">
 <img  src="images/10000200_17-fresho-tomato-hybrid.jpg" >
 </a></li>
 			
 			
 			
-            <li><a href="images/apple.jpg">
+<li><a href="images/apple.jpg">
 <img  src="images/apple.jpg" >
 
 </a></li>
@@ -32,12 +39,17 @@
     </div>
     <div class="exzoom_nav">
     <p class="exzoom_btn">
-        <a href="javascript:void(0);" class="exzoom_prev_btn"> < </a>
-        <a href="javascript:void(0);" class="exzoom_next_btn"> > </a>
+        <a href="javascript:void(0);" > < </a>
+        <a href="javascript:void(0);" > > </a>
     </p>
 	</div>
 </div>
+
+
 </div>
+
+
+
 
 <script type="text/javascript">
 
@@ -50,5 +62,4 @@
 
 </script>
 
-</body>
-</html>
+

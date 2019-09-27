@@ -8,6 +8,7 @@ import { MenusComponent } from './app_menu/menus/menus.component';
 import { UserComponent } from './app_menu/user/user.component';
 import { CheckOutViewComponent } from './app_menu/check-out-view/check-out-view.component';
 import { AddressComponent } from './app_menu/address/address.component';
+import { AppComponent } from './app.component';
 
 
 
@@ -15,14 +16,15 @@ export const routes: Routes = [
   { path: 'product/cat/:catId', component: ProductComponent },
   {path:"product/cat/:catId/sub/:subId",component: ProductComponent},
   {path:"product-name",component: ProductComponent},
-  {path:'single-product-view/:code', component: SingleProductViewComponent},
+  {path:'single-product-view/cat/:catId/sub/:subId/pc/:code/avail/:prodAvailId', component: SingleProductViewComponent},
   {path:'category-view', component: CategoryComponent},
   { path: 'user/:id', component: UserComponent },
   { path: 'checkout', component: CheckOutViewComponent },
   { path: 'menu', component: MenusComponent },
   {path:'address',component:AddressComponent},
   {path:'',component:AppComponent_Menu},
-  {path:'appChild',component:AppComponent_Menu}
+  {path:'appChild',component:AppComponent_Menu},
+  {path:'app/:catId',component:AppComponent}
   
   
 

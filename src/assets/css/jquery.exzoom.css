@@ -48,9 +48,11 @@
           max-height: 100%;
           position: relative; }
   .exzoom .exzoom_btn {
+    cursor:pointer;
     position: relative;
     margin: 0; }
     .exzoom .exzoom_btn a {
+      cursor:pointer;
       display: block;
       width: 15px;
       border: 1px solid #ddd;
@@ -71,18 +73,16 @@
       left: auto;
       right: 0; }
   .exzoom .exzoom_zoom {
-	  
-    position: absolute;
+	  position: absolute;
     left: 0;
     top: 0;
     display: none;
     z-index: 5;
-    cursor: pointer; }
+   }
   @media screen and (max-width: 768px) {
     .exzoom .exzoom_zoom_outer {
       display: none; } }
   .exzoom .exzoom_img_ul_outer {
-    border: 1px solid #ddd;
     position: absolute;
     overflow: hidden; }
     .exzoom .exzoom_img_ul_outer .exzoom_img_ul {

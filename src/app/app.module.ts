@@ -21,6 +21,8 @@ import { CommonModule } from '@angular/common';
 import { SharedService } from './app_menu/sharedservice.service';
 import { TokenInterceptor } from './app_menu/token-interceptor';
 import { FilterComponent } from './filter/filter.component';
+import {MatAutocompleteModule} from '@angular/material/autocomplete'
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 
 
@@ -35,7 +37,8 @@ import { FilterComponent } from './filter/filter.component';
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
-    FormsModule,NgbModule,CommonModule, BrowserAnimationsModule,MatGridListModule,NgxImageZoomModule,SocialLoginModule
+    FormsModule,NgbModule,CommonModule, BrowserAnimationsModule,MatGridListModule,NgxImageZoomModule,SocialLoginModule,
+    MatAutocompleteModule,MatProgressSpinnerModule
   ],
   providers: [SharedService,{
     provide: AuthServiceConfig,

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { CookieBucket } from './app_menu/menus/bucketcookie';
 import { CustomerOrder } from './app_menu/customerorder';
 import { Product } from './app_menu/product/product';
@@ -16,13 +16,13 @@ export class AppComponent  {
   productFullInfoBucketMap:Map<string,Product>;
   order:CustomerOrder; 
 
-  constructor(private router:Router)
+  constructor(private router:Router,private activatedRoute:ActivatedRoute)
   {
 
   }
   ngOnInit() {
-    
-  this.router.navigateByUrl('/appChild');
+  
+         this.router.navigateByUrl('/appChild');
     
   }
 

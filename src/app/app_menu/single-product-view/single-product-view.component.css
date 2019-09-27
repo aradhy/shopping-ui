@@ -1,11 +1,45 @@
 @import '../../../assets/css/jquery.exzoom.css' ;
 
+.btn1{
+margin-left:40em; 
+margin-top: 0em;
+text-align:center;
+width:5%;
+position:relative;
+float:left;
+border-radius:3px;
+}
+
+.text{
+  margin-top: 0em;
+  margin-left:2px;
+  text-align:center;
+  width:15%;
+  position: relative;
+  float:left;
+  border-radius:5px;
+  border-color: aquamarine;
+
+}
+
+.btn2{
+  margin-top: 0em;
+  margin-left:2px;
+  text-align:center;
+  width:5%;
+  position: relative;
+  float:left;
+  border-radius:3px;
+  
+}
+
+
 body { min-height: 100vh; }
 #exzoom {
     width: 500px;
-    /*height: 400px;*/
+   
 }
-.container { margin: 150px auto; max-width: 960px; }
+.container { margin-left: 20em ; max-width: 960px; }
 .hidden { display: none; }
 
 
@@ -41,17 +75,19 @@ body { min-height: 100vh; }
     margin-top: 10px;
     overflow: hidden;
     position: relative;
-    left: 15px; }
+    left: 150px; }
     .exzoom .exzoom_nav .exzoom_nav_inner {
       position: absolute;
-      left: 0;
+      left: 150px;
       top: 0;
       margin: 0; }
       .exzoom .exzoom_nav .exzoom_nav_inner span {
         border: 1px solid #ddd;
         overflow: hidden;
         position: relative;
-        float: left; }
+        float: left; 
+        left: 150px; 
+      }
         .exzoom .exzoom_nav .exzoom_nav_inner span.current {
           border: 1px solid #f60; }
         .exzoom .exzoom_nav .exzoom_nav_inner span img {
@@ -71,7 +107,7 @@ body { min-height: 100vh; }
       text-align: center;
       font-size: 18px;
       position: absolute;
-      left: 0;
+      left: 150px;
       top: -62px;
       text-decoration: none;
       color: #999; }
@@ -105,6 +141,6 @@ body { min-height: 100vh; }
         list-style: none;
         display: inline-block;
         text-align: center;
-        float: left; }
+      }
         .exzoom .exzoom_img_ul_outer .exzoom_img_ul li img {
           width: 100%; }

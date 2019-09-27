@@ -9,7 +9,7 @@
     
           
   <div class="gallery" *ngFor="let prod of productList"  > 
-   <a  [routerLink]="['/single-product-view/1']" >
+      <a  [routerLink]="['/single-product-view/cat/',catId,'sub',subId,'pc',prod.code,'avail',prod.selectedProductAvail.id]" >
    <img src="images\1200370.jpg" alt="{{prod.name}}" width="200" height="200">
   </a>
    <div>
@@ -27,10 +27,10 @@
                0 Item
               </div>
             </ng-template>
-        
+
             <select  name="avail" [(ngModel)]="prod.selectedProductAvail" class="product">
-              <option *ngFor='let prodAvail of prod.productAvailList' [ngValue]="prodAvail">{{prodAvail.weight+'-'+prodAvail.weightUnit+' Rs '+prodAvail.price}}</option>
-             
+              <option *ngFor='let prodAvail of prod.productAvailList' [ngValue]="prodAvail" >{{prodAvail.weight+'-'+prodAvail.weightUnit+' Rs '+prodAvail.price}}</option>
+            
                   </select>
             <br><br>
             <span class="Quantity">Qty</span>

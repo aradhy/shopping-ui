@@ -87,4 +87,8 @@ export class ProductService {
 
     return this.httpClient.get<Product[]>(productFilterDataUrl)
   }
+
+
+
+  
 }

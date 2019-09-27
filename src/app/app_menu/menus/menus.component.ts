@@ -59,7 +59,7 @@ export class MenusComponent implements OnInit {
    
   ngOnInit() {
     
- 
+
     if(localStorage.getItem("customerName")!='null' || localStorage.getItem("customerName")!="null")
     {
       this.customerName=localStorage.getItem("customerName");
@@ -72,6 +72,7 @@ export class MenusComponent implements OnInit {
     
     this.onchange();
     this.showCart()
+  
 }
 collapse()
   {
