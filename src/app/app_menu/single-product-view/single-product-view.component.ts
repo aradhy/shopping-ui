@@ -8,6 +8,7 @@ import { ProductSelect } from '../product/productselectview';
 import { SharedService } from '../sharedservice.service';
 import { BucketView } from '../product/bucketview';
 import { BucketModel } from '../product/bucketmodel';
+import { ProductAvail } from '../product/productavail';
 
 declare var customSingleImageView:any;
 
@@ -33,11 +34,11 @@ export class SingleProductViewComponent implements OnInit {
         customSingleImageView();
       this.productService.productBasedOnCode(this.code).subscribe(prod=>
         {
-           
         this.product=prod
         this.product.selectedItemCount=1;
         this.product.itemCountList=[1,2,3,4];
-        for(let prodAvail of this.product.productAvailList)
+        this.product.selectedProductAvail=this.product.productAvailList[0]
+        for(let prodAvail of  this.product.productAvailList)
         {
             if(this.prodAvailId==prodAvail.id)
             {
@@ -45,10 +46,15 @@ export class SingleProductViewComponent implements OnInit {
                 break;
             }
         }
-
+       
         }
 
       )
+    }
+
+    selectProdAvail(prodAvail)
+    {
+alert(prodAvail.id)
     }
 
      constructor(private activatedRoute:ActivatedRoute,private productService:ProductService, private sharedService:SharedService)
@@ -266,4 +272,7 @@ ObjectToJsonString(bucketItem:CookieBucket):string
 
 }
 
+compareFn(pAv1: ProductAvail, pAv2: ProductAvail): boolean {
+  return pAv1 && pAv2 ? pAv1.id === pAv2.id : pAv1 === pAv2;
+}
 }
