@@ -29,9 +29,30 @@ export class SingleProductViewComponent implements OnInit {
     prodAvailId:string;
     public product:Product;
     bucketView:BucketView;
+
+    constructor(private activatedRoute:ActivatedRoute,private productService:ProductService, private sharedService:SharedService)
+    {
+       this.activatedRoute.params.subscribe(routeParams => {
+           this.catId=routeParams.catId
+           this.subId=routeParams.subId
+           this.code=routeParams.code
+           this.prodAvailId=routeParams.prodAvailId
+         
+         
+
+    });
+
+   }
+
     ngOnInit(): void {
         $("#filter").hide();
+       
         customSingleImageView();
+
+   
+      
+
+
       this.productService.productBasedOnCode(this.code).subscribe(prod=>
         {
         this.product=prod
@@ -51,33 +72,53 @@ export class SingleProductViewComponent implements OnInit {
 
       )
     }
-
+    ngAfterViewInit()
+    {
+      let id =this.prodAvailId;
+     
+      let idCss='#'+id
+    
+      $("#1").css("border-color", "red");
+     $(idCss).css("background-color", "greenyellow");
+    
+    }
     selectProdAvail(prodAvail)
     {
-alert(prodAvail.id)
-    }
+       this.product.selectedProductAvail=prodAvail
+       let id =prodAvail.id;
+       let idCss='#'+id
+       $(".prodAvailSpan").css("border-color", "grey");
+       $(idCss).css("border-color", "red");
+       $(".prodAvailSpan").css("background-color", "white");
+       $(idCss).css("background-color", "greenyellow");
 
-     constructor(private activatedRoute:ActivatedRoute,private productService:ProductService, private sharedService:SharedService)
-     {
-        this.activatedRoute.params.subscribe(routeParams => {
-            this.catId=routeParams.catId
-            this.subId=routeParams.subId
-            this.code=routeParams.code
-            this.prodAvailId=routeParams.prodAvailId
-          
-          
+       
 
-     });
 
     }
 
+   
+    addQty()
+    {
+      this.product.selectedItemCount=this.product.selectedItemCount+1
+    }
 
 
+    subQty()
+    {
+      if( this.product.selectedItemCount>0)
+      {
+        this.product.selectedItemCount= this.product.selectedItemCount-1
+      }
 
-addToCart(productId:any,selectedProductAvail:any,itemCount:any)
+    }
+    
+
+
+    addToCart(itemCount:any)
   {
 
-  if(itemCount==null &&  selectedProductAvail==null)
+  if(itemCount==null &&  this.product.selectedProductAvail==null)
   {
     return ;
   }
@@ -94,9 +135,9 @@ addToCart(productId:any,selectedProductAvail:any,itemCount:any)
    {
 
      var cookieBucket=new CookieBucket();
-     var  productSelectItemNew=new ProductSelect(productId,selectedProductAvail.id,itemCount);
-     cookieBucket.getProductSelectMapView().set(selectedProductAvail.id,productSelectItemNew);
-     this.getTheFullViewMap(productId,selectedProductAvail,itemCount,cookieBucket);
+     var  productSelectItemNew=new ProductSelect(this.product.code,this.product.selectedProductAvail.id,itemCount);
+     cookieBucket.getProductSelectMapView().set(this.product.selectedProductAvail.id,productSelectItemNew);
+     this.getTheFullViewMap(this.product.code,this.product.selectedProductAvail,itemCount,cookieBucket);
     
    
       
@@ -107,22 +148,22 @@ addToCart(productId:any,selectedProductAvail:any,itemCount:any)
      var cookieBucket= this.fetchbucketfrombucketstring(bucketItemString);
      var productSelectViewMap= this.fetchmapfrombucketstring(cookieBucket);
      
-    if(productSelectViewMap.has(selectedProductAvail.id))
+    if(productSelectViewMap.has(this.product.selectedProductAvail.id))
     {
 
-      productSelectViewMap.get(selectedProductAvail.id).itemCount=(productSelectViewMap.get(selectedProductAvail.id).itemCount)+parseInt(itemCount)
+      productSelectViewMap.get(this.product.selectedProductAvail.id).itemCount=(productSelectViewMap.get(this.product.selectedProductAvail.id).itemCount)+parseInt(itemCount)
       cookieBucket.productSelectViewMap=productSelectViewMap;
-      this.getTheFullViewMap(productId,selectedProductAvail,itemCount,cookieBucket);
+      this.getTheFullViewMap(this.product.code,this.product.selectedProductAvail,itemCount,cookieBucket);
       localStorage.setItem("CookieBucket",this.ObjectToJsonString(cookieBucket));
    
     }
     else
     {
      
-      var productSelect=new ProductSelect(productId,selectedProductAvail.id,itemCount);
-      productSelectViewMap.set(selectedProductAvail.id,productSelect)
+      var productSelect=new ProductSelect(this.product.code,this.product.selectedProductAvail.id,itemCount);
+      productSelectViewMap.set(this.product.selectedProductAvail.id,productSelect)
       cookieBucket.productSelectViewMap=productSelectViewMap;
-      this.getTheFullViewMap(productId,selectedProductAvail,itemCount,cookieBucket);
+      this.getTheFullViewMap(this.product.code,this.product.selectedProductAvail,itemCount,cookieBucket);
       
      
     }
@@ -139,49 +180,6 @@ addToCart(productId:any,selectedProductAvail:any,itemCount:any)
  
 
 
-  removeFromCart(selectProdAvail:any,itemCount:any)
-  {
- 
- 
-if(!(localStorage.getItem("CookieBucket")==null))
- {
-
-     var bucketItemString= localStorage.getItem("CookieBucket");
-     var cookieBucket:CookieBucket=this.fetchbucketfrombucketstring(bucketItemString);
-     var productSelectViewMap= this.fetchmapfrombucketstring(cookieBucket);
-  if(productSelectViewMap.has(selectProdAvail.id) && productSelectViewMap.get(selectProdAvail.id).itemCount>0 && cookieBucket.totalItems>=itemCount)
-  {
-    this.bucketView.productFullInfoBucketMap.get(selectProdAvail.id).selectedItemCount=this.bucketView.productFullInfoBucketMap.get(selectProdAvail.id).selectedItemCount-parseInt(itemCount);
-    this.bucketView.totalPrice=this.bucketView.totalPrice-(parseInt(itemCount)*this.bucketView.productFullInfoBucketMap.get(selectProdAvail.id).price)
-    productSelectViewMap.get(selectProdAvail.id).itemCount=productSelectViewMap.get(selectProdAvail.id).itemCount-parseInt(itemCount)
-  
-    cookieBucket.totalItems= cookieBucket.totalItems-parseInt(itemCount)
-    this.bucketView.totalItemCount= this.bucketView.totalItemCount-parseInt(itemCount)
-  
-   if(productSelectViewMap.get(selectProdAvail.id).itemCount==0 && this.bucketView.productFullInfoBucketMap.get(selectProdAvail.id).selectedItemCount==0)
-   {
-    this.bucketView.productFullInfoBucketMap.delete(selectProdAvail.id)
-    productSelectViewMap.delete(selectProdAvail.id)
-    
-   }
-   cookieBucket.productSelectViewMap=productSelectViewMap;
-   cookieBucket.totalPrice=this.bucketView.totalPrice;
-    localStorage.setItem("CookieBucket",this.ObjectToJsonString(cookieBucket));
-    
-     this.sharedService.setSet(this.bucketView);
-  }
-
-
-
-  }
-
-
-
- }
-
-
-
- 
 
 
 getTheFullViewMap(productId:any,selectedProdAvail:any,itemCount:any, cookieBucket:CookieBucket)

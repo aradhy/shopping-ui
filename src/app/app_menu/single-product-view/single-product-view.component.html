@@ -1,19 +1,17 @@
 <!doctype html>
-
+<app-filter [catId]='catId' [subId]='subId'></app-filter>
     <app-menus ></app-menus>
-    <div class="content"> Sonam Pagal hai
-            Mahapagal hai</div>
+    <div class="content"> {{product.name}} {{product.brand}}</div>
    
     <div class="add">
        
-            <input type="button" class="btn1" value="-" />  
+            <input type="button" class="minus" value="-" (click)="subQty()"/>  
             <input type="text" class="text" name="product.selectedItemCount"  [(ngModel)]="product.selectedItemCount"  autocomplete="off"/>    
-            <input type="button" class="btn2" value="+" />   
-            <input type="button" class="btn3" value="Add To Bucket" />   
-            </div>  
+            <input type="button" class="plus" value="+" (click)="addQty()"/>   
+            <input type="button" class="addBucket" value="Add To Bucket" (click)="addToCart(product.selectedItemCount)"/>   
+     </div>  
     <div class="prodAv">
-        <span *ngFor="let prodAvail of product.productAvailList" class="prodAvailSpan" >{{prodAvail.weight+'-'+prodAvail.weightUnit+' Rs '+prodAvail.price}}</span>
-        <span *ngFor="let prodAvail of product.productAvailList" class="prodAvailSpan" >{{prodAvail.weight+'-'+prodAvail.weightUnit+' Rs '+prodAvail.price}}</span>    
+        <span [id]="prodAvail.id"  *ngFor="let prodAvail of product.productAvailList" class="prodAvailSpan"  (click)="selectProdAvail(prodAvail)">{{prodAvail.weight+'-'+prodAvail.weightUnit+'&nbsp; &nbsp; Rs '+prodAvail.price}}</span>
     </div>  
         
 

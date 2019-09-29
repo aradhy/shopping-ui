@@ -24,7 +24,7 @@
 
   <form class="example"  (ngSubmit)="searchProduct()" style="margin:auto;max-width:600px">
     <input type="text" placeholder="Search.."  [formControl]="search"  [matAutocomplete]="auto"  autocomplete="off" size="50" ngModel>
-    <button type="submit" >Submit</button>
+    <button type="submit" >Search</button>
   </form>
 
   
@@ -94,9 +94,9 @@
                               </th>
                               
                               <th>&nbsp;Qty:
-                                  <input type="button"  style= "width:15%;text-align:center" value="-" (click)="subQty(tdx.prodAvailId,tdx.selectedItemCount)"/>    
+                                  <input type="button"  style= "width:15%;text-align:center" value="-" (click)="subQty(tdx.prodAvailId,1)"/>    
                                 <input type="text" name="tdx.selectedItemCount"  [(ngModel)]="tdx.selectedItemCount"  style= "width:15%;text-align:center" (focusout)="updateItemCount(tdx.prodAvailId,tdx.selectedItemCount)" />    
-                                <input type="button"  style= "width:15%;text-align:center" value="+" (click)="addQty(tdx.prodAvailId ,tdx.selectedItemCount)"/>  
+                                <input type="button"  style= "width:15%;text-align:center" value="+" (click)="addQty(tdx.prodAvailId ,1)"/>  
                               </th>  
                               
                                  
