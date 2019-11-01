@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Product } from './product';
 import { Observable, Subject } from 'rxjs';
 import { ProductSelect } from './productselectview';
@@ -18,7 +18,7 @@ export class ProductService {
   baseUrlProductName:string="http://localhost:8090/product-name";
   baseUrlBucketProductInfoUrl="http://localhost:8090/bucketproducts";
   addProductForBucketUrl="http://localhost:8090/product/"
-  baseUrlProductFilter="http://localhost:8090/productFilter/cat/";
+  baseUrlProductFilter="http://localhost:8090/productFilter";
   httpClient:HttpClient;
   
   private selectionFormatState = new Subject<any>();
@@ -55,9 +55,10 @@ export class ProductService {
   }
 
   
-  public productBasedOnName(name: string): Observable<Product[]> {
+  public productBasedOnName(params): Observable<Product[]> {
    
-    return this.httpClient.get<Product[]>(this.baseUrlProductName+"?productName="+name);
+    return this.httpClient.get<Product[]>(this.baseUrlProductName, {
+      params:params});
   }
 
 
@@ -78,14 +79,14 @@ export class ProductService {
     return this.httpClient.post<string>("http://localhost:8080/orderStatus",order);
     }
     
-  productByFilter(catId:string,subId:string,filterParams:FilterParams): Observable<Product[]>
+  productByFilter(params): Observable<Product[]>
   {
-    let brandPayLoad=filterParams.brandFilters.join(",")
-    let pricePayLoad=filterParams.priceFilters.join(",")
-    let weightPayLoad=filterParams.weightFilters.join(",")
-    let productFilterDataUrl=  this.baseUrlProductFilter+catId+"?subId="+subId+'&priceFilters='+pricePayLoad+'&weightFilters='+weightPayLoad+'&brandFilters='+brandPayLoad
+   
+  
+    let productFilterDataUrl=  this.baseUrlProductFilter
 
-    return this.httpClient.get<Product[]>(productFilterDataUrl)
+    return this.httpClient.get<Product[]>(productFilterDataUrl, {
+      params:params})
   }
 
 

@@ -1,0 +1,102 @@
+<div class="DeliAdd">
+  <div class="h1" >Delivery Address</div>
+ 
+
+<input  class="collapsible" type="button"   value="{{addressOp}}" id='adripd' (click)="addNewAddress()">
+
+<div class="content" id="addressContentId">
+  
+  <div *ngFor="let address of addressList" id="addressListId">
+  
+    <textarea id="text1Id" style="overflow:hidden" rows="5" cols="30" disabled >
+      {{address.name}}
+      {{address.email}}
+      {{address.houseNo}}{{address.addressDetails}}
+      {{address.city}} {{address.country}}
+      {{address.landmark}}
+      
+    </textarea>
+    </div>
+    
+
+<div class="address form" id='formId'>
+<div class="row" id="row">
+  <div class="col-75" id="col-75">	 
+    <div>
+      <form  [formGroup]="addressForm" (ngSubmit)="onSubmitAddress(addressForm)">    
+        <div class="row">
+          <div class="col-50">
+            <h3>Billing Address</h3>
+ 
+   <label for="name"> Full Name</label>
+   <input type="text" id="name" formControlName="name" placeholder="">
+   
+    <label for="email"> Email</label>
+    <input type="text" id="email" formControlName="email" placeholder="">
+ 
+    <label for="houseNo">HouseNo</label>
+    <input type="text" id="houseNo" formControlName="houseNo" placeholder="">
+  
+    <label for="adr"> Address Details</label>
+    <input type="text" id="address" formControlName="address" placeholder="">
+  
+    <label for="city"> City</label>
+    <input type="text" id="city" formControlName="city" placeholder="">
+  
+    <label for="state">State</label>
+   <input type="text" id="state" formControlName="state" placeholder="">
+ 
+   <label for="adr"> Land Mark</label>
+   <input type="text" id="landMark" formControlName="landMark" placeholder="">
+ 
+    <input type="checkbox" checked="checked" name="sameadr"> Shipping address same as billing
+       <br>
+    <input type="button" value="cancel" class="btn"  (click)="cancel()">
+    <button  type="button"  type="submit"  class="add">Add Address</button>
+  
+        </div>
+        </div>
+      </form>
+    </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>  </p>
+
+<div class="Delivery-Options">
+<label class="do" >Delivery Options</label>
+<button type="button" class="collapsible1" (click)="toggleWithDelivery()">Select Delivery Time</button>
+<div class="content-delivery-option" id="delivercontent">
+<ul>
+<li><input id="r0" name="r" type="radio"><label for="r0"></label>Today 6pm to 10pm</li>
+ <li><input id="r1" name="r" type="radio"><label for="r1"></label>Tommorow 7 to 10pm</li>
+ <li><input id="r2" name="r" type="radio"><label for="r2"></label>Tommorow 3pm to 6pm</li>
+ <li><input id="r3" name="r" type="radio"><label for="r3"></label>Tommorow 2pm-5pm</li>
+ <li><input id="r4" name="r" type="radio"><label for="r4"></label>Tommorow 11am-1pm</li>
+
+
+<input class="submit1" type="submit" value="PROCEED TO PAYMENT" (click)="proceedToPayment()">
+</ul>
+</div>
+</div>
+
+<p> </p>
+<div class="Payment-Options">
+ 
+<label class="po" >Payment Options</label>
+
+<div class="content-payment-option" id="paycontent" >
+
+<ul>
+ <li><input id="r5" name="r" type="radio"><label for="r5"></label>Credit</li>
+ <li><input id="r6" name="r" type="radio"><label for="r6"></label>Debit</li>
+ <li><input id="r7" name="r" type="radio"><label for="r7"></label>Wallet</li>
+ <li><input id="r8" name="r" type="radio"><label for="r8"></label>Net banking</li>
+ <li><input id="r9" name="r" type="radio"><label for="r9"></label>COD(credit/debit/cash)</li>
+ 
+<input class="submit" type="submit" value="Place Order & Pay" onclick="hideContent('paycontent')">
+</ul>
+</div>
+ </div>

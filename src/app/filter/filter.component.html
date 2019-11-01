@@ -3,19 +3,19 @@
         <h1>Category</h1>
       
         <hr class="new0">
-        <div>
-            {{category.name}}
-           </div>
+        <div  *ngFor='let category of category'>
+         {{category?.name}}
+          
             <br>
-        <div  *ngFor='let subcategory of category.subCategory' >
+        <div  *ngFor='let subcategory of category?.subCategory' >
         
          
-         <a   [routerLink]="['/product/cat',category.id,'sub',subcategory.id]" (click)=" handleSubCategoryUrl(category.id,subcategory.id)">
-          {{subcategory.name}}
+         <a   [routerLink]="['/product/cat',category?.id,'sub',subcategory?.id]" (click)=" handleSubCategoryUrl(category.id,subcategory.id)">
+        {{subcategory?.name}}
           </a>
         
          </div>
-       
+        </div>
   </div>
  
 </div>

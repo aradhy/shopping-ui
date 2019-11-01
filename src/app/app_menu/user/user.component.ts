@@ -57,11 +57,12 @@ export class UserComponent implements OnInit {
   }
   close()
   {
-    document.getElementById('id01').style.display='none';
+    document.getElementById('bod').style.display='none';
     this.router.navigateByUrl('/appChild');
   }
 
 
+  
   onSignUp(signUpForm:any)
   {    
     
@@ -150,6 +151,7 @@ export class UserComponent implements OnInit {
 
     
     public socialLogin(socialPlatform : string) {
+      this.close();
       let socialPlatformProvider;
       if(socialPlatform == "facebook"){
         socialPlatformProvider = FacebookLoginProvider.PROVIDER_ID;

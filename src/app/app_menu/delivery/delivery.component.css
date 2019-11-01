@@ -1,0 +1,263 @@
+.collapsible {
+  
+  cursor: pointer;
+  padding:5px;
+  width: 25%;
+  border: none;
+  text-align: center;
+  outline: none;
+  font-size: 15px;
+  margin-bottom:1em;
+  margin-left:32em;
+ position:relative;
+ background-color: white;
+ border: 1px solid black;
+}
+
+.collapsible1 {
+  cursor: pointer;
+  padding:5px;
+  width: 25%;
+  border: none;
+  text-align: center;
+  outline: none;
+  font-size: 15px;
+  margin-bottom:1em;
+  margin-left:32em;
+ position:relative;
+ background-color: white;
+ border: 1px solid black;
+}
+
+.collapsible2 {
+
+  cursor: pointer;
+  padding:5px;
+  width: 25%;
+  border: 1px solid black;
+  text-align: center;
+  outline: none;
+  font-size: 15px;
+  margin-bottom:1em;
+  margin-left:32em;
+ position:relative;
+ background-color: white;
+}
+
+.content {
+  margin-top: 20px;
+  padding: 0 18px;
+  display: none;
+  overflow: hidden;
+  background-color: white;
+  width:80%;
+  margin-left:1em;
+}
+
+
+.content-delivery-option{
+  padding: 0 18px;
+  display: none;
+  overflow: hidden;
+  background-color: white;
+  margin-left:1em; 
+}
+
+.content-payment-option{
+  padding: 0 20px;
+  display: none;
+  overflow: hidden;
+  background-color: white;
+  margin-left:1em; 
+}
+
+body {
+   
+    font: 1em/1.5em verdana, arial, helvetica, sans-serif;
+ }
+ul {
+   padding: 0;
+   margin: 0;
+   list-style: none;
+ }
+
+ul input[type="radio"] {
+    position: absolute;
+    left: -9999em;
+ }
+ul li {
+    margin-bottom: 0.3em;
+ }
+ul label {
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+ }
+ul label:after{
+    display: inline-block;;
+    width: 1.25em;
+    height: 1.25em;
+    border: 2px solid blue;
+    border-radius: 50%;
+    margin-left: 0.5em;
+    font-size: 1em;
+    text-align: center;
+    line-height: 1.1em;
+    background: #fff;
+    content: '';
+    font-size: 1em;
+    color: #f00;
+    text-align: center;
+    text-shadow: 0 0 0.06em #600,
+                 0 0 0.08em #600,
+                 0 0 0.1em #600;
+				 
+    line-height: 1.1em;
+    vertical-align: middle;
+	
+ }
+:checked~label:after {
+    content: '\2022';
+   
+ }
+ 
+
+
+.DeliAdd{
+width:50%;
+border:1px solid black;
+margin-top:5em;
+margin-left:10em;
+}
+.h1{
+font-size:20px;
+position:relative;
+top:1em;
+margin-left:1em;
+}
+
+.Payment-Options{
+width:50%;
+
+border:1px solid black;
+margin-left:10em;
+}
+.po{
+font-size:20px;
+position:relative;
+margin-top:0.5em;
+margin-left:1em;
+}
+
+.Delivery-Options{
+width:50%;
+border:1px solid black;
+margin-left:10em;
+}
+.do{
+font-size:20px;
+position:relative;
+top:1em;
+margin-left:1em;
+}
+
+.row {
+  display: -ms-flexbox; /* IE10 */
+  display: flex;
+  -ms-flex-wrap: wrap; /* IE10 */
+  flex-wrap: wrap;
+  margin: 0 -16px;
+}
+
+.col-25 {-ms-flex: 25%; /* IE10 */flex: 25%;}
+
+.col-50 {-ms-flex: 50%; /* IE10 */  flex: 50%;}
+
+.col-75 {-ms-flex: 75%; /* IE10 */flex: 75%;}
+
+.col-25,
+.col-50,
+.col-75 {
+  padding: 0 16px;
+}
+
+.address form {
+  width:100%;
+  height:40%;
+  margin-left:0em;
+  background-color: #f2f2f2;
+  padding: 5px 20px ;
+  border: 1px solid lightgrey;
+  border-radius: 3px;
+  position:relative;
+  margin-top: 20px;
+ 
+}
+
+input[type=text] {
+  width: 100%;
+  margin-bottom: 8px;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+   
+}
+
+.btn {
+  background-color: #4CAF50;
+  color: white;
+  padding: 12px;
+  margin: 8px 0;
+  border: none;
+  width: 40%;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 17px;
+}
+
+.btn:hover {
+  background-color: #45a049;
+}
+
+a {color: #2196F3;}
+
+hr {border: 1px solid lightgrey;}
+
+span.price { float: right}
+
+.add {
+ width:35%;
+ padding: 12px;
+ border-radius: 3px;
+ border: none;
+ cursor: pointer;
+ background-color: blue;
+ color: white;
+ margin: 10px ;
+ font-size: 16px;
+}
+
+.submit1{
+ width:50%;
+ padding:10px 14px;
+ border-radius: 3px;
+ cursor: pointer;
+ background-color: blue;
+ color: white;
+ margin-left:15em;
+ font-size:18px;
+ border:none;
+ margin-bottom:13px;
+}
+
+.submit{
+ width:30%;
+ padding:10px 14px;
+ border-radius: 3px;
+ cursor: pointer;
+ margin-left:25em;
+ background-color:pink;
+ border:none;
+ margin-bottom:10px;
+
+}

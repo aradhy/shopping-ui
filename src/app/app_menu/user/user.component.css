@@ -7,8 +7,8 @@ body {font-family: Arial, Helvetica, sans-serif;}
   padding:12px 18px;
   margin-top: 25px;
   margin-left:20em;
-  border:1px solid black;
-  height:75%;
+  border:1px solid gray;
+  height:85%;
   font-size: 18px;
   
 }
@@ -111,13 +111,7 @@ span.psw {
   padding-top: 60px;
 }
 
-/* Modal Content/Box */
-.modal-content {
-  position:relative;
-  background-color: #fefefe;
-  margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
-  width: 40%; /* Could be more or less, depending on screen size */
-}
+
 
 /* The Close Button (x) */
 .close {

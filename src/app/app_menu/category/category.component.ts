@@ -4,6 +4,7 @@ import { Category } from './category';
 import { SubCategory } from './sub-category';
 import { NgbCarouselConfig, NgbCarousel } from '@ng-bootstrap/ng-bootstrap';
 import {Slider} from './slider';
+import { ActivatedRoute, Router } from '@angular/router';
 
 
 declare var custom:any;
@@ -31,7 +32,7 @@ export class CategoryComponent implements OnInit,AfterViewInit {
   
   ];
   
-  constructor(private categoryService: CategoryService,config: NgbCarouselConfig, myCarousel:NgbCarousel) {
+  constructor(private categoryService: CategoryService,config: NgbCarouselConfig, myCarousel:NgbCarousel, private router:Router) {
     config.interval = 9000;
     config.wrap = true;
     config.keyboard = false;
@@ -48,14 +49,17 @@ export class CategoryComponent implements OnInit,AfterViewInit {
 
    
   ngOnInit() {
+
     this.categoryListAll=this.categoriesOnload();
     custom(0,1);
     
-
   }
 
   
- 
+ fetchCategorySubCategory(searchItem)
+ {
+    this.router.navigate(['/category-search'],{ queryParams: { search: searchItem } });
+ }
 
 
 categoriesOnload()

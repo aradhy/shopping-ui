@@ -13,34 +13,52 @@ export class FilterComponent implements OnInit {
  
  
   @Output() filterParamsEmitter: EventEmitter<FilterParams> = new EventEmitter<FilterParams>();
-  category:Category;
+  category:Category[];
   @Input() filterParams:FilterParams=new FilterParams();
   @Input()  catId:string;
   @Input() subId:string;
   filterMetaData:FilterMetaData=new FilterMetaData();
- 
+ search:string;
   
   constructor(private filterService:FilterService) { }
 
   ngOnInit() {
 
-    this.filterService.getCategoriesFilters(this.catId,this.subId).subscribe(response =>
-      {
-      
-        this.category = response;
-    
-      });
+  if(this.catId!=null && this.subId!=null)
+  {
+    let 
+    params={
+      'catId': this.catId,
+      'subId': this.subId
+    }
+    this.searchFilterUrl(params);
     this.getFilterMetaData(this.catId,this.subId)
-
+   }
+  
+ 
     
   }
   
+
 handleSubCategoryUrl(catId,subId)
 {
 
   this.filterParamsEmitter.emit(this.filterParams) 
-  this.getFilterMetaData(catId,subId)
+ // this.getFilterMetaData(catId,subId)
+ 
 }
+
+searchFilterUrl(params)
+{
+ 
+  this.filterService.getCategoriesFilters(params).subscribe(response =>
+    {
+    
+      this.category = response;
+  
+    });
+}
+
 
  
   handleBrand(event,brand)
@@ -53,7 +71,14 @@ handleSubCategoryUrl(catId,subId)
    
     this.filterParamsEmitter.emit(this.filterParams)  
     
-   this.getFilterMetaData(this.catId,this.subId)
+    if(this.catId!=null && this.subId!=null)
+    {
+    this.getFilterMetaData(this.catId,this.subId)
+    }
+    else
+    {
+    this.getFilterMetaDataSearch(this.search,this.filterParams)
+    }
   }
 
   removeBrand(brand)
@@ -85,7 +110,18 @@ handleSubCategoryUrl(catId,subId)
       this.removePriceFilter(priceFilterMetaData.v1+'-'+priceFilterMetaData.v2);
     }
     this.filterParamsEmitter.emit(this.filterParams)
+    
+    if(this.catId!=null && this.subId!=null)
+    {
+      alert('Inside catId and subId !=null')
     this.getFilterMetaData(this.catId,this.subId)
+    }
+    else
+    {
+      alert('Inside catId and subId ==null')
+    alert(this.search)
+    this.getFilterMetaDataSearch(this.search,this.filterParams)
+    }
   }
 
   handleWeight(event,weightFilterMetaData)
@@ -108,11 +144,14 @@ handleSubCategoryUrl(catId,subId)
       this.filterParams.weightFilters.push(weightFilterMetaData.v1+'-'+weightFilterMetaData.u1+'-'+weightFilterMetaData.v2+'-'+weightFilterMetaData.u2)
       else
       this.removeWeightFilter(weightFilterMetaData.v1+'-'+weightFilterMetaData.u1+'-'+weightFilterMetaData.v2+'-'+weightFilterMetaData.u2);
+      if(this.catId!=null && this.subId!=null)
       this.getFilterMetaData(this.catId,this.subId)
+      else
+      this.getFilterMetaDataSearch(this.search,this.filterParams)
     }
     this.filterParamsEmitter.emit(this.filterParams)
-  
   }
+
   getFilterMetaData(catId,subId)
   {
 
@@ -137,6 +176,35 @@ handleSubCategoryUrl(catId,subId)
     }
     )
   }
+
+
+
+  getFilterMetaDataSearch(search,filterParams)
+  {
+   this.search=search;
+    this.filterService.getFilterSearchMetaData(search,filterParams).subscribe(filterMetaData=>{
+     
+     
+      if(filterMetaData.priceFilters==null)
+      {
+        this.filterMetaData.priceFilters=[];
+      }
+       if(filterMetaData.brandFilters==null)
+      {
+        this.filterMetaData.brandFilters=[];
+      }
+    
+     if(filterMetaData.weightFilters==null)
+      {
+        this.filterMetaData.weightFilters=[];
+      }
+      if(filterMetaData.brandFilters!=null && filterMetaData.priceFilters!=null && filterMetaData.weightFilters!=null)
+      this.filterMetaData=filterMetaData;
+    }
+    )
+  }
+
+
 
 
 
@@ -168,4 +236,16 @@ handleSubCategoryUrl(catId,subId)
    this.filterParamsEmitter.emit(this.filterParams)
    this.getFilterMetaData(this.catId,this.subId)
   }
+
+
+
+  setCategorySubCategory(catId,subId)
+  {
+     this.catId=catId;
+     this.subId=subId;
+  }
+
+
+
+
 }

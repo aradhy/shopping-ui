@@ -6,9 +6,8 @@
 
 
 <div class="float-center">
-    
           
-  <div class="gallery" *ngFor="let prod of productList"  > 
+  <div class="gallery" *ngFor="let prod of productList" > 
       <a  [routerLink]="['/single-product-view/cat/',catId,'sub',subId,'pc',prod.code,'avail',prod.selectedProductAvail.id]" >
    <img src="images\1200370.jpg" alt="{{prod.name}}" width="200" height="200">
   </a>

@@ -12,9 +12,10 @@ import { Category } from '../app_menu/category/category';
 })
 export class FilterService {
  
-  baseUrlFilter: string = 'http://localhost:8090/filterIntervals/';
+  baseUrlFilter: string = 'http://localhost:8090/filterIntervals';
   public categoryListAll:Category[];
-  baseUrl: string = 'http://localhost:8090/category';
+  baseUrl: string = 'http://localhost:8090/category-search';
+  baseUrlSearchFilter: string = 'http://localhost:8090/searchFilterInterval';
   httpClient:HttpClient;
   
 
@@ -28,9 +29,9 @@ export class FilterService {
   getFilterMetaData(catId:string,subId:string,filterParams:FilterParams):Observable<FilterMetaData>
   {
     let brandPayLoad=filterParams.brandFilters.join(", ")
-  let filterMetaDataUrl=  this.baseUrlFilter+"cat/"+catId+'?subId='+subId+'&priceFilters='+filterParams.priceFilters.join(", ")+'&weightFilters='+filterParams.weightFilters.join(", ")+'&brandFilters='+brandPayLoad
+    let filterMetaDataUrl=  this.baseUrlFilter+"?catId="+catId+'&subId='+subId+'&priceFilters='+filterParams.priceFilters.join(", ")+'&weightFilters='+filterParams.weightFilters.join(", ")+'&brandFilters='+brandPayLoad
 
-  return this.httpClient.get<FilterMetaData>(filterMetaDataUrl);
+    return this.httpClient.get<FilterMetaData>(filterMetaDataUrl);
   }
 
   getCategory(catId:string,subId:string):Category[]
@@ -51,10 +52,23 @@ export class FilterService {
   }
 
   
-getCategoriesFilters(catId:string,subId:string): Observable<Category>
+getCategoriesFilters(params): Observable<Category[]>
 {
+  
+    return  this.httpClient.get<Category[]>(this.baseUrl,{
+      params:params});
+}
 
-return  this.httpClient.get<Category>(this.baseUrl+"/"+catId+"?subId="+subId);
+
+
+
+
+getFilterSearchMetaData(search:string,filterParams:FilterParams):Observable<FilterMetaData>
+{
+  let brandPayLoad=filterParams.brandFilters.join(", ")
+  let filterMetaDataUrl=  this.baseUrlSearchFilter+"?search="+search+'&priceFilters='+filterParams.priceFilters.join(", ")+'&weightFilters='+filterParams.weightFilters.join(", ")+'&brandFilters='+brandPayLoad
+
+  return this.httpClient.get<FilterMetaData>(filterMetaDataUrl);
 }
 }
 

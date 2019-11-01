@@ -34,11 +34,13 @@ export class MenusComponent implements OnInit {
   public categoryListAll:Category[];
   public subCategoryList:SubCategory[];
   private subscription: Subscription;
-  search: FormControl;
+  search = new FormControl('search');
   testFlag:boolean=false;
   productList: any[];
   
   @Output() resetEmitter = new EventEmitter<boolean>();
+
+  @Output() searchClicked = new EventEmitter<any>();
   
   resetFilter()
   {
@@ -110,12 +112,19 @@ onchange()
 
 productBasedSearch (name)
 {  
+
+  let 
+  params={
+  
+    'search':name
+   
+  }
   
   if(name.length>2)
   {
    
     this.testFlag=true
-   var productObserv= this.productService.productBasedOnName(name)
+   var productObserv= this.productService.productBasedOnName(params)
  
    return productObserv;
   }
@@ -134,11 +143,14 @@ displayCart()
     $(".tooltiptext").show()
     
   }
-  searchProduct(regForm:NgForm)
+  searchProduct()
   {
-    var productSearch=regForm.controls.search.value;
+   
+    var productSearch=this.search.value;
+    this.searchClicked.emit(productSearch)
+
     if(productSearch!='')
-    this.router.navigate(['product-name'],{ queryParams: { productName: productSearch } });
+    this.router.navigate(['product-name'],{ queryParams: { 'search': productSearch } });
   
   }
 

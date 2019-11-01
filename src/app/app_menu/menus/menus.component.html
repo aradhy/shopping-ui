@@ -22,8 +22,8 @@
 
 <!-- The form -->
 
-  <form class="example"  (ngSubmit)="searchProduct()" style="margin:auto;max-width:600px">
-    <input type="text" placeholder="Search.."  [formControl]="search"  [matAutocomplete]="auto"  autocomplete="off" size="50" ngModel>
+  <form class="example"   (ngSubmit)="searchProduct(regForm)" style="margin:auto;max-width:600px">
+    <input type="text" placeholder="Search.."  [formControl]="search"  [matAutocomplete]="auto"  autocomplete="off" size="50" >
     <button type="submit" >Search</button>
   </form>
 
@@ -48,9 +48,9 @@
                 <ul>
                        <li *ngFor='let category of categoryList'  (mouseenter)="mouse_event_sub(category.id)">
                      
-                        <a  href="javascript:void(0)" (click)='resetFilter()' >{{category.name}}</a>
+                        <a  [routerLink]="['/product/cat']" [queryParams]="{catId: category.id}" (click)='resetFilter()' >{{category.name}}</a>
          <ul>
-                    <li *ngFor='let subcategory of subCategoryList'><a  (click)='resetFilter()' [routerLink]="['/product/cat',category.id,'sub',subcategory.id]" >{{subcategory.name}}</a></li>
+                    <li *ngFor='let subcategory of subCategoryList'><a  (click)='resetFilter()' [routerLink]="['/product/cat']" [queryParams]="{ catId: category.id,subId:subcategory.id}" >{{subcategory.name}}</a></li>
                    
          </ul>
    

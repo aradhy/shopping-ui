@@ -11,7 +11,7 @@ import { SingleProductViewComponent } from './app_menu/single-product-view/singl
 import { MenusComponent } from './app_menu/menus/menus.component';
 import { UserComponent } from './app_menu/user/user.component';
 import { CheckOutViewComponent } from './app_menu/check-out-view/check-out-view.component';
-import { AddressComponent } from './app_menu/address/address.component';
+import { DeliveryComponent } from './app_menu/delivery/delivery.component';
 import { SocialLoginModule, AuthServiceConfig, FacebookLoginProvider, GoogleLoginProvider, LoginOpt } from 'angularx-social-login';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -31,7 +31,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     AppComponent,AppComponent_Menu,  ProductComponent,
     CategoryComponent,
     SingleProductViewComponent,
-    MenusComponent,UserComponent, CheckOutViewComponent, AddressComponent, FilterComponent  ],
+    MenusComponent,UserComponent, CheckOutViewComponent, DeliveryComponent, FilterComponent  ],
   imports: [
     BrowserModule,
     AppRoutingModule,

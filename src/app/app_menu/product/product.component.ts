@@ -13,8 +13,9 @@ import { SharedService } from '../sharedservice.service';
 import { ProductAvail } from './productavail';
 import { BucketView } from './bucketview';
 import { BucketModel } from './bucketmodel';
-import { FilterParams } from 'src/app/filter/filterparams';
+
 import { FilterComponent } from 'src/app/filter/filter.component';
+import { FilterParams } from 'src/app/filter/filterparams';
 
 
 @Component({
@@ -40,6 +41,7 @@ export class ProductComponent implements OnInit {
  bucketView:BucketView;
  catId:string;
  subId:string;
+ search:string;
 
  @ViewChild(FilterComponent)
     private filterComponent: FilterComponent;
@@ -50,6 +52,67 @@ export class ProductComponent implements OnInit {
 
  
 
+ constructor(private productService: ProductService,private activatedRoute:ActivatedRoute,private router:Router,private cookieService:CookieService ,private sharedService:SharedService) {
+ 
+ 
+  this.subscription= this.sharedService.getState().subscribe(bucketView=>{
+   
+    this.bucketView=bucketView
+   
+  });
+
+}
+
+
+
+
+ngOnInit() {
+
+this.showCart();
+
+if (this.router.url.includes('sub'))
+{
+
+  this.activatedRoute.queryParams.subscribe(routeParams => {
+    this.catId=routeParams.catId
+    this.subId=routeParams.subId
+    this.filterComponent.setCategorySubCategory(this.catId,this.subId);
+    this.filterComponent.getFilterMetaData(this.catId,this.subId)
+ 
+    this.productBasedOnSubCategory();
+   });
+  
+}
+else if(this.router.url.includes('cat')) 
+{
+
+  this.activatedRoute.queryParams.subscribe(routeParams => {
+  this.catId=routeParams.catId
+  this.filterComponent.setCategorySubCategory(this.catId,this.subId);
+  this.productBasedOnCategory();
+
+  this.filterComponent.getFilterMetaData(this.catId,this.subId)
+ 
+})
+
+}
+else{
+
+    this.activatedRoute.queryParams.subscribe(queryParams => {
+    this.search=queryParams['search']
+    
+    let 
+      params={
+        'search': this.search
+      }
+    this.productBasedSearch (params);
+    this.filterComponent.getFilterMetaDataSearch(this.search,this.filterParams)
+  
+    this.filterComponent.searchFilterUrl(params);
+   })
+ }
+  
+}
  resetFilter(event)
  {
 
@@ -59,9 +122,23 @@ export class ProductComponent implements OnInit {
  
  fetchFilters(event) { 
 
- this.filterParams=event
-console.log(this.filterParams)
- this.productService.productByFilter(this.catId,this.subId,this.filterParams).subscribe(response =>
+   this. filterParams=event
+   let brandPayLoad=this.filterParams.brandFilters.join(",")
+    let pricePayLoad=this.filterParams.priceFilters.join(",")
+    let weightPayLoad=this.filterParams.weightFilters.join(",")
+
+let 
+  params={
+    'catId': this.catId,
+    'subId': this.subId,
+    'search':this.search,
+    'brandFilters':brandPayLoad,
+    'priceFilters':pricePayLoad,
+    'weightFilters':weightPayLoad
+  }
+  if(this.catId!=null && this.subId!=null)
+  {
+ this.productService.productByFilter(params).subscribe(response =>
   {
    
     this.productList = response;
@@ -80,81 +157,34 @@ console.log(this.filterParams)
     )
     return this.productList;
 
-      });
+      }
+      );
+    }
+    if(this.search!=null)
+    {
+     
+      this.productBasedSearch(params)
+
+    }
 
  } 
  
 
 
-  constructor(private productService: ProductService,private activatedRoute:ActivatedRoute,private router:Router,private cookieService:CookieService ,private sharedService:SharedService) {
- 
- 
-    this.subscription= this.sharedService.getState().subscribe(bucketView=>{
-     
-      this.bucketView=bucketView
-     
-    });
-
-  }
 
   
-
-  compareFn(pAv1: ProductAvail, pAv2: ProductAvail): boolean {
-    return pAv1 && pAv2 ? pAv1.id === pAv2.id : pAv1 === pAv2;
-  }
-  ngOnInit() {
-
-
-  
-    this.showCart();
- 
-  if (this.router.url.includes('sub'))
+   productBasedOnCategory()
   {
 
-    this.activatedRoute.params.subscribe(routeParams => {
-      this.catId=routeParams.catId
-      this.subId=routeParams.subId
-    
-      this.filterComponent.getFilterMetaData(this.catId,this.subId)
+  
+
+   let 
+     params={
+       'catId': this.catId
+     }
    
-      this.productBasedOnSubCategory(this.subId);
-     });
-    
-  }
-  else if(this.router.url.includes('cat')) 
-  {
  
-  this.activatedRoute.params.subscribe(routeParams => {
-    this.catId=routeParams.catId
-   this.productBasedOnCategory( this.catId);
-  
-   this.filterComponent.getFilterMetaData(this.catId,this.subId)
-   
-  })
-
- 
-
-}
- else{
-  
-    this.activatedRoute.queryParams.subscribe(queryParams => {
-      
-      this.productBasedSearch (queryParams['productName']);
-      
-     })
-   }
-    
- }
-
-  
-   productBasedOnCategory(id)
-  {
-
-  
-   this.id=id;
-    
- 
-    this.productService.getProductByCategory(this.id).subscribe(response =>
+   this.productService.productByFilter(params).subscribe(response =>
       {
        
         this.productList = response;
@@ -175,13 +205,19 @@ console.log(this.filterParams)
        
   }
 
-  productBasedOnSubCategory(id)
+  productBasedOnSubCategory()
   {
 
+    
+    let 
+      params={
+        'catId': this.catId,
+        'subId': this.subId
+      }
+    
    
-    this.id=id;
    
-    this.productService.getProductBySubCategory(this.id).subscribe(response =>
+    this.productService.productByFilter(params).subscribe(response =>
       {
        
         this.productList = response;
@@ -201,17 +237,16 @@ console.log(this.filterParams)
   
   }
 
-  productBasedSearch (name)
+  productBasedSearch (params)
   {
 
-   
-    this.name=name;
  
-    this.productService.productBasedOnName(name).subscribe(response =>
+    this.productService.productBasedOnName(params).subscribe(response =>
       {
        
         this.productList = response;
         console.log('Products based on name  search')
+        console.log(this.productList)
         this.productList.forEach(product=>{
           product.selectedItemCount=1;
           product.itemCountList=[1,2,3,4];
@@ -515,7 +550,9 @@ updateCookieBucket(selectedProdAvail:any,selectedItemCount:any,totalItemCount:an
  localStorage.setItem("CookieBucket",this.ObjectToJsonString(cookieBucket));
 }
 
-
+compareFn(pAv1: ProductAvail, pAv2: ProductAvail): boolean {
+  return pAv1 && pAv2 ? pAv1.id === pAv2.id : pAv1 === pAv2;
+}
 
 }
 
