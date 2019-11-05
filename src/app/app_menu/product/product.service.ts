@@ -6,6 +6,7 @@ import { ProductSelect } from './productselectview';
 import { BucketModel } from './bucketmodel';
 import { CustomerOrder } from '../customerorder';
 import { FilterParams } from 'src/app/filter/filterparams';
+import { SearchProduct } from './search-product';
 
 @Injectable({
   providedIn: 'root'
@@ -55,9 +56,9 @@ export class ProductService {
   }
 
   
-  public productBasedOnName(params): Observable<Product[]> {
+  public productBasedOnName(params): Observable<SearchProduct[]> {
    
-    return this.httpClient.get<Product[]>(this.baseUrlProductName, {
+    return this.httpClient.get<SearchProduct[]>(this.baseUrlProductName, {
       params:params});
   }
 
@@ -79,13 +80,13 @@ export class ProductService {
     return this.httpClient.post<string>("http://localhost:8080/orderStatus",order);
     }
     
-  productByFilter(params): Observable<Product[]>
+  productByFilter(params): Observable<SearchProduct[]>
   {
    
   
     let productFilterDataUrl=  this.baseUrlProductFilter
 
-    return this.httpClient.get<Product[]>(productFilterDataUrl, {
+    return this.httpClient.get<SearchProduct[]>(productFilterDataUrl, {
       params:params})
   }
 

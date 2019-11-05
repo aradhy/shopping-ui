@@ -113,8 +113,6 @@ export class BucketViewService {
   else
   {
     
-  
-  
      var cookieBucketString= localStorage.getItem("CookieBucket");
      var cookieBucket= this.fetchbucketfrombucketstring(cookieBucketString);
      var productSelectViewMap= this.fetchmapfrombucketstring(cookieBucket);

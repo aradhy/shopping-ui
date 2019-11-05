@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import {MatGridListModule} from '@angular/material';
+import {MatGridListModule, MatRadioButton, MatRadioModule} from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxImageZoomModule } from 'ngx-image-zoom';
 import { AppComponent } from './app.component';
@@ -38,7 +38,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,NgbModule,CommonModule, BrowserAnimationsModule,MatGridListModule,NgxImageZoomModule,SocialLoginModule,
-    MatAutocompleteModule,MatProgressSpinnerModule
+    MatAutocompleteModule,MatProgressSpinnerModule,MatRadioModule
   ],
   providers: [SharedService,{
     provide: AuthServiceConfig,

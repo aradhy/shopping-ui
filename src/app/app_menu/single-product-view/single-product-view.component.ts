@@ -23,7 +23,7 @@ declare var customSingleImageView:any;
 
 export class SingleProductViewComponent implements OnInit {
     
-     catId:string;
+    catId:string;
     subId:string;
     code:string;
     prodAvailId:string;
@@ -48,11 +48,6 @@ export class SingleProductViewComponent implements OnInit {
         $("#filter").hide();
        
         customSingleImageView();
-
-   
-      
-
-
       this.productService.productBasedOnCode(this.code).subscribe(prod=>
         {
         this.product=prod

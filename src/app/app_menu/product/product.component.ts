@@ -16,6 +16,7 @@ import { BucketModel } from './bucketmodel';
 
 import { FilterComponent } from 'src/app/filter/filter.component';
 import { FilterParams } from 'src/app/filter/filterparams';
+import { SearchProduct } from './search-product';
 
 
 @Component({
@@ -34,7 +35,7 @@ export class ProductComponent implements OnInit {
 
 
  public productList:Product[];
-
+ public productSearchList:SearchProduct[];
  public name:String;
  url:string;
  id:string;
@@ -87,7 +88,8 @@ else if(this.router.url.includes('cat'))
 {
 
   this.activatedRoute.queryParams.subscribe(routeParams => {
-  this.catId=routeParams.catId
+    this.catId=routeParams.catId
+    this.subId=null
   this.filterComponent.setCategorySubCategory(this.catId,this.subId);
   this.productBasedOnCategory();
 
@@ -141,21 +143,22 @@ let
  this.productService.productByFilter(params).subscribe(response =>
   {
    
-    this.productList = response;
-    if(this.productList==[])
+    this.productSearchList = response;
+    if(this.productSearchList==[])
     {
       this.filterComponent.getFilterMetaData(this.catId,this.subId)
     }
     console.log('Products based on Category From DB')
-      this.productList.forEach(product=>{
+    this.productSearchList = response;
+    this.productSearchList.forEach(productSearch=>{
        
-        product.selectedItemCount=1;
-        product.itemCountList=[1,2,3,4];
+      productSearch.prod.selectedItemCount=1;
+      productSearch.prod.itemCountList=[1,2,3,4];
        
-       product.selectedProductAvail= product.productAvailList[0];
+      productSearch.prod.selectedProductAvail= productSearch.prod.productAvailList[0];
       }  
     )
-    return this.productList;
+    return this.productSearchList;
 
       }
       );
@@ -187,15 +190,15 @@ let
    this.productService.productByFilter(params).subscribe(response =>
       {
        
-        this.productList = response;
+        this.productSearchList = response;
         console.log('Products based on Category From DB')
 
-          this.productList.forEach(product=>{
+          this.productSearchList.forEach(productSearch=>{
            
-            product.selectedItemCount=1;
-            product.itemCountList=[1,2,3,4];
+            productSearch.prod.selectedItemCount=1;
+            productSearch.prod.itemCountList=[1,2,3,4];
            
-           product.selectedProductAvail= product.productAvailList[0];
+            productSearch.prod.selectedProductAvail=  productSearch.prod.productAvailList[0];
           }  
         )
         return this.productList;
@@ -220,13 +223,13 @@ let
     this.productService.productByFilter(params).subscribe(response =>
       {
        
-        this.productList = response;
+        this.productSearchList = response;
         console.log('Products based on Category From DB')
 
-          this.productList.forEach(product=>{
-            product.selectedItemCount=1;
-            product.itemCountList=[1,2,3,4];
-            product.selectedProductAvail= product.productAvailList[0];
+          this.productSearchList.forEach(productSearch=>{
+            productSearch.prod.selectedItemCount=1;
+            productSearch.prod.itemCountList=[1,2,3,4];
+            productSearch.prod.selectedProductAvail=  productSearch.prod.productAvailList[0];
           }  
         )
         return this.productList;
@@ -244,16 +247,17 @@ let
     this.productService.productBasedOnName(params).subscribe(response =>
       {
        
-        this.productList = response;
-        console.log('Products based on name  search')
+       
         console.log(this.productList)
-        this.productList.forEach(product=>{
-          product.selectedItemCount=1;
-          product.itemCountList=[1,2,3,4];
-          product.selectedProductAvail= product.productAvailList[0];
-        }  
-      )
-      return this.productList;
+        this.productSearchList = response;
+        console.log('Products based on Category From DB')
+
+          this.productSearchList.forEach(productSearch=>{
+            productSearch.prod.selectedItemCount=1;
+            productSearch.prod.itemCountList=[1,2,3,4];
+            productSearch.prod.selectedProductAvail=  productSearch.prod.productAvailList[0];
+          }  
+        )
        
       });
       

@@ -30,7 +30,8 @@ if(( request.url.match('http://localhost:8080/signUp') || request.url.match('htt
     request = request.clone({
       headers: new HttpHeaders({
         'Content-Type':  'application/json',
-        'Authorization':localStorage.getItem('JWT-TOKEN'),
+        'Authorization':localStorage.getItem('JWT-TOKEN')
+        
         
       }),withCredentials: true,params: request.params.set('provider', localStorage.getItem("PROVIDER"))
     });
@@ -39,7 +40,8 @@ if(( request.url.match('http://localhost:8080/signUp') || request.url.match('htt
    
     request = request.clone({
       headers: new HttpHeaders({
-        'Content-Type':  'application/json'
+        'Content-Type':  'application/json',
+        'Authorization':localStorage.getItem('JWT-TOKEN')
         
       }),withCredentials: true,params: request.params.set('provider', localStorage.getItem("PROVIDER"))
     });

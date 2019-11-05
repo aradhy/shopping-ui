@@ -1,23 +1,30 @@
-<div class="DeliAdd">
-  <div class="h1" >Delivery Address</div>
- 
+<div *ngIf="orderSuccess" style="text-align: center;color:#4CAF50;font-weight:bold">Your Order has been placed successfully......Taking you to the Payment Page</div>
+<div class="spinner" *ngIf="orderSuccess">
+  <div class="bounce1"></div>
+  <div class="bounce2"></div>
+  <div class="bounce3"></div>
+  
+</div>
+
+<div class="DeliAdd" >
+<label class="do" >Delivery Address</label>
+
 
 <input  class="collapsible" type="button"   value="{{addressOp}}" id='adripd' (click)="addNewAddress()">
 
 <div class="content" id="addressContentId">
-  
-  <div *ngFor="let address of addressList" id="addressListId">
-  
-    <textarea id="text1Id" style="overflow:hidden" rows="5" cols="30" disabled >
-      {{address.name}}
-      {{address.email}}
-      {{address.houseNo}}{{address.addressDetails}}
-      {{address.city}} {{address.country}}
-      {{address.landmark}}
+  <div  id="addrCardId">
+    <div class="addressCard" *ngFor="let address of addressList" [id]="address.id">
+
+
+        <div class="address" >
+            {{address.name}} <br> {{address.email}} <br> {{address.addressDetails}} <br> {{address.landmark}} <br> {{address.city}} <br> {{address.country}}
+        </div>
       
-    </textarea>
+        
+       <button class="deliverhere" (click)="addressSelect(address)">Deliver here</button>
+      </div>
     </div>
-    
 
 <div class="address form" id='formId'>
 <div class="row" id="row">
@@ -26,7 +33,7 @@
       <form  [formGroup]="addressForm" (ngSubmit)="onSubmitAddress(addressForm)">    
         <div class="row">
           <div class="col-50">
-            <h3>Billing Address</h3>
+            
  
    <label for="name"> Full Name</label>
    <input type="text" id="name" formControlName="name" placeholder="">
@@ -67,36 +74,49 @@
 
 <div class="Delivery-Options">
 <label class="do" >Delivery Options</label>
-<button type="button" class="collapsible1" (click)="toggleWithDelivery()">Select Delivery Time</button>
-<div class="content-delivery-option" id="delivercontent">
-<ul>
-<li><input id="r0" name="r" type="radio"><label for="r0"></label>Today 6pm to 10pm</li>
- <li><input id="r1" name="r" type="radio"><label for="r1"></label>Tommorow 7 to 10pm</li>
- <li><input id="r2" name="r" type="radio"><label for="r2"></label>Tommorow 3pm to 6pm</li>
- <li><input id="r3" name="r" type="radio"><label for="r3"></label>Tommorow 2pm-5pm</li>
- <li><input id="r4" name="r" type="radio"><label for="r4"></label>Tommorow 11am-1pm</li>
 
-
+<button type="button" class="collapsible1" (click)="toggleWithDelivery()" id="deliverid">Change Delivery Time</button>
+<div class="content-delivery" id="delivercontent">
+  <mat-radio-group class="content-delivery-option" (change)="getTheSlot(slot)">
+    <mat-radio-button value="slot1">Today 6pm to 10pm</mat-radio-button>
+    <mat-radio-button value="slot2">Tommorow 7 to 10pm</mat-radio-button>
+     <mat-radio-button value="slot3">Tommorow 3pm to 6pm</mat-radio-button>
+      <mat-radio-button value="slot4">Tommorow 2pm-5pm</mat-radio-button>
+     <mat-radio-button value="slot5">Tommorow 11am-1pm</mat-radio-button>
+  </mat-radio-group> 
 <input class="submit1" type="submit" value="PROCEED TO PAYMENT" (click)="proceedToPayment()">
-</ul>
+
 </div>
 </div>
 
 <p> </p>
-<div class="Payment-Options">
+<div  class="Payment-Options" >
  
 <label class="po" >Payment Options</label>
 
-<div class="content-payment-option" id="paycontent" >
+<div  class="content-payment" id="paycontent" >
 
-<ul>
- <li><input id="r5" name="r" type="radio"><label for="r5"></label>Credit</li>
- <li><input id="r6" name="r" type="radio"><label for="r6"></label>Debit</li>
- <li><input id="r7" name="r" type="radio"><label for="r7"></label>Wallet</li>
- <li><input id="r8" name="r" type="radio"><label for="r8"></label>Net banking</li>
- <li><input id="r9" name="r" type="radio"><label for="r9"></label>COD(credit/debit/cash)</li>
+  <mat-radio-group class="content-payment-option">
+    <mat-radio-button value="credit">Credit</mat-radio-button>
+    <mat-radio-button value="debit">Debit</mat-radio-button>
+     <mat-radio-button value="wallet">Wallet</mat-radio-button>
+      <mat-radio-button value="net banking">Net banking</mat-radio-button>
+     <mat-radio-button value="cod">COD(credit/debit/cash)</mat-radio-button>
+  </mat-radio-group> 
+  <form   name="payuform" method="POST" style="display:none"> 
+    <input type="text" class="form-control" id="productInfo" name="productinfo" >
+    <input type="text" class="form-control" id="firstname" name="firstname" >
+    <input type="email" class="form-control" id="email" name="email">
+    <input type="number" class="form-control" id="phone" name="phone" >
+    <input type="number" class="form-control" id="amount" name="amount" >
+    <input  name="surl" id="surl"  rows="2" cols="2" type="hidden">
+    <input  name="key" id="key"  rows="2" cols="2" type="hidden" >
+    <input  name="hash" id="hash"  rows="2" cols="2" type="hidden"   >
+    <input  name="txnid" id="txnid"  rows="2" cols="2" type="hidden"  >
+   <input  name="service_provider" id="service_provider"  rows="2" cols="2" type="hidden" value="payu_paisa">  
  
-<input class="submit" type="submit" value="Place Order & Pay" onclick="hideContent('paycontent')">
-</ul>
+  </form>
+  <input class="submit" type="submit" value="Place Order & Pay" (click)="onSubmit()">
+
 </div>
- </div>
+

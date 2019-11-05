@@ -7,18 +7,18 @@
 
 <div class="float-center">
           
-  <div class="gallery" *ngFor="let prod of productList" > 
-      <a  [routerLink]="['/single-product-view/cat/',catId,'sub',subId,'pc',prod.code,'avail',prod.selectedProductAvail.id]" >
-   <img src="images\1200370.jpg" alt="{{prod.name}}" width="200" height="200">
+  <div class="gallery" *ngFor="let productSearch of productSearchList" > 
+      <a  [routerLink]="['/single-product-view/cat/',productSearch.catId,'sub',productSearch.prod.subId,'pc',productSearch.prod.code,'avail',productSearch.prod.selectedProductAvail.id]" >
+   <img src="images\1200370.jpg" alt="{{productSearch.prod.name}}" width="200" height="200">
   </a>
    <div>
                 
-        <div *ngIf ="bucketView?.productFullInfoBucketMap?.get(prod.selectedProductAvail.id)?.selectedItemCount>0 then bucketcount; else emptybucket " >
+        <div *ngIf ="bucketView?.productFullInfoBucketMap?.get(productSearch.prod.selectedProductAvail.id)?.selectedItemCount>0 then bucketcount; else emptybucket " >
        
           </div>
          <ng-template #bucketcount>
               <div>
-               {{bucketView.productFullInfoBucketMap.get(prod.selectedProductAvail.id).selectedItemCount}} Items
+               {{bucketView.productFullInfoBucketMap.get(productSearch.prod.selectedProductAvail.id).selectedItemCount}} Items
               </div>
             </ng-template>
             <ng-template #emptybucket>
@@ -27,27 +27,21 @@
               </div>
             </ng-template>
 
-            <select  name="avail" [(ngModel)]="prod.selectedProductAvail" class="product">
-              <option *ngFor='let prodAvail of prod.productAvailList' [ngValue]="prodAvail" >{{prodAvail.weight+'-'+prodAvail.weightUnit+' Rs '+prodAvail.price}}</option>
+            <select  name="avail" [(ngModel)]="productSearch.prod.selectedProductAvail" class="product">
+              <option *ngFor='let prodAvail of productSearch.prod.productAvailList' [ngValue]="prodAvail" >{{prodAvail.weight+'-'+prodAvail.weightUnit+' Rs '+prodAvail.price}}</option>
             
                   </select>
             <br><br>
             <span class="Quantity">Qty</span>
             
-     <select  name="quantity" [(ngModel)]="prod.selectedItemCount" class="selectedQuantity">
-       <option *ngFor='let prod of prod.itemCountList'>{{prod}}</option>
+     <select  name="quantity" [(ngModel)]="productSearch.prod.selectedItemCount" class="selectedQuantity">
+       <option *ngFor='let itemCount of productSearch.prod.itemCountList'>{{itemCount}}</option>
      
           </select>
     
-        <button type="submit" class="btn1 btn-success" (click)="addToCart(prod.code,prod.selectedProductAvail,prod.selectedItemCount)" > Add </button>
-        <button type="submit" class="btn2 btn-success fa fa-trash" (click)="removeFromCart(prod.selectedProductAvail,prod.selectedItemCount)"></button>
+        <button type="submit" class="btn1 btn-success" (click)="addToCart(productSearch.prod.code,productSearch.prod.selectedProductAvail,productSearch.prod.selectedItemCount)" > Add </button>
+        <button type="submit" class="btn2 btn-success fa fa-trash" (click)="removeFromCart(productSearch.prod.selectedProductAvail,productSearch.prod.selectedItemCount)"></button>
           </div>
         
          </div>
         </div>
-  
-   
-  
-  
-  
-  

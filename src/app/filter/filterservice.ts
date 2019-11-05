@@ -26,12 +26,16 @@ export class FilterService {
 
  
     
-  getFilterMetaData(catId:string,subId:string,filterParams:FilterParams):Observable<FilterMetaData>
+  getFilterMetaData(params):Observable<FilterMetaData>
   {
-    let brandPayLoad=filterParams.brandFilters.join(", ")
-    let filterMetaDataUrl=  this.baseUrlFilter+"?catId="+catId+'&subId='+subId+'&priceFilters='+filterParams.priceFilters.join(", ")+'&weightFilters='+filterParams.weightFilters.join(", ")+'&brandFilters='+brandPayLoad
 
-    return this.httpClient.get<FilterMetaData>(filterMetaDataUrl);
+     
+  
+    
+    let filterMetaDataUrl=  this.baseUrlFilter
+
+    return this.httpClient.get<FilterMetaData>(filterMetaDataUrl, {
+      params:params});
   }
 
   getCategory(catId:string,subId:string):Category[]

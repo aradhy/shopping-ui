@@ -154,8 +154,25 @@ searchFilterUrl(params)
 
   getFilterMetaData(catId,subId)
   {
-
-    this.filterService.getFilterMetaData(catId,subId,this.filterParams).subscribe(filterMetaData=>{
+    let 
+    params=null
+if(subId!=null) 
+    params={
+      'catId': catId,
+      'priceFilters':this.filterParams.priceFilters.join(", "),
+      'weightFilters':this.filterParams.weightFilters.join(", "),
+      'brandFilters':this.filterParams.brandFilters.join(", ")
+    }
+    else{
+      params={
+        'catId': catId,
+        'subId': subId,
+        'priceFilters':this.filterParams.priceFilters.join(", "),
+        'weightFilters':this.filterParams.weightFilters.join(", "),
+        'brandFilters':this.filterParams.brandFilters.join(", ")
+      }
+    }
+    this.filterService.getFilterMetaData(params).subscribe(filterMetaData=>{
      
      
       if(filterMetaData.priceFilters==null)
