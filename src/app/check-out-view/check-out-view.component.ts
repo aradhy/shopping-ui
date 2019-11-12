@@ -1,11 +1,12 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
-import { BucketView } from '../product/bucketview';
+
 import { BucketViewService } from '../bucket-view-service.service';
 import { CookieBucket } from '../menus/bucketcookie';
 import { Subscription } from 'rxjs';
 import { SharedService } from '../sharedservice.service';
 import { Router } from '@angular/router';
-
+import { BucketView } from '../product/bucketview';
+import * as $ from 'jquery';
 @Component({
   selector: 'app-check-out-view',
   templateUrl: './check-out-view.component.html',
@@ -25,13 +26,14 @@ export class CheckOutViewComponent implements OnInit {
   }
 
   ngOnInit() {
-   
+  
     this.showCart()
   } 
 
   openAddress()
   {
-//    this.router.navigate(['address'])
+   this.router.navigateByUrl("/delivery")
+   
   }
 
 

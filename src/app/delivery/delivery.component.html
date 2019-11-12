@@ -1,0 +1,127 @@
+<body>
+{{orderSuccess}}
+<div *ngIf="orderSuccess" style="text-align: center;color:#4CAF50;font-weight:bold">Your Order has been placed successfully......Taking you to the Payment Page</div>
+<div class="spinner" *ngIf="orderSuccess">
+  <div class="bounce1"></div>
+  <div class="bounce2"></div>
+  <div class="bounce3"></div>
+  
+</div>
+
+<div class="DeliAdd" >
+<label class="do" >Delivery Address</label>
+
+
+<input  class="collapsible" type="button"   value="{{addressOp}}" id='adripd' (click)="addNewAddress()">
+
+<div class="content" id="addressContentId">
+  <div  id="addrCardId">
+    <div class="addressCard" *ngFor="let address of addressList" [id]="address.id">
+
+
+        <div class="address" >
+            {{address.name}} <br> {{address.email}} <br> {{address.addressDetails}} <br> {{address.landmark}} <br> {{address.city}} <br> {{address.country}}
+        </div>
+      
+        
+       <button class="deliverhere" (click)="addressSelect(address)">Deliver here</button>
+      </div>
+    </div>
+
+<div class="address form" id='formId'>
+<div class="row" id="row">
+  <div class="col-75" id="col-75">	 
+    <div>
+      <form  [formGroup]="addressForm" (ngSubmit)="onSubmitAddress(addressForm)">    
+        <div class="row">
+          <div class="col-50">
+            
+ 
+   <label for="name"> Full Name</label>
+   <input type="text" id="name" formControlName="name" placeholder="">
+   
+    <label for="email"> Email</label>
+    <input type="text" id="email" formControlName="email" placeholder="">
+ 
+    <label for="houseNo">HouseNo</label>
+    <input type="text" id="houseNo" formControlName="houseNo" placeholder="">
+  
+    <label for="adr"> Address Details</label>
+    <input type="text" id="address" formControlName="address" placeholder="">
+  
+    <label for="city"> City</label>
+    <input type="text" id="city" formControlName="city" placeholder="">
+  
+    <label for="state">State</label>
+   <input type="text" id="state" formControlName="state" placeholder="">
+ 
+   <label for="adr"> Land Mark</label>
+   <input type="text" id="landMark" formControlName="landMark" placeholder="">
+ 
+    <input type="checkbox" checked="checked" name="sameadr"> Shipping address same as billing
+       <br>
+    <input type="button" value="cancel" class="btn"  (click)="cancel()">
+    <button  type="button"  type="submit"  class="add">Add Address</button>
+  
+        </div>
+        </div>
+      </form>
+    </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>  </p>
+
+<div class="Delivery-Options">
+<label class="do" >Delivery Options</label>
+
+<button type="button" class="collapsible1" (click)="toggleWithDelivery()" id="deliverid">Change Delivery Time</button>
+<div class="content-delivery" id="delivercontent">
+  <mat-radio-group class="content-delivery-option" (change)="getTheSlot(slot)">
+    <mat-radio-button value="slot1">Today 6pm to 10pm</mat-radio-button>
+    <mat-radio-button value="slot2">Tommorow 7 to 10pm</mat-radio-button>
+     <mat-radio-button value="slot3">Tommorow 3pm to 6pm</mat-radio-button>
+      <mat-radio-button value="slot4">Tommorow 2pm-5pm</mat-radio-button>
+     <mat-radio-button value="slot5">Tommorow 11am-1pm</mat-radio-button>
+  </mat-radio-group> 
+<input class="submit1" type="submit" value="PROCEED TO PAYMENT" (click)="proceedToPayment()">
+
+</div>
+</div>
+
+<p> </p>
+<div  class="Payment-Options" >
+ 
+<label class="po" >Payment Options</label>
+
+<div  class="content-payment" id="paycontent" >
+
+  <mat-radio-group class="content-payment-option">
+    <mat-radio-button value="credit">Credit</mat-radio-button>
+    <mat-radio-button value="debit">Debit</mat-radio-button>
+     <mat-radio-button value="wallet">Wallet</mat-radio-button>
+      <mat-radio-button value="net banking">Net banking</mat-radio-button>
+     <mat-radio-button value="cod">COD(credit/debit/cash)</mat-radio-button>
+  </mat-radio-group> 
+  <form   name="payuform" method="POST" style="display:none"> 
+    <input type="text" class="form-control" id="productInfo" name="productinfo" >
+    <input type="text" class="form-control" id="firstname" name="firstname" >
+    <input type="email" class="form-control" id="email" name="email">
+    <input type="number" class="form-control" id="phone" name="phone" >
+    <input type="number" class="form-control" id="amount" name="amount" >
+    <input  name="surl" id="surl"  rows="2" cols="2" type="hidden">
+    <input  name="key" id="key"  rows="2" cols="2" type="hidden" >
+    <input  name="hash" id="hash"  rows="2" cols="2" type="hidden"   >
+    <input  name="txnid" id="txnid"  rows="2" cols="2" type="hidden"  >
+   <input  name="service_provider" id="service_provider"  rows="2" cols="2" type="hidden" value="payu_paisa">  
+ 
+  </form>
+  <input class="submit" type="submit" value="Place Order & Pay" (click)="onSubmit()">
+
+</div>
+
+</div>
+
+</body>

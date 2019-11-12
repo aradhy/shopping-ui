@@ -1,7 +1,7 @@
 
 function customSingleImageView()
 {
-  alert("in custom")
+
 
     $('.container').imagesLoaded( function() {
    

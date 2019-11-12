@@ -4,22 +4,22 @@ import { ProductComponent } from './product/product.component';
 import { SingleProductViewComponent } from './single-product-view/single-product-view.component';
 import { CategoryComponent } from './category/category.component';
 import { UserComponent } from './user/user.component';
-import { CheckOutViewComponent } from './check-out-view/check-out-view.component';
 import { MenusComponent } from './menus/menus.component';
-import { AddressComponent } from './address/address.component';
+import { DeliveryComponent } from './delivery/delivery.component';
+import { CheckOutViewComponent } from './check-out-view/check-out-view.component';
+
 
 
 
 export const routes: Routes = [
-  { path: 'product/cat/:id', component: ProductComponent },
-  {path:"product/sub/:id",component: ProductComponent},
+  {path:"product/cat",component: ProductComponent},
   {path:"product-name",component: ProductComponent},
-  {path:'single-product-view/:code', component: SingleProductViewComponent},
+  {path:'single-product-view/cat/:catId/sub/:subId/pc/:code/avail/:prodAvailId', component: SingleProductViewComponent},
   {path:'category-view', component: CategoryComponent},
   { path: 'user/:id', component: UserComponent },
-  { path: 'checkout', component: CheckOutViewComponent },
+  {path:'delivery',component:DeliveryComponent},
   { path: 'menu', component: MenusComponent },
-  {path:'address',component:AddressComponent}
+  {path:'checkout',component:CheckOutViewComponent}
   
 
   

@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Product } from './product';
 import { Observable, Subject } from 'rxjs';
 import { ProductSelect } from './productselectview';
 import { BucketModel } from './bucketmodel';
 import { CustomerOrder } from '../customerorder';
+import { FilterParams } from 'src/app/filter/filterparams';
+import { SearchProduct } from './search-product';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +19,7 @@ export class ProductService {
   baseUrlProductName:string="http://localhost:8090/product-name";
   baseUrlBucketProductInfoUrl="http://localhost:8090/bucketproducts";
   addProductForBucketUrl="http://localhost:8090/product/"
+  baseUrlProductFilter="http://localhost:8090/productFilter";
   httpClient:HttpClient;
   
   private selectionFormatState = new Subject<any>();
@@ -53,9 +56,10 @@ export class ProductService {
   }
 
   
-  public productBasedOnName(name: string): Observable<Product[]> {
+  public productBasedOnName(params): Observable<SearchProduct[]> {
    
-    return this.httpClient.get<Product[]>(this.baseUrlProductName+"?productName="+name);
+    return this.httpClient.get<SearchProduct[]>(this.baseUrlProductName, {
+      params:params});
   }
 
 
@@ -76,4 +80,17 @@ export class ProductService {
     return this.httpClient.post<string>("http://localhost:8080/orderStatus",order);
     }
     
+  productByFilter(params): Observable<SearchProduct[]>
+  {
+   
+  
+    let productFilterDataUrl=  this.baseUrlProductFilter
+
+    return this.httpClient.get<SearchProduct[]>(productFilterDataUrl, {
+      params:params})
+  }
+
+
+
+  
 }

@@ -1,3 +1,4 @@
+<body>
 
 <div class='carousel slide carousel-fade' id="myCarouselId" data-ride="carousel">
    
@@ -30,7 +31,7 @@
     {{category.name}}
    </div>
     <br>
-<div class="gallery" *ngFor='let subcategory of category.subCategoryList' >
+<div class="gallery" *ngFor='let subcategory of category.subCategory' >
  <div class="desc"> {{subcategory.name}}</div>
  
  <a href="javascript:void(0)" [routerLink]="['/product/sub/1']">
@@ -40,3 +41,5 @@
  </div>
  </div>
 
+
+</body>

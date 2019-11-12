@@ -1,25 +1,39 @@
+div.float-center {
+  margin-top:8em;
+  margin-left:25em;
+  position:relative;
+  -webkit-animation: fadein 0s; /* Safari, Chrome and Opera > 12.1 */
+       animation: fadein 1s;
+}
 
 div.gallery {
-    margin: 5px;
-    border: 2px solid green;
-    float: center;
-    width:300px;
-    padding:50px;
-    
-   
+    margin: 3px;
+    border: 1px solid gainsboro;
+    float: left;
+    width:200px;
+    -webkit-animation: fadein 0s; /* Safari, Chrome and Opera > 12.1 */
+    animation: fadein 1s;
   }
   div.gallery:hover {
-    border: 2px solid red;
-    background-color:light gray;
+    border: 1px solid gray;
+    
   }
   
   div.gallery img {
-    width:40%;
-    height: 20%;
-    margin-top:0px;
-    align:center
+    width: 100%;
+    height: auto;
+    -webkit-animation: fadein 0s; /* Safari, Chrome and Opera > 12.1 */
+       animation: fadein 1s;
   }
   
+ .cate{
+   margin-bottom:3em;
+   margin-left:1em;
+   font-size: 20px; 
+   -webkit-animation: fadein 0s; /* Safari, Chrome and Opera > 12.1 */
+       animation: fadein 1s;
+ }
+
   div.desc {
     padding: 5px;
     text-align: center;
@@ -27,30 +41,83 @@ div.gallery {
     font-size:15px;
     text-decoration:underline;
     top:200px;
+    -webkit-animation: fadein 0s; /* Safari, Chrome and Opera > 12.1 */
+       animation: fadein 1s;
     
   }
-  
-
-  mat-grid-tile {
-    background: lightblue;
+  .Quantity{
+    background-color: whitesmoke;
+    margin-left: 5px;
+    border:none;
+    margin-bottom: 25px;
+  }
+ .selectedQuantity{
+  background-color:gainsboro;
+  width:50px;
+  height: 19px;
+  margin-bottom: 30px;
+  font-size: 15px;
+  text-align:center; 
  }
- 
 
+ .product{
+   margin-left: 25px;
+   width:150px;
+ }
+ .item{
+   margin-left: 25px;
+ }
 
+ .btn1{
+   background-color: wheat;
+   height: 20px;
+   width:50px;
+   color:black;
+   margin-left: 15px;
+   margin-bottom: 15px;
+   text-align: center;
+   font-size:12px; 
+   border-color: grey;
+ }
 
- * {
-  box-sizing: border-box;
-}
+ .btn2{
+    background-color:wheat;
+    width: 50px;
+    text-align: center;
+    color: black;
+    font-size: 15px;
+    margin-left: 1px;
+    margin-bottom: 20px;
+    border-color: grey;
 
-.column {
-  float: left;
-  width: 25%;
-  padding: 5px;
-}
-
-/* Clearfix (clear floats) */
-.row::after {
-  content: "";
-  clear: both;
-  display: table;
-}
+  }
+  
+  @keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+    }
+    
+    /* Firefox < 16 */
+    @-moz-keyframes fadein {
+    from { opacity: 0.8; }
+    to   { opacity: 1; }
+    }
+    
+    /* Safari, Chrome and Opera > 12.1 */
+    @-webkit-keyframes fadein {
+    from { opacity: 0.8; }
+    to   { opacity: 1; }
+    }
+    
+    /* Internet Explorer */
+    @-ms-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+    }
+    
+    /* Opera < 12.1 */
+    @-o-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+    }
+  

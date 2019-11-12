@@ -1,7 +1,7 @@
-import { Component, OnInit, EventEmitter, Input } from '@angular/core';
+import { Component, OnInit, EventEmitter, Input, ViewChild, ViewChildren, QueryList, ElementRef } from '@angular/core';
 import { ProductService } from './product.service';
 import { Product } from './product';
-import { Router,ActivatedRoute } from '@angular/router';
+import { Router,ActivatedRoute, NavigationStart } from '@angular/router';
 import {Output} from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ProductSelect } from './productselectview';
@@ -13,6 +13,10 @@ import { SharedService } from '../sharedservice.service';
 import { ProductAvail } from './productavail';
 import { BucketView } from './bucketview';
 import { BucketModel } from './bucketmodel';
+
+import { FilterComponent } from 'src/app/filter/filter.component';
+import { FilterParams } from 'src/app/filter/filterparams';
+import { SearchProduct } from './search-product';
 
 
 @Component({
@@ -31,85 +35,171 @@ export class ProductComponent implements OnInit {
 
 
  public productList:Product[];
-
+ public productSearchList:SearchProduct[];
  public name:String;
  url:string;
  id:string;
  bucketView:BucketView;
+ catId:string;
+ subId:string;
+ search:string;
 
-private subscription: Subscription;
+ @ViewChild(FilterComponent)
+    private filterComponent: FilterComponent;
+
+ @Input() filterParams:FilterParams=new FilterParams();
+
+ private subscription: Subscription;
+
  
 
-
-
-  constructor(private productService: ProductService,private activatedRoute:ActivatedRoute,private router:Router,private cookieService:CookieService ,private sharedService:SharedService) {
+ constructor(private productService: ProductService,private activatedRoute:ActivatedRoute,private router:Router,private cookieService:CookieService ,private sharedService:SharedService) {
+ 
+ 
+  this.subscription= this.sharedService.getState().subscribe(bucketView=>{
    
-    this.subscription= this.sharedService.getState().subscribe(bucketView=>{
-      this.bucketView=bucketView
-     
-    });
-
-  }
-
-  
-
-  compareFn(pAv1: ProductAvail, pAv2: ProductAvail): boolean {
-    return pAv1 && pAv2 ? pAv1.id === pAv2.id : pAv1 === pAv2;
-  }
-  ngOnInit() {
-  
-  
-    this.showCart();
-    
-  if (this.router.url.includes('sub'))
-  {
- 
-    this.activatedRoute.params.subscribe(routeParams => {
-      this.productBasedOnSubCategory(routeParams.id);
-     });
-    
-  }
-  else if(this.router.url.includes('cat'))
-  {
+    this.bucketView=bucketView
    
-  this.activatedRoute.params.subscribe(routeParams => {
-   this.productBasedOnCategory(routeParams.id);
-  })
-
- 
+  });
 
 }
- else{
-  
-    this.activatedRoute.queryParams.subscribe(queryParams => {
-      
-      this.productBasedSearch (queryParams['productName']);
-      
-     })
-   }
+
+
+
+
+ngOnInit() {
+
+this.showCart();
+
+if (this.router.url.includes('sub'))
+{
+
+  this.activatedRoute.queryParams.subscribe(routeParams => {
+    this.catId=routeParams.catId
+    this.subId=routeParams.subId
     
+    this.filterComponent.setCategorySubCategory(this.catId,this.subId);
+    this.filterComponent.getFilterMetaData(this.catId,this.subId)
+ 
+    this.productBasedOnSubCategory();
+   });
+  
+}
+else if(this.router.url.includes('cat')) 
+{
+
+  this.activatedRoute.queryParams.subscribe(routeParams => {
+    this.catId=routeParams.catId
+    this.subId=null
+  this.filterComponent.setCategorySubCategory(this.catId,this.subId);
+  this.productBasedOnCategory();
+
+  this.filterComponent.getFilterMetaData(this.catId,this.subId)
+ 
+})
+
+}
+else{
+
+    this.activatedRoute.queryParams.subscribe(queryParams => {
+    this.search=queryParams['search']
+    
+    let 
+      params={
+        'search': this.search
+      }
+    this.productBasedSearch (params);
+    this.filterComponent.getFilterMetaDataSearch(this.search,this.filterParams)
+  
+    this.filterComponent.searchFilterUrl(params);
+   })
  }
+  
+}
+ resetFilter(event)
+ {
+
+   this.filterComponent.resetAll();
+  
+ }
+ 
+ fetchFilters(event) { 
+
+   this. filterParams=event
+   let brandPayLoad=this.filterParams.brandFilters.join(",")
+    let pricePayLoad=this.filterParams.priceFilters.join(",")
+    let weightPayLoad=this.filterParams.weightFilters.join(",")
+
+let 
+  params={
+    'catId': this.catId,
+    'subId': this.subId,
+    'search':this.search,
+    'brandFilters':brandPayLoad,
+    'priceFilters':pricePayLoad,
+    'weightFilters':weightPayLoad
+  }
+  if(this.catId!=null && this.subId!=null)
+  {
+ this.productService.productByFilter(params).subscribe(response =>
+  {
+   
+    this.productSearchList = response;
+    if(this.productSearchList==[])
+    {
+      this.filterComponent.getFilterMetaData(this.catId,this.subId)
+    }
+    console.log('Products based on Category From DB')
+    this.productSearchList = response;
+    this.productSearchList.forEach(productSearch=>{
+       
+      productSearch.prod.selectedItemCount=1;
+      productSearch.prod.itemCountList=[1,2,3,4];
+       
+      productSearch.prod.selectedProductAvail= productSearch.prod.productAvailList[0];
+      }  
+    )
+    return this.productSearchList;
+
+      }
+      );
+    }
+    if(this.search!=null)
+    {
+     
+      this.productBasedSearch(params)
+
+    }
+
+ } 
+ 
+
+
 
   
-   productBasedOnCategory(id)
+   productBasedOnCategory()
   {
 
   
-   this.id=id;
-    
+
+   let 
+     params={
+       'catId': this.catId
+     }
+   
  
-    this.productService.getProductByCategory(this.id).subscribe(response =>
+   this.productService.productByFilter(params).subscribe(response =>
       {
        
-        this.productList = response;
+        this.productSearchList = response;
         console.log('Products based on Category From DB')
 
-          this.productList.forEach(product=>{
+          this.productSearchList.forEach(productSearch=>{
            
-            product.selectedItemCount=1;
-            product.itemCountList=[1,2,3,4];
+            productSearch.prod.selectedItemCount=1;
+            productSearch.prod.itemCountList=[1,2,3,4];
            
-           product.selectedProductAvail= product.productAvailList[0];
+            productSearch.prod.selectedProductAvail=  productSearch.prod.productAvailList[0];
           }  
         )
         return this.productList;
@@ -119,22 +209,28 @@ private subscription: Subscription;
        
   }
 
-  productBasedOnSubCategory(id)
+  productBasedOnSubCategory()
   {
 
+    
+    let 
+      params={
+        'catId': this.catId,
+        'subId': this.subId
+      }
+    
    
-    this.id=id;
    
-    this.productService.getProductBySubCategory(this.id).subscribe(response =>
+    this.productService.productByFilter(params).subscribe(response =>
       {
        
-        this.productList = response;
+        this.productSearchList = response;
         console.log('Products based on Category From DB')
 
-          this.productList.forEach(product=>{
-            product.selectedItemCount=1;
-            product.itemCountList=[1,2,3,4];
-            product.selectedProductAvail= product.productAvailList[0];
+          this.productSearchList.forEach(productSearch=>{
+            productSearch.prod.selectedItemCount=1;
+            productSearch.prod.itemCountList=[1,2,3,4];
+            productSearch.prod.selectedProductAvail=  productSearch.prod.productAvailList[0];
           }  
         )
         return this.productList;
@@ -145,28 +241,27 @@ private subscription: Subscription;
   
   }
 
-  productBasedSearch (name)
+  productBasedSearch (params)
   {
 
-   
-    this.name=name;
  
-    this.productService.productBasedOnName(name).subscribe(response =>
+    this.productService.productBasedOnName(params).subscribe(response =>
       {
        
-        this.productList = response;
-        console.log('Products based on name  search')
-        this.productList.forEach(product=>{
-          product.selectedItemCount=1;
-          product.itemCountList=[1,2,3,4];
-          product.selectedProductAvail= product.productAvailList[0];
-        }  
-      )
-      return this.productList;
+       
+        console.log(this.productList)
+        this.productSearchList = response;
+        console.log('Products based on Category From DB')
+
+          this.productSearchList.forEach(productSearch=>{
+           
+            productSearch.prod.selectedProductAvail=  productSearch.prod.productAvailList[0];
+          }  
+        )
        
       });
       
-    return this.productList;
+   
   
   }
  
@@ -239,7 +334,7 @@ addToCart(productId:any,selectedProductAvail:any,itemCount:any)
   {
  
  
-if(!(localStorage.getItem("CookieBucket")==null))
+if(!(localStorage.getItem("CookieBucket")=="null"))
  {
 
      var bucketItemString= localStorage.getItem("CookieBucket");
@@ -264,7 +359,7 @@ if(!(localStorage.getItem("CookieBucket")==null))
    cookieBucket.totalPrice=this.bucketView.totalPrice;
     localStorage.setItem("CookieBucket",this.ObjectToJsonString(cookieBucket));
     
-    this.bucketViewEmitter.emit(this.bucketView);
+     this.sharedService.setSet(this.bucketView);
   }
 
 
@@ -294,7 +389,7 @@ getTheFullViewMap(productId:any,selectedProdAvail:any,itemCount:any, cookieBucke
     this.bucketView.totalItemCount=cookieBucket.totalItems
     cookieBucket.totalPrice=this.bucketView.totalPrice;
    
-    this.bucketViewEmitter.emit(this.bucketView)
+    this.sharedService.setSet(this.bucketView);
    }
   else
   {
@@ -329,7 +424,7 @@ var productList;
         cookieBucket.totalPrice=this.bucketView.totalPrice;
         cookieBucket.totalItems=this.bucketView.totalItemCount;
         localStorage.setItem("CookieBucket",this.ObjectToJsonString(cookieBucket));
-        this.bucketViewEmitter.emit(this.bucketView);
+         this.sharedService.setSet(this.bucketView);
        
    
    
@@ -378,7 +473,7 @@ else
        product.selectedItemCount=productSelect.itemCount;
       
        this.bucketView.productFullInfoBucketMap.set(product.prodAvailId,product);
-       this.bucketViewEmitter.emit(this.bucketView);
+        this.sharedService.setSet(this.bucketView);
       });
   
     });
@@ -459,7 +554,9 @@ updateCookieBucket(selectedProdAvail:any,selectedItemCount:any,totalItemCount:an
  localStorage.setItem("CookieBucket",this.ObjectToJsonString(cookieBucket));
 }
 
-
+compareFn(pAv1: ProductAvail, pAv2: ProductAvail): boolean {
+  return pAv1 && pAv2 ? pAv1.id === pAv2.id : pAv1 === pAv2;
+}
 
 }
 

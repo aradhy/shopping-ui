@@ -1,6 +1,6 @@
 
         
-<app-menus [bucketView]=bucketView [customerName]=customerName></app-menus>
+<app-menus *ngIf="navigationState" [bucketView]=bucketView [customerName]=customerName></app-menus>
 
 <router-outlet (activate)="onActivate($event)" ></router-outlet>
 

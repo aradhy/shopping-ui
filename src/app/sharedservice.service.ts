@@ -12,7 +12,7 @@ export class SharedService {
   private selectionFormatState = new Subject<BucketView>();
 
   setSet(state: BucketView) {
-  
+  //alert("bhai me set state me hu")
      this.selectionFormatState.next(state);
    }
  

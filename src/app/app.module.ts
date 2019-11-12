@@ -12,14 +12,17 @@ import { MenusComponent } from './menus/menus.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CommonModule } from '@angular/common';
 import { SharedService } from './sharedservice.service';
-import {MatGridListModule} from '@angular/material';
+import {MatGridListModule, MatRadioModule, MatAutocompleteModule, MatProgressSpinnerModule} from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxImageZoomModule } from 'ngx-image-zoom';
 import { UserComponent } from './user/user.component';
 import { SocialLoginModule, AuthServiceConfig, GoogleLoginProvider, FacebookLoginProvider, LoginOpt } from 'angularx-social-login';
 import { TokenInterceptor } from './token-interceptor';
+
+import { FilterComponent } from './filter/filter.component';
+import { DeliveryComponent } from './delivery/delivery.component';
 import { CheckOutViewComponent } from './check-out-view/check-out-view.component';
-import { AddressComponent } from './address/address.component';
+
 
 @NgModule({
   declarations: [
@@ -27,7 +30,7 @@ import { AddressComponent } from './address/address.component';
     ProductComponent,
     CategoryComponent,
     SingleProductViewComponent,
-    MenusComponent,UserComponent, CheckOutViewComponent, AddressComponent
+    MenusComponent,UserComponent, DeliveryComponent,FilterComponent,CheckOutViewComponent
    
   ],
   imports: [
@@ -35,15 +38,23 @@ import { AddressComponent } from './address/address.component';
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
-    FormsModule,NgbModule,CommonModule, BrowserAnimationsModule,MatGridListModule,NgxImageZoomModule,SocialLoginModule
+    MatAutocompleteModule,MatProgressSpinnerModule,MatRadioModule,
+    FormsModule,NgbModule,CommonModule, BrowserAnimationsModule,MatGridListModule,NgxImageZoomModule,SocialLoginModule,
   ],
   providers: [SharedService,{
     provide: AuthServiceConfig,
     useFactory: provideConfig
   },SocialLoginModule,{ provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true }],
-  bootstrap: [AppComponent]
+ bootstrap:[AppComponent],
+ 
+  
 })
-export class AppModule { }
+export class AppModule {
+
+ 
+
+
+ }
 const googleLoginOptions: LoginOpt = {
   scope: 'profile email'
  

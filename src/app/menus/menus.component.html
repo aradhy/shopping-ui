@@ -21,34 +21,48 @@
 </div>
 
 <!-- The form -->
-<div class="search">
-<form class="example" #regForm='ngForm' (ngSubmit)="searchProduct(regForm)" style="margin:auto;max-width:600px">
-  <input type="text" placeholder="Search.." name="search" autocomplete="off" ngModel>
-  <button type="submit" ><div class="fa fa-search"></div></button>
-</form>
-</div>
-        <div id="menu" >
-                <ul>
-              
-                   <li><a href="#" (mouseenter)="mouse_event()"  >SHOP BY CATEGORY</a>
-                   
-                              <ul>
-                                     <li  class="dropdown" *ngFor='let category of categoryList'  (mouseenter)="mouse_event_sub(category.id)" (click)="collapse()">
-                                   
-                                      <a [routerLink]="['/product/cat',category.id]" >{{category.name}}</a>
-                       <ul >
-                                  <li class="dropdown" *ngFor='let subcategory of sub_categoryList'><a [routerLink]="['/product/sub',subcategory.id]">{{subcategory.name}}</a></li>
-                                 
-                       </ul>
-                 
-                  </li>
-                </ul>               
-            </ul>
-            
-            
+
+  <form class="example"   (ngSubmit)="searchProduct(regForm)" style="margin:auto;max-width:600px">
+    <input type="text" placeholder="Search.."  [formControl]="search"  [matAutocomplete]="auto"  autocomplete="off" size="50" >
+    <button type="submit" >Search</button>
+  </form>
+
+  
+  <mat-autocomplete #auto="matAutocomplete">
+      <mat-option *ngIf="testFlag" ><mat-spinner diameter="20"></ mat-spinner></mat-option>
+      <ng-container *ngIf="!testFlag">
+      <mat-option   *ngFor="let productSearch of prodSearchDropItems" >
+          <div *ngIf="prodSearchDropItems!=null">
+              <a [routerLink]="['/single-product-view/cat/',productSearch.catId,'sub',productSearch.subId,'pc',productSearch.code,'avail',productSearch.selectedProductAvail.id]">{{productSearch.name}}-{{productSearch.brand}}</a> 
+              {{productSearch.selectedProductAvail.weight}}-{{productSearch.selectedProductAvail.weightUnit}}-{{productSearch.selectedProductAvail.price}}
             </div>
+        </mat-option>
+      </ng-container>
+      </mat-autocomplete>
+   
+<div id="menu">
+  <ul>
+
+     <li><a href="#" (mouseenter)="mouse_event()" >SHOP BY CATEGORY</a>
+     
+                <ul>
+                       <li *ngFor='let category of categoryList'  (mouseenter)="mouse_event_sub(category.id)">
+                     
+                        <a  [routerLink]="['/product/cat']" [queryParams]="{catId: category.id}" (click)='resetFilter()' >{{category.name}}</a>
+         <ul>
+                    <li *ngFor='let subcategory of subCategoryList'><a  (click)='resetFilter()' [routerLink]="['/product/cat']" [queryParams]="{ catId: category.id,subId:subcategory.id}" >{{subcategory.name}}</a></li>
+                   
+         </ul>
+   
+    </li>
+  </ul>               
+</ul>
+
+
+</div>
+
            
-            <a  href="javascript:void" id="add" (click)="openAddress()"  >Address</a>
+    
 
 
             <div class="cartdiv" (mouseover)="displayCart()">
@@ -80,9 +94,9 @@
                               </th>
                               
                               <th>&nbsp;Qty:
-                                  <input type="button"  style= "width:15%;text-align:center" value="-" (click)="subQty(tdx.prodAvailId,tdx.selectedItemCount)"/>    
-                                <input type="text" name="tdx.selectedItemCount"  [(ngModel)]="tdx.selectedItemCount"  style= "width:15%;text-align:center" (focusout)="updateItemCount(tdx.prodAvailId,tdx.selectedItemCount)" />    
-                                <input type="button"  style= "width:15%;text-align:center" value="+" (click)="addQty(tdx.prodAvailId,tdx.selectedItemCount)"/>  
+                                  <input type="button"  style= "width:15%;text-align:center" value="-" (click)="subQty(tdx.prodAvailId,1)"/>    
+                                <input type="text" name="tdx.selectedItemCount"  [(ngModel)]="tdx.selectedItemCount"  style= "width:15%;text-align:center" (focusout)="updateItemCount(tdx.prodAvailId,tdx.selectedItemCount)" disabled/>    
+                                <input type="button"  style= "width:15%;text-align:center" value="+" (click)="addQty(tdx.prodAvailId ,1)"/>  
                               </th>  
                               
                                  
@@ -112,4 +126,3 @@
               
             
               </div>
-           

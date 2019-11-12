@@ -2,19 +2,21 @@ import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { CategoryService } from '../category/category.service';
 import { Category } from '../category/category';
 import { SubCategory } from '../category/sub-category';
-import { NgForm } from '@angular/forms';
+import { NgForm, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { ProductSelect } from '../product/productselectview';
 import { CookieBucket } from './bucketcookie';
 import { ProductService } from '../product/product.service';
-import { Subscription } from 'rxjs';
+import { Subscription, of } from 'rxjs';
+import {map, startWith, debounceTime, catchError, switchMap, distinctUntilChanged, tap, finalize} from 'rxjs/operators';
 import { SharedService } from '../sharedservice.service';
 import { Product } from '../product/product';
 import { ProductAvail } from '../product/productavail';
 import { BucketView } from '../product/bucketview';
 import { BucketModel } from '../product/bucketmodel';
 import * as $ from 'jquery';
+import { SearchProduct } from '../product/search-product';
 
 @Component({
   selector: 'app-menus',
@@ -31,14 +33,30 @@ export class MenusComponent implements OnInit {
   @Input() customerName:string;
   public categoryList:Category[];
   public categoryListAll:Category[];
-  public sub_categoryList:SubCategory[];
+  public subCategoryList:SubCategory[];
+  private subscription: Subscription;
+  search = new FormControl('search');
+  testFlag:boolean=false;
+  productSearchList: SearchProduct[];
+  prodSearchDropItems:Product[];
 
-
- 
   
+  @Output() resetEmitter = new EventEmitter<boolean>();
+
+  @Output() searchClicked = new EventEmitter<any>();
+  
+  resetFilter()
+  {
+
+    this.resetEmitter.emit(true)
+  }
 
   constructor(private categoryService: CategoryService,private router:Router,private sharedSerevice: SharedService,private productService: ProductService) {
-   
+    this.subscription= this.sharedSerevice.getState().subscribe(bucketView=>{
+     
+      this.bucketView=bucketView
+     
+    });
    
    }
 
@@ -46,7 +64,7 @@ export class MenusComponent implements OnInit {
    
   ngOnInit() {
     
-  
+
     if(localStorage.getItem("customerName")!='null' || localStorage.getItem("customerName")!="null")
     {
       this.customerName=localStorage.getItem("customerName");
@@ -55,9 +73,11 @@ export class MenusComponent implements OnInit {
     else{
       this.customerName=null;
     }
+    this.search = new FormControl();
+    
+    this.onchange();
     this.showCart()
- 
-
+  
 }
 collapse()
   {
@@ -73,17 +93,87 @@ $(".tooltiptext").slideUp("fast")
 
 }
 
+onchange()
+{
+
+   this.search.valueChanges.pipe(
+    distinctUntilChanged(),
+    debounceTime(1000),
+    switchMap(value =>value?this.productBasedSearch(value):of([]
+      ) 
+    
+    )
+    ).subscribe(productList => 
+      {
+      this.productSearchList=productList
+      console.log(this.productSearchList)
+      this.prodSearchDropItems=new Array<Product>()
+        this.productSearchList.forEach(productSearch=>{
+       
+         productSearch.prod.productAvailList.forEach(prodAvail=>
+          {
+            let product=new Product()
+            product.code=productSearch.prod.code;
+            product.catId=productSearch.catId
+            product.subId=productSearch.prod.subId
+            product.imageLink=productSearch.prod.imageLink
+            product.name=productSearch.prod.name
+            product.selectedProductAvail=prodAvail
+            this.prodSearchDropItems.push(product)
+           
+          }
+
+         )
+       
+        }  
+      )
+      this.testFlag = false
+      });
+   
+}
+
+
+productBasedSearch (name)
+{  
+
+  let 
+  params={
+  
+    'search':name
+   
+  }
+  
+  if(name.length>2)
+  {
+   
+    this.testFlag=true
+   var productObserv= this.productService.productBasedOnName(params)
+ 
+   return productObserv;
+  }
+  else
+  {
+
+     return of([]);
+  }
+
+}
+
+
 displayCart()
   {
   
     $(".tooltiptext").show()
     
   }
-  searchProduct(regForm:NgForm)
+  searchProduct()
   {
-    var productSearch=regForm.controls.search.value;
+   
+    var productSearch=this.search.value;
+    this.searchClicked.emit(productSearch)
+
     if(productSearch!='')
-    this.router.navigate(['product-name'],{ queryParams: { productName: productSearch } });
+    this.router.navigate(['product-name'],{ queryParams: { 'search': productSearch } });
   
   }
 
@@ -110,7 +200,7 @@ displayCart()
       {
        
       
-        this.sub_categoryList = response;
+        this.subCategoryList = response;
         console.log('SubCategory From DB')
        
         
@@ -118,7 +208,7 @@ displayCart()
       });
       
       
-    return this.sub_categoryList;
+    return this.subCategoryList;
   }
 
 removeFromBucket(x:string)

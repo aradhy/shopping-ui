@@ -8,7 +8,7 @@ import { Observable, Subject } from 'rxjs';
 import { ProductService } from './product/product.service';
 import { OrderStatus } from './orderstatus';
 import { OrderItem } from './orderitem';
-
+import { Location } from '@angular/common';
 
 
 
@@ -26,14 +26,35 @@ export class AppComponent {
   customerName:string; 
   productFullInfoBucketMap:Map<string,Product>;
   order:CustomerOrder; 
-  constructor(private router:Router,private productService: ProductService)
+  route: string;
+  navigationState: boolean = false;
+
+
+
+  constructor(private router:Router,private productService: ProductService,private location: Location)
   {
+
+    router.events.subscribe(() => {
+    
+      if (location.path() != "") {
+     
+        if (location.path().includes('/delivery')) {
+        
+          this.navigationState = false;
+        } else {
+         
+          this.navigationState = true;
+        }
+      }
+    });
 
   }
   
+
+
   ngOnInit() {
-    this.createCustomerOrder();
-   // this.router.navigateByUrl('/category-view');
+   
+   this.router.navigateByUrl('/category-view');
    
   }
   
