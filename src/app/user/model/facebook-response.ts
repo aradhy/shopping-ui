@@ -1,8 +1,11 @@
 export class FacebookResponse {
 
-status:string;
-    constructor (private authToken:string,private name:string,private email:string,private socialProvider:string)
-   {
 
+public name:string;
+public email:string;
+status:string;
+    constructor (private authToken:string, name:string,private socialProvider:string)
+   {
+this.name=name;
    }
 }

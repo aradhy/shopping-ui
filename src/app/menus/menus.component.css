@@ -165,9 +165,14 @@ margin-top:10px;
 	font-weight:bold;
 	}
 .pass{
-    margin-left: 72em;
-    margin-top: 0em;
+    
+	margin-top:0em;
+	margin-left: 75em;
 }
 #signIn{
-    margin-left: 0.6em;
+    margin-left:1em;
+}
+
+a{
+	cursor: pointer;
 }

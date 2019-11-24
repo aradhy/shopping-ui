@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, ViewChild, OnInit, AfterViewInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { CookieBucket } from './menus/bucketcookie';
 import { Product } from './product/product';
 import { CustomerOrder } from './customerorder';
@@ -9,6 +9,12 @@ import { ProductService } from './product/product.service';
 import { OrderStatus } from './orderstatus';
 import { OrderItem } from './orderitem';
 import { Location } from '@angular/common';
+import {LocationStrategy} from '@angular/common';
+import { FacebookResponse } from './user/model/facebook-response';
+import { CategoryService } from './category/category.service';
+import { MenusComponent } from './menus/menus.component';
+import { logging } from 'protractor';
+import { TokenResponse } from './user/model/token-Response';
 
 
 
@@ -19,7 +25,13 @@ import { Location } from '@angular/common';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit,AfterViewInit{
+  ngAfterViewInit(): void {
+   
+    this.logIn();
+  }
+ 
+  
   [x: string]: any;
   title = 'MyFirstApp';
   bucketView:CookieBucket;
@@ -28,16 +40,20 @@ export class AppComponent {
   order:CustomerOrder; 
   route: string;
   navigationState: boolean = false;
+  
+ 
+  
+  @ViewChild(MenusComponent) menusComponent: MenusComponent; 
 
-
-
-  constructor(private router:Router,private productService: ProductService,private location: Location)
+  constructor(private router:Router,private productService: ProductService,private location: Location,private activatedRoute:ActivatedRoute,private locationStrategy:LocationStrategy,private categoryService:CategoryService,private httpClient: HttpClient)
   {
-
-    router.events.subscribe(() => {
+   
     
+  
+    router.events.subscribe(() => {
+      
       if (location.path() != "") {
-     
+       // alert(location.prepareExternalUrl(location.path()));
         if (location.path().includes('/delivery')) {
         
           this.navigationState = false;
@@ -48,43 +64,23 @@ export class AppComponent {
       }
     });
 
+
+
   }
   
 
 
   ngOnInit() {
-   
-   this.router.navigateByUrl('/category-view');
+
+     this.router.navigateByUrl('/category-view');
    
   }
   
-  createCustomerOrder()
-{
-  let order=new CustomerOrder();
-  order.id=558
-  order.orderDetails='now slee'
-    let orderStatus=new OrderStatus();
-    orderStatus.status='fin updated';
-    order.orderStatusList.push(orderStatus)
-   // orderStatus.status='order updated again'
-   // orderStatus.order=order
-   // order.orderStatusList.push(orderStatus);
+ 
 
-   this.order=order;
-this.productService.subCall(this.order).subscribe( data=>
-  {
- alert(data)
+  close() {
+    this.dialogRef.close();
   }
-);
-;
-
-
-
-
-
-}
-
-
 
   onActivate(componentReference) {
  
@@ -119,4 +115,80 @@ this.productService.subCall(this.order).subscribe( data=>
  
 
 }
+
+
+logIn()
+{
+  this.currentUrl=window.location.href
+  let currentUserName=localStorage.getItem('currentUser');
+  this.currentUserName=currentUserName;
+if((currentUserName==null || currentUserName=="null") && this.currentUrl!='https://localhost:4200/')
+{
+
+
+if(this.currentUrl.indexOf('#access_token=')>0)
+{
+
+   let access_token=this.currentUrl.substring(this.currentUrl.indexOf('#access_token=')+"#access_token=".length,this.currentUrl.indexOf('&'))
+ 
+   this.categoryService.getFaceBookResponse(access_token).subscribe(data=>{
+ 
+    this.currentUserName=data.name
+    let  facebookResponse=new FacebookResponse(access_token,data.name,'facebook')
+    facebookResponse.email=data.email
+    localStorage.setItem('JWT-TOKEN',access_token)
+   
+    this.httpClient.post<TokenResponse>("http://localhost:8080/socialSignUp?provider="+'facebook',
+    facebookResponse
+      ).subscribe(
+        tokenResponse  => {
+         console.log(tokenResponse)
+          if(tokenResponse.obj!=null )
+          {
+            localStorage.setItem("PROVIDER",'facebook')
+           
+            if(tokenResponse.obj.userName!=null)
+            {
+             alert("Welcome  "+tokenResponse.obj.userName)  
+
+             this.customerNameEmitter.emit(tokenResponse.obj.userName)
+             localStorage.setItem("customerName",tokenResponse.obj.userName)
+            }
+            if( tokenResponse.obj.csrfToken!=null )
+             localStorage.setItem("X-CSRF-TOKEN",tokenResponse.obj.csrfToken)
+             
+            
+          }
+        });
+    window.history.pushState(this.currentUrl,'','https://localhost:4200/')
+   
+    localStorage.setItem('currentUser', this.currentUserName)
+   
+   }
+   )
+}
+else if(this.currentUrl.indexOf('&code=')>0)
+{
+      
+        let code=this.currentUrl.substring(46,this.currentUrl.lastIndexOf('&'))
+     
+         this.categoryService.getGoogleResponse(code).subscribe(data=>{    
+         localStorage.setItem('currentUser', this.currentUserName)
+         localStorage.setItem('JWT-TOKEN',data.idToken)
+         window.history.pushState(this.currentUrl,'','https://localhost:4200/')
+        
+         }  
+      )
+     
+
+}
+
+}
+}
+
+
+
+
+
+
 }

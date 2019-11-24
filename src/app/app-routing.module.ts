@@ -7,6 +7,7 @@ import { UserComponent } from './user/user.component';
 import { MenusComponent } from './menus/menus.component';
 import { DeliveryComponent } from './delivery/delivery.component';
 import { CheckOutViewComponent } from './check-out-view/check-out-view.component';
+import { AppComponent } from './app.component';
 
 
 
@@ -19,7 +20,8 @@ export const routes: Routes = [
   { path: 'user/:id', component: UserComponent },
   {path:'delivery',component:DeliveryComponent},
   { path: 'menu', component: MenusComponent },
-  {path:'checkout',component:CheckOutViewComponent}
+  {path:'checkout',component:CheckOutViewComponent},
+
   
 
   

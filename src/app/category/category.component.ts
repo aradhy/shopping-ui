@@ -4,6 +4,7 @@ import { Category } from './category';
 import { SubCategory } from './sub-category';
 import { NgbCarouselConfig, NgbCarousel } from '@ng-bootstrap/ng-bootstrap';
 import {Slider} from './slider';
+import { ActivatedRoute } from '@angular/router';
 
 
 declare var custom:any;
@@ -32,6 +33,8 @@ export class CategoryComponent implements OnInit,AfterViewInit {
   ];
   
   constructor(private categoryService: CategoryService,config: NgbCarouselConfig, myCarousel:NgbCarousel) {
+
+    
     config.interval = 9000;
     config.wrap = true;
     config.keyboard = false;

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output, Inject } from '@angular/core';
 import { CategoryService } from '../category/category.service';
 import { Category } from '../category/category';
 import { SubCategory } from '../category/sub-category';
@@ -17,6 +17,10 @@ import { BucketView } from '../product/bucketview';
 import { BucketModel } from '../product/bucketmodel';
 import * as $ from 'jquery';
 import { SearchProduct } from '../product/search-product';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialogConfig, MatDialog } from "@angular/material/dialog";
+import { UserComponent } from '../user/user.component';
+import { Overlay } from '@angular/cdk/overlay';
+
 
 @Component({
   selector: 'app-menus',
@@ -39,6 +43,8 @@ export class MenusComponent implements OnInit {
   testFlag:boolean=false;
   productSearchList: SearchProduct[];
   prodSearchDropItems:Product[];
+  currentUrl:string;
+  currentUserName:string;
 
   
   @Output() resetEmitter = new EventEmitter<boolean>();
@@ -51,7 +57,7 @@ export class MenusComponent implements OnInit {
     this.resetEmitter.emit(true)
   }
 
-  constructor(private categoryService: CategoryService,private router:Router,private sharedSerevice: SharedService,private productService: ProductService) {
+  constructor(private categoryService: CategoryService,private router:Router,private sharedSerevice: SharedService,private productService: ProductService,private dialog: MatDialog) {
     this.subscription= this.sharedSerevice.getState().subscribe(bucketView=>{
      
       this.bucketView=bucketView
@@ -59,6 +65,8 @@ export class MenusComponent implements OnInit {
     });
    
    }
+
+
 
 
    
@@ -79,6 +87,24 @@ export class MenusComponent implements OnInit {
     this.showCart()
   
 }
+
+openDialog(id)
+{
+ 
+  const dialogConfig = new MatDialogConfig();
+
+  dialogConfig.disableClose = true;
+  dialogConfig.autoFocus = false;
+  dialogConfig.height="520px"
+  dialogConfig.width="320px"
+  dialogConfig.data =id;
+
+let dialogRef= this.dialog.open(UserComponent,dialogConfig);
+   
+  
+}
+
+
 collapse()
   {
     $(".dropdown").slideUp("fast")
@@ -422,4 +448,19 @@ logout()
   this.customerName=null;
  
 }
+
+
+
+
+
+
+
+
+logOut()
+{
+  this.currentUserName=null;
+  localStorage.setItem('currentUser',null)
+}
+
+
 }

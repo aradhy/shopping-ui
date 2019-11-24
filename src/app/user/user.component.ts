@@ -1,11 +1,14 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, Inject } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { FormBuilder,FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder,FormControl, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import {TokenResponse} from './model/token-Response'
 import { GoogleResponse } from './model/google-response';
 import { FacebookResponse } from './model/facebook-response';
 import { GoogleLoginProvider, FacebookLoginProvider, AuthService } from 'angularx-social-login';
+import { APP_BASE_HREF } from '@angular/common';
+import * as $ from 'jquery';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 declare var onClickSubmit:any;
 declare var onClick:any;
 @Component({
@@ -20,8 +23,13 @@ export class UserComponent implements OnInit {
   signInForm:FormGroup;
   paramVal:string;
   @Output() customerNameEmitter = new EventEmitter<string>();
-  constructor(private router:Router,private activatedRoute:ActivatedRoute,formBuilder:FormBuilder,private httpClient: HttpClient,private authService: AuthService) 
+  currentUrl:string;
+  currentUserName:string;
+
+  constructor(private router:Router,private activatedRoute:ActivatedRoute,formBuilder:FormBuilder,private httpClient: HttpClient,private authService: AuthService,private dialogRef: MatDialogRef<UserComponent>,@Inject(MAT_DIALOG_DATA) public data: any) 
   {  
+
+    
     this.signUpForm=formBuilder.group({
       name: new FormControl(),
       mobile:new FormControl(),
@@ -40,37 +48,44 @@ export class UserComponent implements OnInit {
 
 
   ngOnInit() {
-  
-    
+
+ 
     this.activatedRoute.params.subscribe(params => {
       this.paramVal = params.id; 
     
     });
- 
-   onClickSubmit(this.paramVal);
+
+    this.onClickSubmit(this.data);
+  }
+
+  public hasError = (controlName: string, errorName: string) =>{
+    return this.signUpForm.controls[controlName].hasError(errorName);
   }
 
   changeForm(paramVal)
   {
     this.paramVal=paramVal
-    onClick(this.paramVal);
+    this.onClick(this.paramVal);
   }
   close()
   {
-    document.getElementById('id01').style.display='none';
+    this.dialogRef.close();
     this.router.navigateByUrl('/category-view');
   }
 
 
   onSignUp(signUpForm:any)
   {    
-    alert(signUpForm)
+   
    let name=signUpForm.controls.name.value;
     let mobileNumber=signUpForm.controls.mobile.value;
     let email=signUpForm.controls.email.value;
     let password=signUpForm.controls.password.value;
     signUpForm.reset();
-    this.httpClient.post<TokenResponse>("http://localhost:8080/signUp", {
+
+    console.log(name)
+    console.log(mobileNumber)
+  /*  this.httpClient.post<TokenResponse>("http://localhost:8080/signUp", {
       "name": name,
       "mobileNumber":mobileNumber,
       "email":  email,
@@ -100,7 +115,7 @@ export class UserComponent implements OnInit {
 
    
       
- }); 
+ }); */
 
 }
       
@@ -148,84 +163,61 @@ export class UserComponent implements OnInit {
 
 
 
+onClickSubmit(id)
+{
+
+  $("#"+id).show();
+if(id=='signUpId')
+{
+
+  $(".Up").css({"border-bottom": "3px solid blue"})
+$("#signInId").hide();
+}
+else{
+  
+  $(".In").css({"border-bottom": "3px solid blue"})
+    $("#signUpId").hide();
+}
+}
+
+ onClick(id)
+{
+
+if(id=='signUp')
+{
+  $(".Up").css({"border-bottom": "3px solid blue"})
+  $(".In").css({"border-bottom":"none"})
+$("#signUpId").show();
+$("#signInId").hide();
+}
+else{
+
+  $(".In").css({"border-bottom": "3px solid blue"})
+  $(".Up").css({"border-bottom":"none"})
+    $("#signInId").show();
+    $("#signUpId").hide();
+}
+}
     
-    public socialLogin(socialPlatform : string) {
-      let socialPlatformProvider;
-      if(socialPlatform == "facebook"){
-        socialPlatformProvider = FacebookLoginProvider.PROVIDER_ID;
-      }else if(socialPlatform == "google"){
-        
-        socialPlatformProvider = GoogleLoginProvider.PROVIDER_ID;
-      } 
-     
-      
-      this.authService.signIn(socialPlatformProvider).then(
-        (userData) => {
-       
-         if(socialPlatform == "facebook")
-         {
-           
-          let facebookresponse=new FacebookResponse(userData.authToken,userData.name,userData.email,socialPlatform);
-          localStorage.setItem("JWT-TOKEN",userData.authToken)
-          this.httpClient.post<TokenResponse>("http://localhost:8080/socialSignUp?provider="+socialPlatform,
-      facebookresponse
-      ).subscribe(
-        tokenResponse  => {
-          localStorage.setItem("PROVIDER",socialPlatform)
-          if(tokenResponse.obj!=null  && tokenResponse.obj.csrfToken!=null )
-          {
-            if(tokenResponse.obj.userName!=null)
-            {
-             alert("Welcome  "+tokenResponse.obj.userName)  
-
-             this.customerNameEmitter.emit(tokenResponse.obj.userName)
-             localStorage.setItem("customerName",tokenResponse.obj.userName)
-            }
-             localStorage.setItem("X-CSRF-TOKEN",tokenResponse.obj.csrfToken)
-             this.router.navigateByUrl("/category-view");
-            
-          }
-       //alert("Signed Up SuccessFully  via FaceBook by"+userData.email)
-        
-        
-         }); 
-  
-         }
-         else if(socialPlatform == "google"){
-        
-          localStorage.setItem("JWT-TOKEN",userData.idToken)
-          let googleResponse=new GoogleResponse(userData.idToken,userData.name,userData.email,socialPlatform);  
-          this.httpClient.post<TokenResponse>("http://localhost:8080/socialSignUp?provider="+socialPlatform,
-          googleResponse
-          ).subscribe(
-            tokenResponse  => {
-              localStorage.setItem("PROVIDER",socialPlatform)
-          if(tokenResponse.obj!=null  && tokenResponse.obj.csrfToken!=null )
-          {
-               if(tokenResponse.obj.userName!=null)
-               {
-               alert("Welcome  "+tokenResponse.obj.userName) 
-               this.customerNameEmitter.emit(tokenResponse.obj.userName)
-               localStorage.setItem("customerName",tokenResponse.obj.userName)
-               }
-             localStorage.setItem("X-CSRF-TOKEN",tokenResponse.obj.csrfToken)
-             this.router.navigateByUrl("/category-view");
-          }
-        //   alert("Signed Up SuccessFully via Google by "+userData.email)
-            
-            
-       }); 
-  
-  
-  
-         }
-          
-        }
-      );
-    }
 
 
+ 
+faceBookLogin()
+{
+  this.currentUserName=localStorage.getItem('currentUser');
+  if(this.currentUserName==null || this.currentUserName=="null")
+  window.location.href= "https://www.facebook.com/dialog/oauth?client_id=2190645354387980&redirect_uri=https://localhost:4200/&scope=email&response_type=token"
+}
+
+
+googleLogin()
+{
   
+  this.currentUserName=localStorage.getItem('currentUser');
+  if(this.currentUserName==null || this.currentUserName=="null")
+  window.location.href="https://accounts.google.com/o/oauth2/auth?scope=email&redirect_uri=https://localhost:4200/&response_type=code&client_id=517977997834-kevh4fjm6um2roe04umom1h7mki74rtv.apps.googleusercontent.com&state=af0ifjsldk"
+}
+ 
   
 
 
