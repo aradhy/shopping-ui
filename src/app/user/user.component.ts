@@ -1,6 +1,6 @@
 import { Component, OnInit, EventEmitter, Output, Inject } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { FormBuilder,FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder,FormControl, FormGroup, Validators,EmailValidator } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import {TokenResponse} from './model/token-Response'
 import { GoogleResponse } from './model/google-response';
@@ -31,10 +31,10 @@ export class UserComponent implements OnInit {
 
     
     this.signUpForm=formBuilder.group({
-      name: new FormControl(),
-      mobile:new FormControl(),
-       email: new FormControl(),
-       password: new FormControl()
+      name: new FormControl('',Validators.required),
+      mobile:new FormControl('',Validators.required),
+       email: new FormControl('',[Validators.required, Validators.email]),
+       password: new FormControl('',Validators.required)
     });
    
     this.signInForm=formBuilder.group({

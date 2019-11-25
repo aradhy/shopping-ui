@@ -1,8 +1,11 @@
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <body>
-
+   <div class="clos">
+      <i  class="fa fa-times-thin fa-2x" (click)="close()"  ></i>
+   </div>
 <div class="sign">
+   
 <a href="javascript:void(0)" (click)="changeForm('signUp')" class="Up">Sign Up</a>
          <a href="javascript:void(0)" (click)="changeForm('signIn')" class="In">Sign In</a><br>
         <div class="social">
@@ -28,7 +31,9 @@
 
         <mat-form-field>
            <input matInput placeholder="Email" 
-           formControlName="email" autocomplete="email">
+           formControlName="email" autocomplete="mobile">
+           <mat-error *ngIf="hasError('email', 'required')">Email is required</mat-error>
+           <mat-error *ngIf="hasError('email', 'email')">Please enter valid email</mat-error>
         </mat-form-field>
 
         <mat-form-field>
@@ -37,7 +42,7 @@
         </mat-form-field>
 
         <div class="submit">
-        <button type="submit"  mat-button  class="signButton">Sign Up</button>
+         <button type="submit" [disabled]="!signUpForm.valid"  mat-raised-button   color="primary">Sign Up</button>
         </div>
         
    </form> 
@@ -58,12 +63,11 @@
          </mat-form-field>
          
         <div class="submit">
-          <button type="submit"  mat-button class="signButton">Sign In</button>
+         <button type="submit" [disabled]="!signInForm.valid"  mat-raised-button   color="primary">Sign In</button>
         </div>
      </form> 
        
   </div>
-  <i  class="fa fa-times-thin fa-2x" aria-hidden="true" (click)="close()"  ></i>
 
 
 </body>

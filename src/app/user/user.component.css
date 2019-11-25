@@ -10,17 +10,25 @@
 .mat-dialog-container {
   overflow-y: hidden;
 }
+.clos
+{
+  margin-top:-3.8em;
+  position: relative;
+}
 .fa-times-thin:before {
   content: '\00d7';
   font-size: 50px;
-  position: absolute;
-  top: 103px;
+  position: fixed;
   margin-left:5.9em;
+  
   color:white; 
   cursor: pointer;
  
 }
-
+:host ::ng-deep .mat-form-field.mat-form-field-invalid .mat-form-field-label
+{
+color:inherit;
+}
 .Up{
   margin-left: 5em;
   text-decoration: none;
@@ -44,7 +52,7 @@
     }
     .sign{
     margin-left:0.5em;
-  
+  margin-top:1.8em
     }
 
 .formClass{
