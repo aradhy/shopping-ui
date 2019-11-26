@@ -16,6 +16,7 @@ import { logging } from 'protractor';
 import { TokenResponse } from './user/model/token-Response';
 import { UserService } from './user/user-service';
 import { UserComponent } from './user/user.component';
+import { GoogleResponse } from './user/model/google-response';
 
 
 
@@ -123,48 +124,46 @@ logIn()
   this.currentUrl=window.location.href
   let currentUserName=localStorage.getItem('currentUser');
   this.currentUserName=currentUserName;
-if((currentUserName==null || currentUserName=="null") && this.currentUrl!='https://localhost:4200/')
+  let  socialResponse;
+
+if(this.currentUrl.indexOf('access_token=')>0)
 {
-
-
-if(this.currentUrl.indexOf('#access_token=')>0)
-{
-
-   //let access_token=this.currentUrl.substring(this.currentUrl.indexOf('#access_token=')+"#access_token=".length,this.currentUrl.indexOf('&'))
- let access_token= this.getResponseFromUrl(this.currentUrl,"access_token")
- alert(access_token)
+alert("access_token")
+  let access_token= this.getResponseFromUrl(this.currentUrl,"access_token")
+  let provider=localStorage.getItem('PROVIDER')
+  if(provider=='facebook')
+  {
    this.userService.getFaceBookResponse(access_token).subscribe(data=>{
  
     this.currentUserName=data.name
-    let  facebookResponse=new FacebookResponse(access_token,data.name,'facebook')
-    facebookResponse.email=data.email
+    socialResponse =new FacebookResponse(access_token,data.name,data.email,'facebook')
+   
     localStorage.setItem('JWT-TOKEN',access_token)
-   
-   
+    this.userService.socialSignUp(socialResponse);
+ 
     window.history.pushState(this.currentUrl,'','https://localhost:4200/')
    
-    localStorage.setItem('currentUser', this.currentUserName)
-   
    }
+ 
    )
-}
-else if(this.currentUrl.indexOf('&code=')>0)
-{
-     
-        let code=this.getResponseFromUrl(this.currentUrl,"code")
-       
-         this.userService.getGoogleResponse(code).subscribe(data=>{    
-         localStorage.setItem('currentUser', this.currentUserName)
-         localStorage.setItem('JWT-TOKEN',data.idToken)
+  }
+    else if(provider=='google')
+    { 
+         this.userService.getGoogleResponse(access_token).subscribe(data=>{    
+         this.currentUserName=data.name
+         socialResponse=new GoogleResponse(access_token,data.name,data.email,'google')
+         localStorage.setItem('JWT-TOKEN',access_token)
+         this.userService.socialSignUp(socialResponse);
          window.history.pushState(this.currentUrl,'','https://localhost:4200/')
-        
-         }  
+      }  
       )
      
+    }
+  
 
 }
 
-}
+
 }
 
 getResponseFromUrl(url,param) {
@@ -175,7 +174,7 @@ getResponseFromUrl(url,param) {
    if(part.indexOf(param+"=")>=0)
 	{
    
-    resp=part.substring((param+"=").length,part.length)
+    resp=part.substring((param+"=").length+part.indexOf(param+"="),part.length)
     return resp
 	}
   });

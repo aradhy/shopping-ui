@@ -204,6 +204,7 @@ else{
  
 faceBookLogin()
 {
+  localStorage.setItem('PROVIDER',"facebook")
   this.currentUserName=localStorage.getItem('currentUser');
   if(this.currentUserName==null || this.currentUserName=="null")
   window.location.href= "https://www.facebook.com/dialog/oauth?client_id=2190645354387980&redirect_uri=https://localhost:4200/&scope=email&response_type=token"
@@ -212,10 +213,10 @@ faceBookLogin()
 
 googleLogin()
 {
-  
+  localStorage.setItem('PROVIDER',"google")
   this.currentUserName=localStorage.getItem('currentUser');
   if(this.currentUserName==null || this.currentUserName=="null")
-  window.location.href="https://accounts.google.com/o/oauth2/auth?scope=profile email&redirect_uri=https://localhost:4200/&response_type=code&client_id=517977997834-kevh4fjm6um2roe04umom1h7mki74rtv.apps.googleusercontent.com&state=af0ifjsldk"
+  window.location.href="https://accounts.google.com/o/oauth2/auth?scope=profile email&redirect_uri=https://localhost:4200/&response_type=token&client_id=517977997834-kevh4fjm6um2roe04umom1h7mki74rtv.apps.googleusercontent.com&state=af0ifjsldk"
 }
  
   

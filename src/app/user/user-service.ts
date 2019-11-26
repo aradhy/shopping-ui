@@ -19,9 +19,7 @@ export class UserService {
  
   httpClient:HttpClient;
   faceBookUserInfoUrl: string = "https://graph.facebook.com/me?access_token=";
-  baseUrlSub: string = 'http://localhost:8090/subcategory/';
-  baseUrlAllSub: string = 'http://localhost:8090/sub-category';
-  baseCategoryAll:string="http://localhost:8090/category-all";
+
   
   constructor(httpClient:HttpClient) { this.httpClient=httpClient}
 
@@ -38,31 +36,28 @@ export class UserService {
   return  this.httpClient.get<FacebookResponse>(this.faceBookUserInfoUrl,{params:accessTokenParams});
   }
 
-  getGoogleResponse(accessCode:string): Observable<GoogleResponse>
+  getGoogleResponse(access_token:string): Observable<GoogleResponse>
   {
     let 
     accessCodeParams={
-      'code': accessCode
+      'access_token': access_token
     }
-  return  this.httpClient.get<GoogleResponse>("http://localhost:8090/googleUserInfo",{params:accessCodeParams});
+  return  this.httpClient.get<GoogleResponse>("https://www.googleapis.com/oauth2/v1/userinfo",{params:accessCodeParams});
   }
  
-   socialSignUp(facebookResponse)
+   socialSignUp(socialResponse)
    {
-    this.httpClient.post<TokenResponse>("http://localhost:8090/socialSignUp?provider="+'facebook',
-    facebookResponse
+    this.httpClient.post<TokenResponse>("http://localhost:8080/socialSignUp?provider="+socialResponse.provider,
+    socialResponse
       ).subscribe(
         tokenResponse  => {
          console.log(tokenResponse)
           if(tokenResponse.obj!=null )
           {
-            localStorage.setItem("PROVIDER",'facebook')
            
             if(tokenResponse.obj.userName!=null)
             {
              alert("Welcome  "+tokenResponse.obj.userName)  
-
-             
              localStorage.setItem("customerName",tokenResponse.obj.userName)
             }
             if( tokenResponse.obj.csrfToken!=null )

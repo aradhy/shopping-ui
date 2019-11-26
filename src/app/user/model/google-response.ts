@@ -2,7 +2,7 @@ export class GoogleResponse {
 
    
       
-   constructor (public idToken:string,public name:string,private email:string,private socialProvider:string)
+   constructor (public access_token:string,public name:string,public email:string,public  socialProvider:string)
    {
 
    }
