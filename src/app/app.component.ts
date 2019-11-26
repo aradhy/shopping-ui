@@ -11,10 +11,11 @@ import { OrderItem } from './orderitem';
 import { Location } from '@angular/common';
 import {LocationStrategy} from '@angular/common';
 import { FacebookResponse } from './user/model/facebook-response';
-import { CategoryService } from './category/category.service';
-import { MenusComponent } from './menus/menus.component';
+ import { MenusComponent } from './menus/menus.component';
 import { logging } from 'protractor';
 import { TokenResponse } from './user/model/token-Response';
+import { UserService } from './user/user-service';
+import { UserComponent } from './user/user.component';
 
 
 
@@ -45,7 +46,7 @@ export class AppComponent implements OnInit,AfterViewInit{
   
   @ViewChild(MenusComponent) menusComponent: MenusComponent; 
 
-  constructor(private router:Router,private productService: ProductService,private location: Location,private activatedRoute:ActivatedRoute,private locationStrategy:LocationStrategy,private categoryService:CategoryService,private httpClient: HttpClient)
+  constructor(private router:Router,private productService: ProductService,private location: Location,private activatedRoute:ActivatedRoute,private locationStrategy:LocationStrategy,private userService:UserService,private httpClient: HttpClient)
   {
    
     
@@ -129,37 +130,17 @@ if((currentUserName==null || currentUserName=="null") && this.currentUrl!='https
 if(this.currentUrl.indexOf('#access_token=')>0)
 {
 
-   let access_token=this.currentUrl.substring(this.currentUrl.indexOf('#access_token=')+"#access_token=".length,this.currentUrl.indexOf('&'))
- 
-   this.categoryService.getFaceBookResponse(access_token).subscribe(data=>{
+   //let access_token=this.currentUrl.substring(this.currentUrl.indexOf('#access_token=')+"#access_token=".length,this.currentUrl.indexOf('&'))
+ let access_token= this.getResponseFromUrl(this.currentUrl,"access_token")
+ alert(access_token)
+   this.userService.getFaceBookResponse(access_token).subscribe(data=>{
  
     this.currentUserName=data.name
     let  facebookResponse=new FacebookResponse(access_token,data.name,'facebook')
     facebookResponse.email=data.email
     localStorage.setItem('JWT-TOKEN',access_token)
    
-    this.httpClient.post<TokenResponse>("http://localhost:8080/socialSignUp?provider="+'facebook',
-    facebookResponse
-      ).subscribe(
-        tokenResponse  => {
-         console.log(tokenResponse)
-          if(tokenResponse.obj!=null )
-          {
-            localStorage.setItem("PROVIDER",'facebook')
-           
-            if(tokenResponse.obj.userName!=null)
-            {
-             alert("Welcome  "+tokenResponse.obj.userName)  
-
-             this.customerNameEmitter.emit(tokenResponse.obj.userName)
-             localStorage.setItem("customerName",tokenResponse.obj.userName)
-            }
-            if( tokenResponse.obj.csrfToken!=null )
-             localStorage.setItem("X-CSRF-TOKEN",tokenResponse.obj.csrfToken)
-             
-            
-          }
-        });
+   
     window.history.pushState(this.currentUrl,'','https://localhost:4200/')
    
     localStorage.setItem('currentUser', this.currentUserName)
@@ -169,10 +150,10 @@ if(this.currentUrl.indexOf('#access_token=')>0)
 }
 else if(this.currentUrl.indexOf('&code=')>0)
 {
-      
-        let code=this.currentUrl.substring(46,this.currentUrl.lastIndexOf('&'))
      
-         this.categoryService.getGoogleResponse(code).subscribe(data=>{    
+        let code=this.getResponseFromUrl(this.currentUrl,"code")
+       
+         this.userService.getGoogleResponse(code).subscribe(data=>{    
          localStorage.setItem('currentUser', this.currentUserName)
          localStorage.setItem('JWT-TOKEN',data.idToken)
          window.history.pushState(this.currentUrl,'','https://localhost:4200/')
@@ -186,7 +167,22 @@ else if(this.currentUrl.indexOf('&code=')>0)
 }
 }
 
-
+getResponseFromUrl(url,param) {
+ 
+  var query = decodeURIComponent(url)
+ var resp="";
+  query.split("&").forEach(function(part) {
+   if(part.indexOf(param+"=")>=0)
+	{
+   
+    resp=part.substring((param+"=").length,part.length)
+    return resp
+	}
+  });
+  
+  return resp;
+  
+}
 
 
 

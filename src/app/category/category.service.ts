@@ -55,16 +55,6 @@ return  this.httpClient.get<SubCategory[]>(this.baseUrlSub+categoryId);
  return  this.httpClient.get<Category[]>(this.baseCategoryAll);
    }
 
-  getFaceBookResponse(access_token:string): Observable<FacebookResponse>
-  {
-
-  return  this.httpClient.get<FacebookResponse>("https://graph.facebook.com/me?access_token="+access_token+"&fields=name,email");
-  }
-
-  getGoogleResponse(access_code:string): Observable<GoogleResponse>
-  {
-
-  return  this.httpClient.get<GoogleResponse>("http://localhost:8090/googleUserInfo?code="+access_code);
-  }
+ 
  
 }
