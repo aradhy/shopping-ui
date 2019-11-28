@@ -47,7 +47,8 @@ export class UserService {
  
    socialSignUp(socialResponse)
    {
-    this.httpClient.post<TokenResponse>("http://localhost:8080/socialSignUp?provider="+socialResponse.provider,
+     
+    this.httpClient.post<TokenResponse>("http://localhost:8080/socialSignUp",
     socialResponse
       ).subscribe(
         tokenResponse  => {

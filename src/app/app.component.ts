@@ -128,7 +128,7 @@ logIn()
 
 if(this.currentUrl.indexOf('access_token=')>0)
 {
-alert("access_token")
+
   let access_token= this.getResponseFromUrl(this.currentUrl,"access_token")
   let provider=localStorage.getItem('PROVIDER')
   if(provider=='facebook')
