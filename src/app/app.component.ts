@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit, AfterViewInit } from '@angular/core';
+import { Component, ViewChild, OnInit, AfterViewInit,EventEmitter,Output } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CookieBucket } from './menus/bucketcookie';
 import { Product } from './product/product';
@@ -17,6 +17,7 @@ import { TokenResponse } from './user/model/token-Response';
 import { UserService } from './user/user-service';
 import { UserComponent } from './user/user.component';
 import { GoogleResponse } from './user/model/google-response';
+import { TokenDTO } from './user/model/tokendto';
 
 
 
@@ -43,19 +44,18 @@ export class AppComponent implements OnInit,AfterViewInit{
   route: string;
   navigationState: boolean = false;
   
+  @ViewChild(MenusComponent) menusComponent: MenusComponent;
  
   
-  @ViewChild(MenusComponent) menusComponent: MenusComponent; 
+
 
   constructor(private router:Router,private productService: ProductService,private location: Location,private activatedRoute:ActivatedRoute,private locationStrategy:LocationStrategy,private userService:UserService,private httpClient: HttpClient)
   {
    
-    
-  
     router.events.subscribe(() => {
       
       if (location.path() != "") {
-       // alert(location.prepareExternalUrl(location.path()));
+     
         if (location.path().includes('/delivery')) {
         
           this.navigationState = false;
@@ -74,6 +74,23 @@ export class AppComponent implements OnInit,AfterViewInit{
 
   ngOnInit() {
 
+    let userInfo=  JSON.parse(localStorage.getItem("USER"));
+    if(userInfo!=null)
+    {
+     let tokenExpired= (userInfo.jwtExpiry - (Date.now() / 1000));
+      if(userInfo.userName!=null && tokenExpired>0)
+      {
+       
+          this.currentUserName=userInfo.userName;
+        
+      }
+      else
+      {
+        this.currentUserName=null;
+        localStorage.setItem('USER',null)
+      }
+
+    }
      this.router.navigateByUrl('/category-view');
    
   }
@@ -137,10 +154,13 @@ if(this.currentUrl.indexOf('access_token=')>0)
  
     this.currentUserName=data.name
     socialResponse =new FacebookResponse(access_token,data.name,data.email,'facebook')
-   
-    localStorage.setItem('JWT-TOKEN',access_token)
+    let tokenDTO=new TokenDTO()
+    tokenDTO.jwtToken=access_token;
+    tokenDTO.provider=provider
+    localStorage.setItem("USER",JSON.stringify(tokenDTO))
     this.userService.socialSignUp(socialResponse);
- 
+     this.currentUserName=tokenDTO.userName
+     this.menusComponent.currentUserName=data.name
     window.history.pushState(this.currentUrl,'','https://localhost:4200/')
    
    }
@@ -149,11 +169,18 @@ if(this.currentUrl.indexOf('access_token=')>0)
   }
     else if(provider=='google')
     { 
-         this.userService.getGoogleResponse(access_token).subscribe(data=>{    
+      
+         this.userService.getGoogleResponse(access_token).subscribe(data=>{  
+         
          this.currentUserName=data.name
          socialResponse=new GoogleResponse(access_token,data.name,data.email,'google')
-         localStorage.setItem('JWT-TOKEN',access_token)
+         let tokenDTO=new TokenDTO()
+         tokenDTO.jwtToken=access_token;
+         tokenDTO.provider=provider
+         localStorage.setItem("USER",JSON.stringify(tokenDTO))
          this.userService.socialSignUp(socialResponse);
+         this.currentUserName=tokenDTO.userName
+         this.menusComponent.currentUserName=data.name
          window.history.pushState(this.currentUrl,'','https://localhost:4200/')
       }  
       )
@@ -162,8 +189,6 @@ if(this.currentUrl.indexOf('access_token=')>0)
   
 
 }
-
-
 }
 
 getResponseFromUrl(url,param) {

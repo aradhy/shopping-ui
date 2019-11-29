@@ -71,19 +71,11 @@ export class MenusComponent implements OnInit {
 
    
   ngOnInit() {
-    
-
-    if(localStorage.getItem("customerName")!='null' || localStorage.getItem("customerName")!="null")
-    {
-      this.customerName=localStorage.getItem("customerName");
-
-    }
-    else{
-      this.customerName=null;
-    }
+  
+    this.currentUserName=this.customerName
     this.search = new FormControl();
     
-    this.onchange();
+  this.onchange();
     this.showCart()
   
 }
@@ -438,16 +430,6 @@ compareFn(pAv1: ProductAvail, pAv2: ProductAvail): boolean {
   return pAv1 && pAv2 ? pAv1.id === pAv2.id : pAv1 === pAv2;
 }
 
-logout()
-{
-  localStorage.setItem("JWT-TOKEN",null)
-  localStorage.setItem("X-CSRF-TOKEN",null)
-  localStorage.setItem("PROVIDER",null)
-  localStorage.setItem("customerName",null)
-  this.router.navigateByUrl("/category-view");
-  this.customerName=null;
- 
-}
 
 
 
@@ -459,7 +441,7 @@ logout()
 logOut()
 {
   this.currentUserName=null;
-  localStorage.setItem('currentUser',null)
+  localStorage.setItem('USER',null)
 }
 
 

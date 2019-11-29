@@ -55,15 +55,8 @@ export class UserService {
          console.log(tokenResponse)
           if(tokenResponse.obj!=null )
           {
+           localStorage.setItem("USER",JSON.stringify(tokenResponse.obj))
            
-            if(tokenResponse.obj.userName!=null)
-            {
-             alert("Welcome  "+tokenResponse.obj.userName)  
-             localStorage.setItem("customerName",tokenResponse.obj.userName)
-            }
-            if( tokenResponse.obj.csrfToken!=null )
-             localStorage.setItem("X-CSRF-TOKEN",tokenResponse.obj.csrfToken)
-             
             return tokenResponse.obj.userName;
           }
         });

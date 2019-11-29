@@ -3,6 +3,8 @@ export class TokenDTO {
     userName:string;
     jwtToken:string;
     csrfToken:string;
+    jwtExpiry:number;
+    provider:string;
 
 
 }

@@ -1,25 +1,30 @@
 
     <link data-require="bootstrap-css@3.3.6" data-semver="3.3.6" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
 
-    <div  class="pass">
-        <a id="signUp" (click)="openDialog('signUpId')" >SignUp</a>
-        <a id="signIn" (click)="openDialog('signInId')">SignIn</a>
-     
-    </div>
+    
 
 
   <ng-template #userNotLoggedIn>
    
-  
+      <a id="signUp" (click)="openDialog('signUpId')" >SignUp</a>
+      <a id="signIn" (click)="openDialog('signInId')">SignIn</a>
+   
   </ng-template>
   
  
-<ng-template #userLoggedIn>{{customerName}}
+<ng-template #userLoggedIn>{{currentUserName}}
  
-  <a id="logout" href="javascript:void(0)" (click)="logout()">Logout</a>
+  <a id="logout" href="javascript:void(0)" (click)="logOut()">Logout</a>
 </ng-template>
+
+  <div  class="pass">
+    <div *ngIf="customerUserName!=null || customerUserName!='null'    then userLoggedIn ;else userNotLoggedIn"> 
+   
+       </div>
+   
+  </div>
 
 
 
@@ -133,6 +138,6 @@
                 </ng-template>
               
                
-              
+         
             
-              </div>
+</div>
