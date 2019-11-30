@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, EventEmitter, Output, Inject } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output, Inject, AfterViewInit } from '@angular/core';
 import { CategoryService } from '../category/category.service';
 import { Category } from '../category/category';
 import { SubCategory } from '../category/sub-category';
@@ -17,7 +17,7 @@ import { BucketView } from '../product/bucketview';
 import { BucketModel } from '../product/bucketmodel';
 import * as $ from 'jquery';
 import { SearchProduct } from '../product/search-product';
-import { MatDialogRef, MAT_DIALOG_DATA, MatDialogConfig, MatDialog } from "@angular/material/dialog";
+
 import { UserComponent } from '../user/user.component';
 import { Overlay } from '@angular/cdk/overlay';
 
@@ -28,13 +28,16 @@ import { Overlay } from '@angular/cdk/overlay';
   styleUrls: ['./menus.component.css'],
   providers:[CookieService ]
 })
-export class MenusComponent implements OnInit {
+export class MenusComponent implements OnInit,AfterViewInit{
+  ngAfterViewInit(): void {
+    //this.currentUserName=this.customerName
+  }
   
 
   
 
   @Input() bucketView:BucketView;
-  @Input() customerName:string;
+  @Input() customerName:string=null;
   public categoryList:Category[];
   public categoryListAll:Category[];
   public subCategoryList:SubCategory[];
@@ -44,8 +47,8 @@ export class MenusComponent implements OnInit {
   productSearchList: SearchProduct[];
   prodSearchDropItems:Product[];
   currentUrl:string;
-  currentUserName:string;
-
+  currentUserName:string=null;
+   isUser:Boolean;
   
   @Output() resetEmitter = new EventEmitter<boolean>();
 
@@ -57,7 +60,7 @@ export class MenusComponent implements OnInit {
     this.resetEmitter.emit(true)
   }
 
-  constructor(private categoryService: CategoryService,private router:Router,private sharedSerevice: SharedService,private productService: ProductService,private dialog: MatDialog) {
+  constructor(private categoryService: CategoryService,private router:Router,private sharedSerevice: SharedService,private productService: ProductService) {
     this.subscription= this.sharedSerevice.getState().subscribe(bucketView=>{
      
       this.bucketView=bucketView
@@ -72,29 +75,36 @@ export class MenusComponent implements OnInit {
    
   ngOnInit() {
   
-    this.currentUserName=this.customerName
+    let userInfo= localStorage.getItem("PROVIDER");
+//alert(userInfo!="null")
+//alert(userInfo=="null")
+  
     this.search = new FormControl();
     
-  this.onchange();
+    this.onchange();
     this.showCart()
   
 }
 
-openDialog(id)
+
+fetchUser()
 {
- 
-  const dialogConfig = new MatDialogConfig();
-
-  dialogConfig.disableClose = true;
-  dialogConfig.autoFocus = false;
-  dialogConfig.height="520px"
-  dialogConfig.width="320px"
-  dialogConfig.data =id;
-
-let dialogRef= this.dialog.open(UserComponent,dialogConfig);
-   
+  let userInfo=  JSON.parse(localStorage.getItem("USER"));
   
+  if(userInfo!=null || localStorage.getItem("USER")!="null")
+  {
+   let tokenExpired= (userInfo.jwtExpiry - (Date.now() / 1000));
+    if(userInfo.userName!=null && tokenExpired)
+    {
+    
+        this.currentUserName=userInfo.userName;
+    }
+   
+
+  }
+
 }
+
 
 
 collapse()
@@ -438,11 +448,6 @@ compareFn(pAv1: ProductAvail, pAv2: ProductAvail): boolean {
 
 
 
-logOut()
-{
-  this.currentUserName=null;
-  localStorage.setItem('USER',null)
-}
 
 
 }

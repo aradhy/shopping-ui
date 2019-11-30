@@ -6,25 +6,9 @@
     
 
 
-  <ng-template #userNotLoggedIn>
-   
-      <a id="signUp" (click)="openDialog('signUpId')" >SignUp</a>
-      <a id="signIn" (click)="openDialog('signInId')">SignIn</a>
-   
-  </ng-template>
   
- 
-<ng-template #userLoggedIn>{{currentUserName}}
- 
-  <a id="logout" href="javascript:void(0)" (click)="logOut()">Logout</a>
-</ng-template>
 
-  <div  class="pass">
-    <div *ngIf="customerUserName!=null || customerUserName!='null'    then userLoggedIn ;else userNotLoggedIn"> 
-   
-       </div>
-   
-  </div>
+ 
 
 
 

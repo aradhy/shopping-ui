@@ -18,7 +18,8 @@ import { UserService } from './user/user-service';
 import { UserComponent } from './user/user.component';
 import { GoogleResponse } from './user/model/google-response';
 import { TokenDTO } from './user/model/tokendto';
-
+import * as $ from 'jquery';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialogConfig, MatDialog } from "@angular/material/dialog";
 
 
 
@@ -30,8 +31,9 @@ import { TokenDTO } from './user/model/tokendto';
 })
 export class AppComponent implements OnInit,AfterViewInit{
   ngAfterViewInit(): void {
-   
     this.logIn();
+   
+   
   }
  
   
@@ -43,13 +45,14 @@ export class AppComponent implements OnInit,AfterViewInit{
   order:CustomerOrder; 
   route: string;
   navigationState: boolean = false;
+  currentUserName:string;
   
   @ViewChild(MenusComponent) menusComponent: MenusComponent;
  
   
 
 
-  constructor(private router:Router,private productService: ProductService,private location: Location,private activatedRoute:ActivatedRoute,private locationStrategy:LocationStrategy,private userService:UserService,private httpClient: HttpClient)
+  constructor(private router:Router,private productService: ProductService,private location: Location,private activatedRoute:ActivatedRoute,private locationStrategy:LocationStrategy,private userService:UserService,private httpClient: HttpClient,private dialog: MatDialog)
   {
    
     router.events.subscribe(() => {
@@ -73,24 +76,25 @@ export class AppComponent implements OnInit,AfterViewInit{
 
 
   ngOnInit() {
-
+   
+  
     let userInfo=  JSON.parse(localStorage.getItem("USER"));
-    if(userInfo!=null)
+
+    if(localStorage.getItem("USER")!="null")
     {
+    
      let tokenExpired= (userInfo.jwtExpiry - (Date.now() / 1000));
-      if(userInfo.userName!=null && tokenExpired>0)
+      if(userInfo.userName!=null && tokenExpired)
       {
-       
+      
           this.currentUserName=userInfo.userName;
-        
+          $(".noUser").hide();
+          $(".hasUser").show();
       }
-      else
-      {
-        this.currentUserName=null;
-        localStorage.setItem('USER',null)
-      }
+     
 
     }
+   
      this.router.navigateByUrl('/category-view');
    
   }
@@ -139,28 +143,34 @@ export class AppComponent implements OnInit,AfterViewInit{
 logIn()
 {
   this.currentUrl=window.location.href
-  let currentUserName=localStorage.getItem('currentUser');
-  this.currentUserName=currentUserName;
+
   let  socialResponse;
 
-if(this.currentUrl.indexOf('access_token=')>0)
+if(this.currentUrl.indexOf('access_token=')>0) 
 {
 
   let access_token= this.getResponseFromUrl(this.currentUrl,"access_token")
   let provider=localStorage.getItem('PROVIDER')
   if(provider=='facebook')
   {
+    
+    $(".noUser").hide();
+   
    this.userService.getFaceBookResponse(access_token).subscribe(data=>{
  
     this.currentUserName=data.name
+
+  
     socialResponse =new FacebookResponse(access_token,data.name,data.email,'facebook')
     let tokenDTO=new TokenDTO()
     tokenDTO.jwtToken=access_token;
     tokenDTO.provider=provider
+    tokenDTO.userName=this.currentUserName
+    tokenDTO.jwtExpiry=data.jwtExpiry
     localStorage.setItem("USER",JSON.stringify(tokenDTO))
     this.userService.socialSignUp(socialResponse);
-     this.currentUserName=tokenDTO.userName
-     this.menusComponent.currentUserName=data.name
+  
+   
     window.history.pushState(this.currentUrl,'','https://localhost:4200/')
    
    }
@@ -169,18 +179,22 @@ if(this.currentUrl.indexOf('access_token=')>0)
   }
     else if(provider=='google')
     { 
-      
+      $(".noUser").hide();
          this.userService.getGoogleResponse(access_token).subscribe(data=>{  
          
+        
          this.currentUserName=data.name
          socialResponse=new GoogleResponse(access_token,data.name,data.email,'google')
          let tokenDTO=new TokenDTO()
          tokenDTO.jwtToken=access_token;
          tokenDTO.provider=provider
+         tokenDTO.userName=this.currentUserName
+         tokenDTO.jwtExpiry=data.jwtExpiry
          localStorage.setItem("USER",JSON.stringify(tokenDTO))
          this.userService.socialSignUp(socialResponse);
-         this.currentUserName=tokenDTO.userName
-         this.menusComponent.currentUserName=data.name
+         
+       
+        
          window.history.pushState(this.currentUrl,'','https://localhost:4200/')
       }  
       )
@@ -208,7 +222,31 @@ getResponseFromUrl(url,param) {
   
 }
 
+openDialog(id)
+{
+ 
+  const dialogConfig = new MatDialogConfig();
 
+  dialogConfig.disableClose = true;
+  dialogConfig.autoFocus = false;
+  dialogConfig.height="520px"
+  dialogConfig.width="320px"
+  dialogConfig.data =id;
 
+let dialogRef= this.dialog.open(UserComponent,dialogConfig);
+   
+  
+}
+
+logOut()
+{
+  this.currentUserName=null;
+  localStorage.setItem('USER',null)
+ 
+    $(".noUser").show();
+    $(".hasUser").hide();
+  
+}
 
 }
+
