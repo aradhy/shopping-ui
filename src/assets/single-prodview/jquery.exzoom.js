@@ -1,4 +1,5 @@
 ;(function ($, window) {
+   
     let ele = null,
         exzoom_img_box = null,
         boxWidth = null,
@@ -123,6 +124,7 @@
      * 初始化
      */
     function init() {
+        imgIndex = 0
         exzoom_img_box.append("<div class='exzoom_img_ul_outer'></div>");
         exzoom_nav.append("<p class='exzoom_nav_inner'></p>");
         exzoom_img_ul_outer = exzoom_img_box.find(".exzoom_img_ul_outer");
@@ -198,10 +200,12 @@
             "height": boxHeight + "px",
             "left": boxHeight + 5 + "px",//添加个边距
         });
-
-        previewImg(imgArr[imgIndex]);
-        autoPlay();//自动播放
-        bindingEvent();//绑定事件
+    previewImg(imgArr[imgIndex]);
+        
+     autoPlay();//自动播放
+     
+      bindingEvent();//绑定事件
+     
     }
 
     /**
@@ -221,7 +225,7 @@
                 clearInterval(timer);
                 init();
             }
-        }, 100)
+        }, 0)
     }
 
     /**
@@ -264,140 +268,141 @@
      * 绑定各种事件
      */
     function bindingEvent() {
-        //移动端大图区域的 touchend 事件
-        exzoom_img_ul.on("touchstart", function (event) {
-            let coords = getCursorCoords(event);
-            startX = coords.x;
-            startY = coords.y;
+       //移动端大图区域的 touchend 事件
+       exzoom_img_ul.on("touchstart", function (event) {
+        let coords = getCursorCoords(event);
+        startX = coords.x;
+        startY = coords.y;
 
-            let left = exzoom_img_ul.css("left");
-            exzoom_img_ul_position = parseInt(left);
+        let left = exzoom_img_ul.css("left");
+        exzoom_img_ul_position = parseInt(left);
 
-            window.clearInterval(autoPlayInterval);//停止自动播放
-        });
+        window.clearInterval(autoPlayInterval);//停止自动播放
+    });
 
-        //移动端大图区域的 touchmove 事件
-        exzoom_img_ul.on("touchmove", function (event) {
-            let coords = getCursorCoords(event);
-            let new_position;
-            endX = coords.x;
-            endY = coords.y;
+    //移动端大图区域的 touchmove 事件
+    exzoom_img_ul.on("touchmove", function (event) {
+        let coords = getCursorCoords(event);
+        let new_position;
+        endX = coords.x;
+        endY = coords.y;
 
-            //只跟随光标移动
-            new_position = exzoom_img_ul_position + endX - startX;
-            new_position = checkNewPositionLimit(new_position);
-            exzoom_img_ul.css("left", new_position);
+        //只跟随光标移动
+        new_position = exzoom_img_ul_position + endX - startX;
+        new_position = checkNewPositionLimit(new_position);
+        exzoom_img_ul.css("left", new_position);
 
-        });
+    });
 
-        //移动端大图区域的 touchend 事件
-        exzoom_img_ul.on("touchend", function (event) {
-            //触屏滑动,根据移动方向按倍数对齐元素
-            console.log(endX < startX);
-            if (endX < startX) {
-                //向左滑动
-                moveRight();
-            } else if (endX > startX) {
-                //向右滑动
-                moveLeft();
-            }
-
-            autoPlay();//恢复自动播放
-        });
-
-        //大屏幕在放大区域点击,判断向左还是向右移动
-        exzoom_zoom_outer.on("mousedown", function (event) {
-            let coords = getCursorCoords(event);
-            startX = coords.x;
-            startY = coords.y;
-
-            let left = exzoom_img_ul.css("left");
-            exzoom_img_ul_position = parseInt(left);
-        });
-
-        exzoom_zoom_outer.on("mouseup", function (event) {
-            let offset = ele.offset();
-
-            if (startX - offset.left < boxWidth / 2) {
-                //在放大镜的左半部分点击
-                moveLeft();
-            } else if (startX - offset.left > boxWidth / 2) {
-                //在放大镜的右半部分点击
-                moveRight();
-            }
-        });
-
-        //进入 exzoom 停止自动播放
-        ele.on("mouseenter", function () {
-            window.clearInterval(autoPlayInterval);//停止自动播放
-        });
-        //离开 exzoom 开始自动播放
-        ele.on("mouseleave", function () {
-            autoPlay();//恢复自动播放
-        });
-
-        //大屏幕进入大图区域
-        exzoom_zoom_outer.on("mouseenter", function () {
-            exzoom_zoom.css("display", "block");
-            exzoom_preview.css("display", "block");
-        });
-
-        //大屏幕在大图区域移动
-        exzoom_zoom_outer.on("mousemove", function (e) {
-		
-            let width_limit = exzoom_zoom.width() / 2,
-				
-                max_X = exzoom_zoom_outer.width() - width_limit,
-                max_Y = exzoom_zoom_outer.height() - width_limit,
-                current_X = e.pageX - exzoom_zoom_outer.offset().left,
-                current_Y = e.pageY - exzoom_zoom_outer.offset().top,
-                move_X = current_X - width_limit,
-                move_Y = current_Y - width_limit;
-
-            if (current_X <= width_limit) {
-                move_X = 0;
-            }
-            if (current_X >= max_X) {
-                move_X = max_X - width_limit;
-            }
-            if (current_Y <= width_limit) {
-                move_Y = 0;
-            }
-            if (current_Y >= max_Y) {
-                move_Y = max_Y - width_limit;
-            }
-            exzoom_zoom.css({"left": move_X + "px", "top": move_Y + "px"});
-
-            exzoom_preview_img.css({
-                "left": -move_X * exzoom_preview.width() / exzoom_zoom.width() + "px",
-                "top": -move_Y * exzoom_preview.width() / exzoom_zoom.width() + "px"
-            });
-        });
-
-        //大屏幕离开大图区域
-        exzoom_zoom_outer.on("mouseleave", function () {
-            exzoom_zoom.css("display", "none");
-            exzoom_preview.css("display", "none");
-        });
-
-        //大屏幕光宝进入放大预览区域
-        exzoom_preview.on("mouseenter", function () {
-            exzoom_zoom.css("display", "none");
-            exzoom_preview.css("display", "none");
-        });
-
-        //缩略图导航
-        exzoom_next_btn.on("click", function () {
+    //移动端大图区域的 touchend 事件
+    exzoom_img_ul.on("touchend", function (event) {
+        //触屏滑动,根据移动方向按倍数对齐元素
+        console.log(endX < startX);
+        if (endX < startX) {
+            //向左滑动
             moveRight();
-        });
-        exzoom_prev_btn.on("click", function () {
+        } else if (endX > startX) {
+            //向右滑动
             moveLeft();
-        });
+        }
 
-        exzoom_navSpan.hover(function () {
-            imgIndex = $(this).index();
-            move(imgIndex);
+        autoPlay();//恢复自动播放
+    });
+
+    //大屏幕在放大区域点击,判断向左还是向右移动
+    exzoom_zoom_outer.on("mousedown", function (event) {
+        let coords = getCursorCoords(event);
+        startX = coords.x;
+        startY = coords.y;
+
+        let left = exzoom_img_ul.css("left");
+        exzoom_img_ul_position = parseInt(left);
+    });
+
+    exzoom_zoom_outer.on("mouseup", function (event) {
+        let offset = ele.offset();
+
+        if (startX - offset.left < boxWidth / 2) {
+            //在放大镜的左半部分点击
+            moveLeft();
+        } else if (startX - offset.left > boxWidth / 2) {
+            //在放大镜的右半部分点击
+            moveRight();
+        }
+    });
+
+    //进入 exzoom 停止自动播放
+   
+    //离开 exzoom 开始自动播放
+    ele.on("mouseleave", function () {
+        autoPlay();//恢复自动播放
+    });
+
+    //大屏幕进入大图区域
+    exzoom_zoom_outer.on("mouseenter", function () {
+        exzoom_zoom.css("display", "none");
+        exzoom_preview.css("display", "none");
+       
+    });
+
+    //大屏幕在大图区域移动
+    exzoom_zoom_outer.on("mousemove", function (e) {
+        exzoom_zoom.css("display", "block");
+        exzoom_preview.css("display", "block");
+        let width_limit = exzoom_zoom.width() / 2,
+            
+            max_X = exzoom_zoom_outer.width() - width_limit,
+            max_Y = exzoom_zoom_outer.height() - width_limit,
+            current_X = e.pageX - exzoom_zoom_outer.offset().left,
+            current_Y = e.pageY - exzoom_zoom_outer.offset().top,
+            move_X = current_X - width_limit,
+            move_Y = current_Y - width_limit;
+
+        if (current_X <= width_limit) {
+            move_X = 0;
+        }
+        if (current_X >= max_X) {
+            move_X = max_X - width_limit;
+        }
+        if (current_Y <= width_limit) {
+            move_Y = 0;
+        }
+        if (current_Y >= max_Y) {
+            move_Y = max_Y - width_limit;
+        }
+        exzoom_zoom.css({"left": move_X + "px", "top": move_Y + "px"});
+
+        exzoom_preview_img.css({
+            "left": -move_X * exzoom_preview.width() / exzoom_zoom.width() + "px",
+            "top": -move_Y * exzoom_preview.width() / exzoom_zoom.width() + "px"
         });
+    });
+
+    //大屏幕离开大图区域
+    exzoom_zoom_outer.on("mouseleave", function () {
+        exzoom_zoom.css("display", "none");
+        exzoom_preview.css("display", "none");
+    });
+
+    //大屏幕光宝进入放大预览区域
+    exzoom_preview.on("mouseenter", function () {
+        exzoom_zoom.css("display", "none");
+        exzoom_preview.css("display", "none");
+    });
+
+    //缩略图导航
+    exzoom_next_btn.on("click", function () {
+        moveRight();
+    });
+    exzoom_prev_btn.on("click", function () {
+        moveLeft();
+    });
+
+    exzoom_navSpan.hover(function () {
+        imgIndex = $(this).index();
+        move(imgIndex);
+    });
+      
     }
 
     /**

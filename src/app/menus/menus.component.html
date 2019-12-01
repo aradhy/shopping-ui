@@ -42,18 +42,21 @@
 <div id="menu">
   <ul>
 
-     <li><a href="#" (mouseenter)="mouse_event()" >SHOP BY CATEGORY</a>
+     <li><a href="#" (mouseenter)="mouse_event()" class="rootMenu">SHOP BY CATEGORY</a>
      
                 <ul>
-                       <li *ngFor='let category of categoryList'  (mouseenter)="mouse_event_sub(category.id)">
+                       <li *ngFor='let category of categoryList'  (mouseenter)="mouse_event_sub(category.id)" class="mainCat">
                      
                         <a  [routerLink]="['/product/cat']" [queryParams]="{catId: category.id}" (click)='resetFilter()' >{{category.name}}</a>
+                       
          <ul>
                     <li *ngFor='let subcategory of subCategoryList'><a  (click)='resetFilter()' [routerLink]="['/product/cat']" [queryParams]="{ catId: category.id,subId:subcategory.id}" >{{subcategory.name}}</a></li>
                    
          </ul>
-   
+      
+
     </li>
+   
   </ul>               
 </ul>
 

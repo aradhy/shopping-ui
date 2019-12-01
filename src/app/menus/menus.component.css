@@ -5,6 +5,17 @@
     margin:0px;
 	padding:0px;
 	}
+
+.mainCat
+{
+	border-bottom:  1px solid #d3d3d3 ;
+}
+
+.rootMenu
+{
+	background-color: limegreen;
+}
+
 #menu ul{
 	list-style:none;
 	z-index: 2;
@@ -12,14 +23,16 @@
 
 #menu ul li
 {
-	background-color:#f1f1f1;
-	border:ridge  0.5px  grey;
+	background-color:white;
+
 	width:250px;
 	height:35px;
 	line-height:35px;
 	text-align:center;
 	position:relative;	
 }
+
+
 
 #menu ul li a
 {
@@ -31,7 +44,7 @@
 
 #menu ul li a:hover
 {
-background-color:tan;
+background-color:	#E8E8E8;
 border: none;
 
 }
@@ -44,6 +57,7 @@ display:none;
 }
 #menu ul li:hover > ul
 {
+	
 display:block;
 
 }

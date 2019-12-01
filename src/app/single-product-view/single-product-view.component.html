@@ -4,12 +4,12 @@
 <app-filter [catId]='catId' [subId]='subId'></app-filter>
   
     <div class="content"> {{product.name}} {{product.brand}}</div>
-   
+ 
     <div class="add">
        
             <input type="button" class="minus" value="-" (click)="removeFromCart(product.selectedProductAvail,product.selectedItemCount)"/>  
             <input type="text" class="text" name="product.selectedItemCount"  [(ngModel)]="product.selectedItemCount"  autocomplete="off" disabled/>    
-            <input type="button" class="plus" value="+" (click)="addToCart(product.code,product.selectedProductAvail,product.selectedItemCount)"/>   
+            <input type="button" class="plus" value="+" (click)="addToCart(product.code,product.selectedProductAvail)"/>   
            
             
      </div>  
@@ -18,7 +18,7 @@
     </div>  
         
 
-<div class="container">
+<div class="container" >
       
 <div class="exzoom hidden" id="exzoom">
     <div class="exzoom_img_box">

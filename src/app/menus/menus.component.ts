@@ -126,7 +126,7 @@ onchange()
 
    this.search.valueChanges.pipe(
     distinctUntilChanged(),
-    debounceTime(1000),
+    debounceTime(500),
     switchMap(value =>value?this.productBasedSearch(value):of([]
       ) 
     
@@ -198,6 +198,11 @@ displayCart()
   {
    
     var productSearch=this.search.value;
+  
+    if(productSearch==null)
+   {
+     return ;
+   }
     this.searchClicked.emit(productSearch)
 
     if(productSearch!='')
