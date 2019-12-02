@@ -1,56 +1,64 @@
 <body>
 
 
-<app-filter [catId]='catId' [subId]='subId'></app-filter>
-  
-    <div class="content"> {{product.name}} {{product.brand}}</div>
- 
-    <div class="add">
-       
-            <input type="button" class="minus" value="-" (click)="removeFromCart(product.selectedProductAvail,product.selectedItemCount)"/>  
-            <input type="text" class="text" name="product.selectedItemCount"  [(ngModel)]="product.selectedItemCount"  autocomplete="off" disabled/>    
-            <input type="button" class="plus" value="+" (click)="addToCart(product.code,product.selectedProductAvail)"/>   
+    <app-filter [catId]='catId' [subId]='subId'></app-filter>
+      
+        <div class="content"> {{product.name}} {{product.brand}}</div>
+     
+        <div class="add" id="morethanOneId">
+           
+                <input type="button" class="minus" value="-" (click)="removeFromCart(product.selectedProductAvail,product.selectedItemCount)"/>  
+                <input type="text" class="text" name="product.selectedItemCount"  [(ngModel)]="product.selectedItemCount"  autocomplete="off" disabled/>    
+                <input type="button" class="plus" value="+" (click)="addToBucketMoreThanOne(product.code,product.selectedProductAvail)"/>   
+               
+                
+         </div>  
+    
+         <div class="add" id="oneId">
+            <input type="text" class="text" name="itemCountOne"  [(ngModel)]="itemCountOne"   autocomplete="off" disabled/>      
+            <input type="button" class="addToBucket" value="Add To Bucket" (click)="addOneToBucket(product.code,product.selectedProductAvail)"/>   
            
             
-     </div>  
-    <div class="prodAv">
-        <span [id]="prodAvail.id"  *ngFor="let prodAvail of product.productAvailList" class="prodAvailSpan"  (click)="selectProdAvail(prodAvail)">{{prodAvail.weight+'-'+prodAvail.weightUnit+'&nbsp; &nbsp; Rs '+prodAvail.price}}</span>
-    </div>  
-        
-
-<div class="container" >
-      
-<div class="exzoom hidden" id="exzoom">
-    <div class="exzoom_img_box">
-        <ul class='exzoom_img_ul'>
-            <li><a href="images/10000200_17-fresho-tomato-hybrid.jpg">
-<img  src="images/10000200_17-fresho-tomato-hybrid.jpg" >
-</a></li>
-			
-			
-			
-            <li><a href="images/apple.jpg">
-<img  src="images/apple.jpg" >
-
-</a></li>
-<li>
-<img src="images/71mJf9wvGhL._SL1500_.jpg">
-
-</li>
-           
-        </ul>
+     </div> 
+        <div class="prodAv">
+            <span [id]="prodAvail.id"  *ngFor="let prodAvail of product.productAvailList" class="prodAvailSpan"  (click)="selectProdAvail(prodAvail)">{{prodAvail.weight+'-'+prodAvail.weightUnit+'&nbsp; &nbsp; Rs '+prodAvail.price}}</span>
+        </div>  
+            
+    
+    <div class="container" >
+          
+    <div class="exzoom hidden" id="exzoom">
+        <div class="exzoom_img_box">
+            <ul class='exzoom_img_ul'>
+                <li><a href="images/10000200_17-fresho-tomato-hybrid.jpg">
+    <img  src="images/10000200_17-fresho-tomato-hybrid.jpg" >
+    </a></li>
+                
+                
+                
+                <li><a href="images/apple.jpg">
+    <img  src="images/apple.jpg" >
+    
+    </a></li>
+    <li>
+    <img src="images/71mJf9wvGhL._SL1500_.jpg">
+    
+    </li>
+               
+            </ul>
+        </div>
+        <div class="exzoom_nav">
+        <p class="exzoom_btn">
+            <a href="javascript:void(0);" class="exzoom_prev_btn"> < </a>
+            <a href="javascript:void(0);" class="exzoom_next_btn"> > </a>
+        </p>
+        </div>
     </div>
-    <div class="exzoom_nav">
-    <p class="exzoom_btn">
-        <a href="javascript:void(0);" class="exzoom_prev_btn"> < </a>
-        <a href="javascript:void(0);" class="exzoom_next_btn"> > </a>
-    </p>
-	</div>
-</div>
-
-
-</div>
-
-</body>
-
-
+    
+    
+    </div>
+    
+    </body>
+    
+    
+    
