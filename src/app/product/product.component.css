@@ -1,6 +1,9 @@
+
+
 div.float-center {
-  margin-top:8em;
+  margin-top:10em;
   margin-left:25em;
+  width: 70%;
   position:relative;
   -webkit-animation: fadein 0s; /* Safari, Chrome and Opera > 12.1 */
        animation: fadein 1s;
@@ -13,6 +16,7 @@ div.gallery {
     width:200px;
     -webkit-animation: fadein 0s; /* Safari, Chrome and Opera > 12.1 */
     animation: fadein 1s;
+    
   }
   div.gallery:hover {
     border: 1px solid gray;
@@ -23,7 +27,7 @@ div.gallery {
     width: 100%;
     height: auto;
     -webkit-animation: fadein 0s; /* Safari, Chrome and Opera > 12.1 */
-       animation: fadein 1s;
+       animation: fadein 0.5s;
   }
   
  .cate{
@@ -63,6 +67,8 @@ div.gallery {
  .product{
    margin-left: 25px;
    width:150px;
+   -webkit-animation: fadein 1s; /* Safari, Chrome and Opera > 12.1 */
+   animation: fadein 2s;
  }
  .item{
    margin-left: 25px;

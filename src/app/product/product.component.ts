@@ -445,7 +445,7 @@ showCart()
  
   this.bucketView=new BucketView();
   this.bucketView.productFullInfoBucketMap=new Map<string,BucketModel>();
-  if(localStorage.getItem("CookieBucket")=="null")
+  if(localStorage.getItem("CookieBucket")==null)
  {
  
   this.bucketView.totalItemCount=0;

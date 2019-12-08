@@ -398,7 +398,7 @@
         moveLeft();
     });
 
-    exzoom_navSpan.hover(function () {
+    exzoom_navSpan.click(function () {
         imgIndex = $(this).index();
         move(imgIndex);
     });

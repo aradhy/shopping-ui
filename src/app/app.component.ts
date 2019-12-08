@@ -80,7 +80,7 @@ export class AppComponent implements OnInit,AfterViewInit{
   
     let userInfo=  JSON.parse(localStorage.getItem("USER"));
 
-    if(localStorage.getItem("USER")!="null")
+    if(localStorage.getItem("USER")!=null)
     {
     
      let tokenExpired= (userInfo.jwtExpiry - (Date.now() / 1000));

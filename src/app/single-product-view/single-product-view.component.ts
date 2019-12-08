@@ -144,7 +144,7 @@ export class SingleProductViewComponent implements OnInit {
 
     }
 
-  if(localStorage.getItem("CookieBucket")=="null" || localStorage.getItem("CookieBucket")==null)
+  if(localStorage.getItem("CookieBucket")==null)
   {
 
     var cookieBucket=new CookieBucket();
@@ -214,7 +214,7 @@ if(parseInt(itemCount)>0)
     $("#morethanOneId").hide();
   }
   let  itemCount= 1
-if(!(localStorage.getItem("CookieBucket")=="null"))
+if(!(localStorage.getItem("CookieBucket")==null))
 {
 
     var bucketItemString= localStorage.getItem("CookieBucket");
@@ -369,7 +369,7 @@ if(!(localStorage.getItem("CookieBucket")=="null"))
   {
   
     
-    if(localStorage.getItem("CookieBucket")=="null")
+    if(localStorage.getItem("CookieBucket")==null)
     {
     this.bucketView.totalItemCount=0;
   }
@@ -397,7 +397,7 @@ if(!(localStorage.getItem("CookieBucket")=="null"))
   
     this.bucketView=new BucketView();
     this.bucketView.productFullInfoBucketMap=new Map<string,BucketModel>();
-    if(localStorage.getItem("CookieBucket")=="null")
+    if(localStorage.getItem("CookieBucket")==null)
   {
   
     this.bucketView.totalItemCount=0;

@@ -6,10 +6,11 @@
 <div class="float-center">
           
   <div class="gallery" *ngFor="let productSearch of productSearchList" > 
+   
       <a  [routerLink]="['/single-product-view/cat/',productSearch.catId,'sub',productSearch.prod.subId,'pc',productSearch.prod.code,'avail',productSearch.prod.selectedProductAvail.id]" >
    <img src="images\1200370.jpg" alt="{{productSearch.prod.name}}" width="200" height="200">
   </a>
-   <div>
+ 
                 
         <div *ngIf ="bucketView?.productFullInfoBucketMap?.get(productSearch.prod.selectedProductAvail.id)?.selectedItemCount>0 then bucketcount; else emptybucket " >
        
@@ -24,23 +25,24 @@
                0 Item
               </div>
             </ng-template>
-
-            <select  name="avail" [(ngModel)]="productSearch.prod.selectedProductAvail" class="product">
-              <option *ngFor='let prodAvail of productSearch.prod.productAvailList' [ngValue]="prodAvail" >{{prodAvail.weight+'-'+prodAvail.weightUnit+' Rs '+prodAvail.price}}</option>
+            <div *ngIf="productSearch?.prod.selectedProductAvail!=null">
+            <select  name="avail" [(ngModel)]="productSearch?.prod.selectedProductAvail" class="product">
+              <option *ngFor='let prodAvail of productSearch?.prod.productAvailList' [ngValue]="prodAvail" >{{prodAvail.weight+'-'+prodAvail.weightUnit+' Rs '+prodAvail.price}}</option>
             
                   </select>
             <br><br>
+            </div>
             <span class="Quantity">Qty</span>
             
-     <select  name="quantity" [(ngModel)]="productSearch.prod.selectedItemCount" class="selectedQuantity">
-       <option *ngFor='let itemCount of productSearch.prod.itemCountList'>{{itemCount}}</option>
+     <select  name="quantity" [(ngModel)]="productSearch?.prod.selectedItemCount" class="selectedQuantity">
+       <option *ngFor='let itemCount of productSearch?.prod.itemCountList'>{{itemCount}}</option>
      
           </select>
     
         <button type="submit" class="btn1 btn-success" (click)="addToCart(productSearch.prod.code,productSearch.prod.selectedProductAvail,productSearch.prod.selectedItemCount)" > Add </button>
         <button type="submit" class="btn2 btn-success fa fa-trash" (click)="removeFromCart(productSearch.prod.selectedProductAvail,productSearch.prod.selectedItemCount)"></button>
           </div>
-        
-         </div>
+       
+      
         </div>
       </body>

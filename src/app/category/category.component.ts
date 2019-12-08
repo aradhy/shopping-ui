@@ -40,6 +40,7 @@ export class CategoryComponent implements OnInit,AfterViewInit {
     config.keyboard = false;
     config.pauseOnHover = false;
     config.showNavigationIndicators=false;
+    config.showNavigationArrows=false
    this.myCarousel=myCarousel;
    }
    onSlideChanged(ev)

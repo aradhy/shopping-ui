@@ -91,7 +91,7 @@ fetchUser()
 {
   let userInfo=  JSON.parse(localStorage.getItem("USER"));
   
-  if(userInfo!=null || localStorage.getItem("USER")!="null")
+  if(localStorage.getItem("USER")!=null)
   {
    let tokenExpired= (userInfo.jwtExpiry - (Date.now() / 1000));
     if(userInfo.userName!=null && tokenExpired)
