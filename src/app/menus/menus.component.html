@@ -6,15 +6,10 @@
     
 
 
-  
-
  
 
 
 
-
-
-<!-- The form -->
 
   <form class="example"   (ngSubmit)="searchProduct(regForm)" style="margin:auto;max-width:600px">
     <input type="text" placeholder="Search.."  [formControl]="search"  [matAutocomplete]="auto"  autocomplete="off" size="50" >
@@ -40,17 +35,17 @@
       
    
 <div id="menu">
-  <ul>
+  <ul class="menuDropDown">
 
      <li><a href="#" (mouseenter)="mouse_event()" class="rootMenu">SHOP BY CATEGORY</a>
      
                 <ul>
-                       <li *ngFor='let category of categoryList'  (mouseenter)="mouse_event_sub(category.id)" class="mainCat">
+                       <li *ngFor='let category of categoryList'  (mouseenter)="mouse_event_sub(category.id)" class="mainCat"  >
                      
-                        <a  [routerLink]="['/product/cat']" [queryParams]="{catId: category.id}" (click)='resetFilter()' >{{category.name}}</a>
+                        <a  id= 'cat{{category.id}}' [routerLink]="['/product/cat']" [queryParams]="{catId: category.id}" (click)='resetFilter()' (mouseenter)="colorHoverGrey(category.id)"  (mouseleave)="colorWhite('cat'+category.id)">{{category.name}}</a>
                        
          <ul>
-                    <li *ngFor='let subcategory of subCategoryList'><a  (click)='resetFilter()' [routerLink]="['/product/cat']" [queryParams]="{ catId: category.id,subId:subcategory.id}" >{{subcategory.name}}</a></li>
+                    <li (mouseenter)="colorGrey('cat'+category.id)" (mouseleave)="colorWhite('cat'+category.id)"  class="subCat" *ngFor='let subcategory of subCategoryList' ><a  (click)='resetFilter()' [routerLink]="['/product/cat']" [queryParams]="{ catId: category.id,subId:subcategory.id}"   >{{subcategory.name}}</a></li>
                    
          </ul>
       
@@ -103,7 +98,7 @@
                               
                                  
                              <a  (click)="removeFromBucket(tdx.prodAvailId);">
-                              <span class="glyphicon glyphicon-trash"></span>
+                              <span class="glyphicon glyphicon-trash" ></span>
                             </a>
                         
                         </tr>
@@ -115,7 +110,7 @@
                           Total Price {{bucketView?.totalPrice}}  
         
                         </div>
-                        <input type="button"  style= "width:15%;text-align:center" value="CheckOut" (click)="displayBucket()"/>  
+                        <input type="button" class="CheckOut" style= "width:15%;text-align:center" value="CheckOut" (click)="displayBucket()"/>  
                       </div>
                 </ng-template>
                 <ng-template #emptybucket>

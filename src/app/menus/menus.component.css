@@ -2,39 +2,52 @@
 *
 {
 
-    margin: 0px;
+    margin:0em;
 	padding:0px;
 	}
 
 .mainCat
 {
-	border-bottom:  1px solid #d3d3d3 ;
+	border-top: 0.5px solid#d3d3d3;
+	border-bottom: 0.2px solid #d3d3d3;
 }
 
 .rootMenu
 {
 	background-color: limegreen;
+	border-top: 0.5px solid #d3d3d3;
+	border-bottom: 1px solid #d3d3d3;
+
+}
+
+.subCat{
+
+  padding-top:0.4px ;
+  height:5px;
+  margin-top:0px;
+
 }
 
 #menu ul{
 	list-style:none;
 	z-index: 2;
-
 	
 }
 
+#menu
+{
+	margin-left:7em;
+
+}
 #menu ul li
 {
 	background-color:white;
-
 	width:250px;
 	height:35px;
 	line-height:35px;
 	text-align:center;
 	position:relative;	
 }
-
-
 
 #menu ul li a
 {
@@ -46,7 +59,7 @@
 
 #menu ul li a:hover
 {
-background-color:	#E8E8E8;
+background-color:#ddd;
 border: none;
 
 }
@@ -55,9 +68,8 @@ border: none;
 top:30px;	
 position:absolute;
 display:none;
-
-
 }
+
 #menu ul li:hover > ul
 {
 	
@@ -70,6 +82,12 @@ margin-left:250px;
 top:0px;
 z-index: 1;
 }
+
+#menu ul ul ul li{
+background-color: #ddd;
+}
+
+#menu ul ul ul li a:hover{background-color:white;}
 
 *{
 	font-family : Arial;
@@ -182,10 +200,15 @@ margin-top:10px;
 	font-weight:bold;
 	}
 
-
-
 a{
 	cursor: pointer;
+}
+
+.CheckOut{
+  margin-left: 20em;
+  width: 50%;
+  background-color: rgb(127, 255, 0);
+ border: none;
 }
 
 @keyframes fadein {

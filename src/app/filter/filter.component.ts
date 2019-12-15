@@ -5,6 +5,10 @@ import { FilterService } from './filterservice';
 
 import * as $ from 'jquery';
 import { Category } from '../category/category';
+import { FormControl } from '@angular/forms';
+import { distinctUntilChanged, debounceTime, switchMap } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { BrandFilterMetaData } from './brandfiltermetadata';
 @Component({
   selector: 'app-filter',
   templateUrl: './filter.component.html',
@@ -19,42 +23,61 @@ export class FilterComponent implements OnInit {
   @Input()  catId:string;
   @Input() subId:string;
   filterMetaData:FilterMetaData=new FilterMetaData();
+  brandFilters:Array<BrandFilterMetaData>=new Array<BrandFilterMetaData>();
+  brandSearch = new FormControl('brandSearch');
  search:string;
   
   constructor(private filterService:FilterService) { }
 
   ngOnInit() {
 
-  if(this.catId!=null && this.subId!=null)
-  {
-    let 
-    params={
-      'catId': this.catId,
-      'subId': this.subId
-    }
-    this.searchFilterUrl(params);
-    this.getFilterMetaData(this.catId,this.subId)
-   }
-  
  
+ this.fetchMetaLeft();
     
   }
   
+
+
+fetchMetaLeft()
+{
+  if(this.catId!=null)
+  {
+    let 
+    params={
+      'catId': this.catId
+    }
+    this.searchFilterUrl(params);
+    this.getFilterMetaData(this.catId,null)
+  }
+
+
+if(this.catId!=null && this.subId!=null)
+{
+  let 
+  params={
+    'catId': this.catId,
+    'subId': this.subId
+  }
+  this.searchFilterUrl(params);
+  this.getFilterMetaData(this.catId,this.subId)
+ }
+}
+
 
 handleSubCategoryUrl(catId,subId)
 {
 
   this.filterParamsEmitter.emit(this.filterParams) 
- // this.getFilterMetaData(catId,subId)
+  this.getFilterMetaData(catId,subId)
  
 }
 
 searchFilterUrl(params)
 {
- 
+
   this.filterService.getCategoriesFilters(params).subscribe(response =>
     {
-    
+   
       this.category = response;
   
     });
@@ -114,13 +137,12 @@ searchFilterUrl(params)
     
     if(this.catId!=null && this.subId!=null)
     {
-      alert('Inside catId and subId !=null')
+    
     this.getFilterMetaData(this.catId,this.subId)
     }
     else
     {
-      alert('Inside catId and subId ==null')
-    alert(this.search)
+    
     this.getFilterMetaDataSearch(this.search,this.filterParams)
     }
   }
@@ -191,6 +213,20 @@ searchFilterUrl(params)
       }
       if(filterMetaData.brandFilters!=null && filterMetaData.priceFilters!=null && filterMetaData.weightFilters!=null)
       this.filterMetaData=filterMetaData;
+     if(this.filterMetaData.weightFilters!=null && this.filterMetaData.weightFilters.length>0)
+     {
+      let  packSizeLength=this.filterMetaData.weightFilters.length
+      let heightPackSearch= Math.round(packSizeLength/2)*25
+      $(".pack-size").css('height',heightPackSearch+'px')
+     }
+
+     if(this.filterMetaData.brandFilters!=null && this.filterMetaData.brandFilters.length>0)
+     {
+      let  brandSizeLength=this.filterMetaData.brandFilters.length
+      let heightBrandSearch= Math.round(brandSizeLength/2)*25
+      this.brandFilters=this.filterMetaData.brandFilters
+      $(".brand").css('height',heightBrandSearch+'px')
+     }
     }
     )
   }
@@ -265,5 +301,28 @@ searchFilterUrl(params)
 
 
 
+
+
+  filterBrand(value)
+  {
+    value=value.target.value
+    if(value.length==0)
+    {
+      this.brandFilters=this.filterMetaData.brandFilters
+    }
+   
+  
+    this.brandFilters= this.filterMetaData.brandFilters.filter(function(item) {
+     
+      return item.brandName.indexOf(value)>=0;
+    });
+
+  
+  
+    
+  }
+
+
+ 
 
 }

@@ -56,8 +56,9 @@ export class MenusComponent implements OnInit,AfterViewInit{
   
   resetFilter()
   {
-
+    $('.mainCat').hide();
     this.resetEmitter.emit(true)
+
   }
 
   constructor(private categoryService: CategoryService,private router:Router,private sharedSerevice: SharedService,private productService: ProductService) {
@@ -74,11 +75,9 @@ export class MenusComponent implements OnInit,AfterViewInit{
 
    
   ngOnInit() {
-  
+   
     let userInfo= localStorage.getItem("PROVIDER");
-//alert(userInfo!="null")
-//alert(userInfo=="null")
-  
+
     this.search = new FormControl();
     
     this.onchange();
@@ -86,7 +85,19 @@ export class MenusComponent implements OnInit,AfterViewInit{
   
 }
 
+colorGrey(id)
+{
 
+ $("#"+id).css("background-color", "#ddd");
+}
+
+
+colorWhite(id)
+{
+
+ $("#"+id).css("background-color", "#ffffff");
+
+}
 fetchUser()
 {
   let userInfo=  JSON.parse(localStorage.getItem("USER"));
@@ -115,11 +126,16 @@ collapse()
 
 displayBucket()
 {
-
+  $(".tooltiptext").hide()
 this.router.navigateByUrl('/checkout')
-$(".tooltiptext").slideUp("fast")
+
 
 }
+
+
+
+
+
 
 onchange()
 {
@@ -226,9 +242,15 @@ displayCart()
   
   }
 
+  colorHoverGrey(categoryId)
+{
+  $("#"+'cat'+categoryId).css("background-color", "#ddd");
+}
+
   mouse_event_sub(categoryId)
   {
-    console.log(categoryId)
+   
+  
     this.categoryService.getSubCategories(categoryId).subscribe(response =>
       {
        
@@ -255,7 +277,7 @@ removeFromBucket(x:string)
   this.updateCookieBucket(x,0,this.bucketView.totalItemCount,this.bucketView.totalPrice)
 }
  
-addQty(selectedProdAvail:any,selectedItemCount:any)
+addQty(selectedProdAvail:any,selectedItemCount:number)
 {
  
   this.bucketView.productFullInfoBucketMap.get(selectedProdAvail).selectedItemCount=this.bucketView.productFullInfoBucketMap.get(selectedProdAvail).selectedItemCount+selectedItemCount
@@ -265,13 +287,13 @@ addQty(selectedProdAvail:any,selectedItemCount:any)
   this.updateCookieBucket(selectedProdAvail,this.bucketView.productFullInfoBucketMap.get(selectedProdAvail).selectedItemCount,this.bucketView.totalItemCount,this.bucketView.totalPrice)
 }
 
-subQty(selectedProdAvail:any,selectedItemCount:any)
+subQty(selectedProdAvail:any,selectedItemCount:number)
 {
 
   if(selectedItemCount>0)
   {
     
-  this.bucketView.productFullInfoBucketMap.get(selectedProdAvail).selectedItemCount= this.bucketView.productFullInfoBucketMap.get(selectedProdAvail).selectedItemCount-parseInt(selectedItemCount)
+  this.bucketView.productFullInfoBucketMap.get(selectedProdAvail).selectedItemCount= this.bucketView.productFullInfoBucketMap.get(selectedProdAvail).selectedItemCount-selectedItemCount
   let updatedCountProdAvail=this.bucketView.productFullInfoBucketMap.get(selectedProdAvail).selectedItemCount
   this.bucketView.totalPrice=this.bucketView.totalPrice-(1*this.bucketView.productFullInfoBucketMap.get(selectedProdAvail).price)
  

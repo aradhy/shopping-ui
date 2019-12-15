@@ -71,32 +71,28 @@ ngOnInit() {
 
 this.showCart();
 
-if (this.router.url.includes('sub'))
+if (this.router.url.includes('cat'))
 {
 
   this.activatedRoute.queryParams.subscribe(routeParams => {
+  
     this.catId=routeParams.catId
     this.subId=routeParams.subId
-    
+   
+    if(this.subId!=null)
+    {
+    this.productBasedOnSubCategory();
+    }
+    else{
+      this.productBasedOnCategory();
+    }
     this.filterComponent.setCategorySubCategory(this.catId,this.subId);
     this.filterComponent.getFilterMetaData(this.catId,this.subId)
- 
-    this.productBasedOnSubCategory();
+    this.filterComponent.fetchMetaLeft();
+    
    });
   
-}
-else if(this.router.url.includes('cat')) 
-{
 
-  this.activatedRoute.queryParams.subscribe(routeParams => {
-    this.catId=routeParams.catId
-    this.subId=null
-  this.filterComponent.setCategorySubCategory(this.catId,this.subId);
-  this.productBasedOnCategory();
-
-  this.filterComponent.getFilterMetaData(this.catId,this.subId)
- 
-})
 
 }
 else{
@@ -445,7 +441,8 @@ showCart()
  
   this.bucketView=new BucketView();
   this.bucketView.productFullInfoBucketMap=new Map<string,BucketModel>();
-  if(localStorage.getItem("CookieBucket")==null)
+  //alert(localStorage.getItem("CookieBucket")=="null")
+  if(localStorage.getItem("CookieBucket")=="null")
  {
  
   this.bucketView.totalItemCount=0;

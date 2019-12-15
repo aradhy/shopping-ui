@@ -76,8 +76,8 @@ export class AppComponent implements OnInit,AfterViewInit{
 
 
   ngOnInit() {
-   
-  
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
     let userInfo=  JSON.parse(localStorage.getItem("USER"));
 
     if(localStorage.getItem("USER")!=null)

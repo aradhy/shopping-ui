@@ -52,7 +52,7 @@ export class CategoryComponent implements OnInit,AfterViewInit {
 
    
   ngOnInit() {
-  
+ 
     this.categoryListAll=this.categoriesOnload();
    
     

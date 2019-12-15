@@ -33,16 +33,17 @@
     <h2>Brand</h2>
     <hr class="new1">
     <div class="head">
-        <form class="example" action="">
-          <input type="text" placeholder="Search.." name="search2">
-          <button type="submit"><i class="fa fa-search"></i></button>
-        </form>
+      
+  <form class="example"   style="margin:auto;max-width:600px">
+    <input type="text" placeholder="Search.."  [ngModel]="search" (input)="filterBrand($event)">
+    <button type="submit"><i class="fa fa-search"></i></button>
+  </form>
         </div>
 
-  <div class="demo" >
+  <div class="brand" >
   
 
-  <div *ngFor='let brand of filterMetaData?.brandFilters'>
+  <div *ngFor='let brand of brandFilters'>
      
       <a href="#"><input type="checkbox" class="brandname"  (change)="handleBrand($event,brand)" [checked]=brand.flag>
    {{brand.brandName}}
@@ -70,7 +71,8 @@
   </form>
   </div>
 
-<div class="demo" >
+<div class="pack-size" >
+ 
 <div *ngFor='let weightFilter of filterMetaData?.weightFilters'>
   
   <a href="#" ><input type="checkbox" class="weightname"  (change)="handleWeight($event,weightFilter)" [checked]=weightFilter.flag>

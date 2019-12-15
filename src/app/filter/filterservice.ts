@@ -59,7 +59,7 @@ export class FilterService {
   
 getCategoriesFilters(params): Observable<Category[]>
 {
-  
+ 
     return  this.httpClient.get<Category[]>(this.baseUrl,{
       params:params});
 }
