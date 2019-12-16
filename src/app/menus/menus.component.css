@@ -179,7 +179,7 @@ margin-top:10px;
 	
 	.cart
 	{
-	top:45px;
+	top:47px;
 	right:135px;	
 	position:absolute;
 	width:50px;	
@@ -192,12 +192,15 @@ margin-top:10px;
 	position:absolute;
 	width:50px;
 	}
+
 	.cart-count
 	{
-	top:25px;
-	right:102px;
+	top:27px;
+	right:7.2em;
 	color:black;
 	font-weight:bold;
+
+
 	}
 
 a{
@@ -206,9 +209,16 @@ a{
 
 .CheckOut{
   margin-left: 20em;
-  width: 50%;
+  width: 35%;
   background-color: rgb(127, 255, 0);
  border: none;
+ text-align: center;
+ padding: 8px;
+}
+#trash{
+ margin-right: 1em;
+ 
+
 }
 
 @keyframes fadein {

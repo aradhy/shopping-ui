@@ -3,15 +3,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
 
-    
-
-
- 
-
-
-
-
-  <form class="example"   (ngSubmit)="searchProduct(regForm)" style="margin:auto;max-width:600px">
+    <form class="example"   (ngSubmit)="searchProduct(regForm)" style="margin:auto;max-width:600px">
     <input type="text" placeholder="Search.."  [formControl]="search"  [matAutocomplete]="auto"  autocomplete="off" size="50" >
     <button type="submit" >Search</button>
   </form>
@@ -57,20 +49,10 @@
 
 
 </div>
-
-           
-    
-
-
             <div class="cartdiv" (mouseover)="displayCart()">
-              
-              <div class="material-icons" id="material-icons-id" style="font-size:25px;color:red">brightness_1
-              
-              </div>
-             
-  
-              
+            
               <div class="cart-count" id="cart-count-id">{{bucketView?.totalItemCount}}</div>
+
              <div class="imageCart">
               <img src="images\images.png" alt="Avatar" class="cart">
             </div>
@@ -98,7 +80,7 @@
                               
                                  
                              <a  (click)="removeFromBucket(tdx.prodAvailId);">
-                              <span class="glyphicon glyphicon-trash" ></span>
+                              <span class="glyphicon glyphicon-trash" id="trash"></span>
                             </a>
                         
                         </tr>
@@ -110,7 +92,7 @@
                           Total Price {{bucketView?.totalPrice}}  
         
                         </div>
-                        <input type="button" class="CheckOut" style= "width:15%;text-align:center" value="CheckOut" (click)="displayBucket()"/>  
+                        <input type="button" class="CheckOut"  value="CheckOut" (click)="displayBucket()"/>  
                       </div>
                 </ng-template>
                 <ng-template #emptybucket>
@@ -118,8 +100,5 @@
                    No Item in the Cart.Let's shop now   
                   </div>
                 </ng-template>
-              
-               
-         
-            
+      
 </div>

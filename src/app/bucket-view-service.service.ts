@@ -19,8 +19,8 @@ export class BucketViewService {
   {
    
     var selectedCount=this.bucketView.productFullInfoBucketMap.get(x).selectedItemCount;
-    this.bucketView.totalItemCount=(this.bucketView.totalItemCount)- selectedCount;
-    this.bucketView.totalPrice=this.bucketView.totalPrice-(selectedCount*this.bucketView.productFullInfoBucketMap.get(x).price)
+    this.bucketView.totalItemCount=(this.bucketView.totalItemCount)- parseInt(selectedCount);
+    this.bucketView.totalPrice=this.bucketView.totalPrice-(parseInt(selectedCount)*this.bucketView.productFullInfoBucketMap.get(x).price)
     this.bucketView.productFullInfoBucketMap.delete(x);
     this.sharedSerevice.setSet(this.bucketView);
     this.updateCookieBucket(x,0,this.bucketView.totalItemCount,this.bucketView.totalPrice)
@@ -42,12 +42,12 @@ export class BucketViewService {
     if(selectedItemCount>0)
     {
       
-    this.bucketView.productFullInfoBucketMap.get(selectedProdAvail).selectedItemCount= this.bucketView.productFullInfoBucketMap.get(selectedProdAvail).selectedItemCount-parseInt(selectedItemCount)
+    this.bucketView.productFullInfoBucketMap.get(selectedProdAvail).selectedItemCount= (parseInt(this.bucketView.productFullInfoBucketMap.get(selectedProdAvail).selectedItemCount)-parseInt(selectedItemCount))+''
     let updatedCountProdAvail=this.bucketView.productFullInfoBucketMap.get(selectedProdAvail).selectedItemCount
     this.bucketView.totalPrice=this.bucketView.totalPrice-(1*this.bucketView.productFullInfoBucketMap.get(selectedProdAvail).price)
    
     this.bucketView.totalItemCount=(this.bucketView.totalItemCount)- selectedItemCount
-    if(updatedCountProdAvail==0)
+    if(updatedCountProdAvail=='0')
     {
       this.bucketView.productFullInfoBucketMap.delete(selectedProdAvail)
   
@@ -88,7 +88,7 @@ export class BucketViewService {
       else
       {
       
-      productSelectViewMap.get(selectedProdAvail).itemCount=parseInt(selectedItemCount)
+      productSelectViewMap.get(selectedProdAvail).itemCount=selectedItemCount
       }
       
       cookieBucket.productSelectViewMap=productSelectViewMap
@@ -152,12 +152,12 @@ export class BucketViewService {
     if(selectedItemCount==null || selectedItemCount=='')
     {
       selectedItemCount=1;
-      this.bucketView.productFullInfoBucketMap.get(selectedProdAvail).selectedItemCount=1;
+      this.bucketView.productFullInfoBucketMap.get(selectedProdAvail).selectedItemCount='1';
     }
    
-    this.bucketView.totalItemCount=(this.bucketView.totalItemCount)-(productSelectViewMap.get(selectedProdAvail).itemCount-parseInt(selectedItemCount))
+    this.bucketView.totalItemCount=(this.bucketView.totalItemCount)-(parseInt(productSelectViewMap.get(selectedProdAvail).itemCount)-parseInt(selectedItemCount))
    
-    this.bucketView.totalPrice=this.bucketView.totalPrice-(((productSelectViewMap.get(selectedProdAvail).itemCount-parseInt(selectedItemCount))*this.bucketView.productFullInfoBucketMap.get(selectedProdAvail).price))
+    this.bucketView.totalPrice=this.bucketView.totalPrice-(((parseInt(productSelectViewMap.get(selectedProdAvail).itemCount)-parseInt(selectedItemCount))*this.bucketView.productFullInfoBucketMap.get(selectedProdAvail).price))
   
     if(selectedItemCount==0)
     {

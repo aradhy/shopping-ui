@@ -65,6 +65,14 @@ export class MenusComponent implements OnInit,AfterViewInit{
     this.subscription= this.sharedSerevice.getState().subscribe(bucketView=>{
      
       this.bucketView=bucketView
+      if( this.bucketView.totalItemCount<10)
+{
+  $(".cart-count").css("right","7.2em")
+}
+else
+{
+  $(".cart-count").css("right","7.5em")
+}
      
     });
    
@@ -84,6 +92,7 @@ export class MenusComponent implements OnInit,AfterViewInit{
     this.showCart()
   
 }
+
 
 colorGrey(id)
 {
@@ -270,17 +279,17 @@ removeFromBucket(x:string)
 {
  
   var selectedCount=this.bucketView.productFullInfoBucketMap.get(x).selectedItemCount;
-  this.bucketView.totalItemCount=(this.bucketView.totalItemCount)- selectedCount;
-  this.bucketView.totalPrice=this.bucketView.totalPrice-(selectedCount*this.bucketView.productFullInfoBucketMap.get(x).price)
+  this.bucketView.totalItemCount=(this.bucketView.totalItemCount)- parseInt(selectedCount);
+  this.bucketView.totalPrice=this.bucketView.totalPrice-(parseInt(selectedCount)*this.bucketView.productFullInfoBucketMap.get(x).price)
   this.bucketView.productFullInfoBucketMap.delete(x);
   this.sharedSerevice.setSet(this.bucketView);
   this.updateCookieBucket(x,0,this.bucketView.totalItemCount,this.bucketView.totalPrice)
 }
  
-addQty(selectedProdAvail:any,selectedItemCount:number)
+addQty(selectedProdAvail:any)
 {
  
-  this.bucketView.productFullInfoBucketMap.get(selectedProdAvail).selectedItemCount=this.bucketView.productFullInfoBucketMap.get(selectedProdAvail).selectedItemCount+selectedItemCount
+  this.bucketView.productFullInfoBucketMap.get(selectedProdAvail).selectedItemCount=parseInt(this.bucketView.productFullInfoBucketMap.get(selectedProdAvail).selectedItemCount)+1+''
   this.bucketView.totalItemCount=this.bucketView.totalItemCount+ 1;
   this.bucketView.totalPrice=this.bucketView.totalPrice+(this.bucketView.productFullInfoBucketMap.get(selectedProdAvail).price)
   this.sharedSerevice.setSet(this.bucketView);
@@ -293,12 +302,12 @@ subQty(selectedProdAvail:any,selectedItemCount:number)
   if(selectedItemCount>0)
   {
     
-  this.bucketView.productFullInfoBucketMap.get(selectedProdAvail).selectedItemCount= this.bucketView.productFullInfoBucketMap.get(selectedProdAvail).selectedItemCount-selectedItemCount
+  this.bucketView.productFullInfoBucketMap.get(selectedProdAvail).selectedItemCount= (parseInt(this.bucketView.productFullInfoBucketMap.get(selectedProdAvail).selectedItemCount)-selectedItemCount)+''
   let updatedCountProdAvail=this.bucketView.productFullInfoBucketMap.get(selectedProdAvail).selectedItemCount
   this.bucketView.totalPrice=this.bucketView.totalPrice-(1*this.bucketView.productFullInfoBucketMap.get(selectedProdAvail).price)
  
   this.bucketView.totalItemCount=(this.bucketView.totalItemCount)- selectedItemCount
-  if(updatedCountProdAvail==0)
+  if(updatedCountProdAvail=='0')
   {
     this.bucketView.productFullInfoBucketMap.delete(selectedProdAvail)
 
@@ -339,7 +348,7 @@ updateCookieBucket(selectedProdAvail:any,selectedItemCount:any,totalItemCount:an
     else
     {
     
-    productSelectViewMap.get(selectedProdAvail).itemCount=parseInt(selectedItemCount)
+    productSelectViewMap.get(selectedProdAvail).itemCount=selectedItemCount
     }
     
     cookieBucket.productSelectViewMap=productSelectViewMap
@@ -392,6 +401,15 @@ else
   
 }
 
+if( this.bucketView.totalItemCount<10)
+{
+  $(".cart-count").css("right","7.2em")
+}
+else
+{
+  $(".cart-count").css("right","7.3em")
+}
+
 }
 
 updateItemCount(selectedProdAvail:string,selectedItemCount:any)
@@ -405,12 +423,12 @@ updateItemCount(selectedProdAvail:string,selectedItemCount:any)
   if(selectedItemCount==null || selectedItemCount=='')
   {
     selectedItemCount=1;
-    this.bucketView.productFullInfoBucketMap.get(selectedProdAvail).selectedItemCount=1;
+    this.bucketView.productFullInfoBucketMap.get(selectedProdAvail).selectedItemCount='1';
   }
  
-  this.bucketView.totalItemCount=(this.bucketView.totalItemCount)-(productSelectViewMap.get(selectedProdAvail).itemCount-parseInt(selectedItemCount))
+  this.bucketView.totalItemCount=(this.bucketView.totalItemCount)-(parseInt(productSelectViewMap.get(selectedProdAvail).itemCount)-parseInt(selectedItemCount))
  
-  this.bucketView.totalPrice=this.bucketView.totalPrice-(((productSelectViewMap.get(selectedProdAvail).itemCount-parseInt(selectedItemCount))*this.bucketView.productFullInfoBucketMap.get(selectedProdAvail).price))
+  this.bucketView.totalPrice=this.bucketView.totalPrice-(((parseInt(productSelectViewMap.get(selectedProdAvail).itemCount)-parseInt(selectedItemCount))*this.bucketView.productFullInfoBucketMap.get(selectedProdAvail).price))
 
   if(selectedItemCount==0)
   {
