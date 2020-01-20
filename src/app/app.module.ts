@@ -12,7 +12,7 @@ import { MenusComponent } from './menus/menus.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CommonModule } from '@angular/common';
 import { SharedService } from './sharedservice.service';
-import {MatGridListModule, MatRadioModule, MatAutocompleteModule, MatProgressSpinnerModule, MatDialogModule, MatInputModule, MatButtonModule} from '@angular/material';
+import {MatGridListModule, MatRadioModule, MatAutocompleteModule, MatProgressSpinnerModule, MatDialogModule, MatInputModule, MatButtonModule, MatToolbarModule} from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxImageZoomModule } from 'ngx-image-zoom';
 import { UserComponent } from './user/user.component';
@@ -35,6 +35,8 @@ import { RouterModule } from '@angular/router';
    
   ],
   imports: [
+   
+    MatToolbarModule,
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,

@@ -1,19 +1,31 @@
 
+.container {
+ 
 
-div.float-center {
-  margin-top:10em;
-  margin-left:25em;
-  width: 70%;
-  position:relative;
+  width: 80%;
+  position: relative;
   -webkit-animation: fadein 0s; /* Safari, Chrome and Opera > 12.1 */
        animation: fadein 1s;
+       margin-top: 12em;
+       height:auto;
+       
+}
+.vl {
+  border-left: 1px solid grey;
+  height:1000px;
+  float: left;
+  margin-right: 1em;
+  
+  
 }
 
 div.gallery {
-    margin: 3px;
+  float: left;
+    margin-left:3px;
     border: 1px solid gainsboro;
-    float: left;
+    margin-top: 10px;
     width:200px;
+   
     -webkit-animation: fadein 0s; /* Safari, Chrome and Opera > 12.1 */
     animation: fadein 1s;
     
@@ -126,4 +138,12 @@ div.gallery {
     from { opacity: 0; }
     to   { opacity: 1; }
     }
-  
+ 
+    .footer {
+      clear: both; 
+      height: auto;
+      width: 640px;
+      margin-left:10em;
+      margin-top: 1em;
+     border: 1px solid black;
+      }

@@ -1,3 +1,17 @@
+
+
+.menucomp{
+ position: fixed;
+ z-index: 10;
+ background-color: white;
+ margin-left:0px;
+ top:0px;
+width:100%;
+padding: 1px;
+
+
+}
+
 /*CSS Document*/
 *
 {
@@ -96,12 +110,7 @@ background-color: #ddd;
   * {
 	box-sizing: border-box;
   }
-  .search
-  {
 
-margin-top:10px;
-
-  }
 
   form.example input[type=text] {
 	padding: 10px;
@@ -110,6 +119,8 @@ margin-top:10px;
 	float: left;
 	width: 80%;
 	background: #f1f1f1;
+	margin-top: 8px;
+	
   }
   
   form.example button {
@@ -120,7 +131,7 @@ margin-top:10px;
 	color: white;
 	font-size: 17px;
 	border: 1px solid grey;
-	
+	margin-top: 8px;
 	cursor: pointer;
   }
   

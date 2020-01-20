@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, EventEmitter, Output, Inject, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output, Inject, AfterViewInit, HostListener, ElementRef } from '@angular/core';
 import { CategoryService } from '../category/category.service';
 import { Category } from '../category/category';
 import { SubCategory } from '../category/sub-category';
@@ -61,7 +61,7 @@ export class MenusComponent implements OnInit,AfterViewInit{
 
   }
 
-  constructor(private categoryService: CategoryService,private router:Router,private sharedSerevice: SharedService,private productService: ProductService) {
+  constructor(private categoryService: CategoryService,private router:Router,private sharedSerevice: SharedService,private productService: ProductService,public el: ElementRef) {
     this.subscription= this.sharedSerevice.getState().subscribe(bucketView=>{
      
       this.bucketView=bucketView
@@ -93,6 +93,17 @@ else
   
 }
 
+@HostListener('window:scroll', ['$event']) 
+    scrollHandler(event) {
+     console.log( window.pageYOffset)
+     if( window.pageYOffset >50)
+     {
+      $('.menucomp').css('box-shadow','2px 2px 2px #ddd')
+     }
+     else{
+      $('.menucomp').css('box-shadow','') 
+     }
+    }
 
 colorGrey(id)
 {

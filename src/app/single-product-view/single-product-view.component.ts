@@ -107,7 +107,7 @@ export class SingleProductViewComponent implements OnInit {
       let idCss='#'+id
     
     
-      $("#1").css("border-color", "red");
+      $(idCss).css("border-color", "red");
       $(idCss).css("background-color", "greenyellow");
   
     }

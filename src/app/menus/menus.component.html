@@ -3,6 +3,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
 
+    <div class="menucomp" (scroll)="scrollHandler($event)">
     <form class="example"   (ngSubmit)="searchProduct(regForm)" style="margin:auto;max-width:600px">
     <input type="text" placeholder="Search.."  [formControl]="search"  [matAutocomplete]="auto"  autocomplete="off" size="50" >
     <button type="submit" >Search</button>
@@ -102,3 +103,5 @@
                 </ng-template>
       
 </div>
+</div>
+

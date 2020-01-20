@@ -1,7 +1,6 @@
 
-
 div.float-left {
-	margin-top:35px;
+	margin-top:5em;
 	margin-left:15em;
 	position:relative;
 	margin-right: 100px;
@@ -50,30 +49,16 @@ div.float-left {
        animation: fadein 1s;
 	}
   
-	 .carousel-item {
-	  height: 15px;
-	  width: 15px;
-	  margin: 5px;
-	  background-color: white;
-	  text-decoration: none;
-	  -webkit-animation: fadein 0s; /* Safari, Chrome and Opera > 12.1 */
-	  animation: fadein 1s;
-	 
-	 } 
-  
-	 .boxcontainer{
-	  position: absolute;
-	  width:1200px;
-	  height:500px;
-	  float:none;
-	  -webkit-animation: fadein 0s; /* Safari, Chrome and Opera > 12.1 */
-	  animation: fadein 1s;
-  }
+ .carousel{
+	 top:2.6em;
+ }
+
   
 	 .active {
 	  position: relative;
 	  text-decoration: none;
 	  margin:5px;
+	  top: 6em;
 	  text-align:center;
 	  -webkit-animation: fadein 0s; /* Safari, Chrome and Opera > 12.1 */
 	  animation: fadein 1s;
@@ -82,7 +67,7 @@ div.float-left {
   .navigationlink
   {
 	text-align:center;
-	margin-top:10px;
+	top:4em;
 	-webkit-animation: fadein 0s; /* Safari, Chrome and Opera > 12.1 */
 	  animation: fadein 1s;
   }

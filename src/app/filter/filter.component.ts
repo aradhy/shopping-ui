@@ -149,7 +149,7 @@ searchFilterUrl(params)
 
   handleWeight(event,weightFilterMetaData)
   {
-  
+ 
     if(weightFilterMetaData.v1==null && weightFilterMetaData.v2==null )
     {
       return;
@@ -161,8 +161,9 @@ searchFilterUrl(params)
      else
      this.removeWeightFilter('<'+weightFilterMetaData.v1+'-'+weightFilterMetaData.u1);
     }
-    else if(weightFilterMetaData.filterCriteria=='-')
+    else if(weightFilterMetaData.filterCriteria=='-' || weightFilterMetaData.filterCriteria=='bw' )
     {
+     
       if(event.target.checked)
       this.filterParams.weightFilters.push(weightFilterMetaData.v1+'-'+weightFilterMetaData.u1+'-'+weightFilterMetaData.v2+'-'+weightFilterMetaData.u2)
       else
@@ -274,6 +275,7 @@ searchFilterUrl(params)
 
   removeWeightFilter(priceFilter)
   {
+   
     var idx =  this.filterParams.weightFilters.indexOf(priceFilter);
     this.filterParams.weightFilters.splice(idx, 1);
     this.filterParamsEmitter.emit(this.filterParams)    

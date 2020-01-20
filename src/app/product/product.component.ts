@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Input, ViewChild, ViewChildren, QueryList, ElementRef } from '@angular/core';
+import { Component, OnInit, EventEmitter, Input, ViewChild, ViewChildren, QueryList, ElementRef, HostListener } from '@angular/core';
 import { ProductService } from './product.service';
 import { Product } from './product';
 import { Router,ActivatedRoute, NavigationStart } from '@angular/router';
@@ -13,7 +13,7 @@ import { SharedService } from '../sharedservice.service';
 import { ProductAvail } from './productavail';
 import { BucketView } from './bucketview';
 import { BucketModel } from './bucketmodel';
-
+import * as $ from 'jquery';
 import { FilterComponent } from 'src/app/filter/filter.component';
 import { FilterParams } from 'src/app/filter/filterparams';
 import { SearchProduct } from './search-product';
@@ -55,6 +55,41 @@ export class ProductComponent implements OnInit {
 
  constructor(private productService: ProductService,private activatedRoute:ActivatedRoute,private router:Router,private cookieService:CookieService ,private sharedService:SharedService) {
  
+  $( document ).ready(function() {
+   
+     
+    var $sticky = $('.filterComp');
+    var $stickyrStopper = $('.sticky-stopper');
+    if (!!$sticky.offset()) { // make sure ".sticky" element exists
+  
+      var generalSidebarHeight = $sticky.height();
+      var stickyTop = $sticky.offset().top;
+      var stickOffset =0;
+      var stickyStopperPosition = $stickyrStopper.offset().top;
+      var stopPoint = stickyStopperPosition - (generalSidebarHeight)-150;
+     
+      var diff = stopPoint -200;
+  
+      $(window).scroll(function(){ // scroll event
+        var windowTop = $(window).scrollTop(); // returns number
+        
+        if (stopPoint < (windowTop)) {
+           console.log("1")
+            $sticky.css({ position: 'relative', top: diff });
+           
+        } else if (stickyTop < windowTop+stickOffset) {
+          console.log("2")
+           $sticky.css({ position: 'fixed',top:stickOffset});
+           $(".container").css('margin-left','24.39em')
+           $('.container').css('width','70%')
+        } else {
+          console.log("3")
+            $sticky.css({position: 'relative', top:0});
+        }
+      });
+     
+    }
+  });
  
   this.subscription= this.sharedService.getState().subscribe(bucketView=>{
    
@@ -69,6 +104,7 @@ export class ProductComponent implements OnInit {
 
 ngOnInit() {
 
+
 this.showCart();
 
 if (this.router.url.includes('cat'))
@@ -79,7 +115,7 @@ if (this.router.url.includes('cat'))
     this.catId=routeParams.catId
     this.subId=routeParams.subId
    
-    if(this.subId!=null)
+     if(this.subId!=null)
     {
     this.productBasedOnSubCategory();
     }
@@ -263,7 +299,9 @@ let
  
 addToCart(productId:any,selectedProductAvail:any,itemCount:string)
   {
-
+ console.log(productId)
+ console.log(selectedProductAvail)
+ console.log(itemCount)
   if(itemCount==null &&  selectedProductAvail==null)
   {
     return ;
