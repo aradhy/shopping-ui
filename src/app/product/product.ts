@@ -9,7 +9,8 @@ export class Product {
   public brand:string ;
   public imageLink:string;
   public  subId:string ;
-  public  catId:string ;
+  public  catId:string 
+  public price:number;
  public productAvailList:ProductAvail[];
  public selectedProductAvail:ProductAvail;
  public itemCountList:number[]=[];

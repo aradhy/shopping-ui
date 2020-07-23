@@ -4,7 +4,7 @@
 .content{
   position: relative;
   float: left;
-  margin-top:4em; 
+  margin-top:15em; 
   margin-left:60em
 }
 
@@ -116,7 +116,7 @@ border-radius:3px;
 body { min-height: 100vh; }
 #exzoom {
     width: 500px;
-   
+    margin-top: 10em;
 }
 .container { margin-left: 20em ; max-width: 960px; }
 .hidden { display: none; }

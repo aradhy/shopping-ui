@@ -10,9 +10,10 @@ export class SharedService {
   constructor() { }
 
   private selectionFormatState = new Subject<BucketView>();
+  private rest = new Subject<boolean>();
 
   setSet(state: BucketView) {
-  //alert("bhai me set state me hu")
+
      this.selectionFormatState.next(state);
    }
  
@@ -20,4 +21,15 @@ export class SharedService {
 
      return this.selectionFormatState.asObservable();
    }
+
+   setResetAll(state: boolean) {
+    //alert("bhai me rest state me hu")
+       this.rest.next(state);
+     }
+   
+     getResetAll(): Observable<boolean> {
+  
+       return this.rest.asObservable();
+     }
+  
 }

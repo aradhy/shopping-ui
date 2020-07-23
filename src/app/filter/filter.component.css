@@ -2,10 +2,9 @@
 {
   float: left; 
    margin-left: 10em;
-  position: -webkit-sticky;  
-  position: sticky;
-  top: 0px; 
+    top: 0px; 
 }
+
 
 
 /* Create three equal columns that floats next to each other */

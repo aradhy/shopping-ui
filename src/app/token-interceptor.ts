@@ -28,6 +28,7 @@ if(( request.url.match('http://localhost:8080/signUp') || request.url.match('htt
   else if(( request.url.match('http://localhost:8080/socialSignUp') || request.url.match('http://localhost:8080/socialSignIn')))
   {
     let userInfo=  JSON.parse(localStorage.getItem("USER"));
+   
     request = request.clone({
       headers: new HttpHeaders({
         'Content-Type':  'application/json',
@@ -38,11 +39,11 @@ if(( request.url.match('http://localhost:8080/signUp') || request.url.match('htt
     });
   }
   else{
-   
+    let userInfo=  JSON.parse(localStorage.getItem("USER"));
     request = request.clone({
       headers: new HttpHeaders({
         'Content-Type':  'application/json',
-        'Authorization':localStorage.getItem('JWT-TOKEN')
+        'Authorization':userInfo.jwtToken
         
       }),withCredentials: true,params: request.params.set('provider', localStorage.getItem("PROVIDER"))
     });

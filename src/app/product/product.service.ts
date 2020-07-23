@@ -85,7 +85,8 @@ export class ProductService {
    
   
     let productFilterDataUrl=  this.baseUrlProductFilter
-
+     
+     console.log(params)
     return this.httpClient.get<SearchProduct[]>(productFilterDataUrl, {
       params:params})
   }

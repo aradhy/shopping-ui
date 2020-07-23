@@ -11,7 +11,7 @@
 
 <a id="logout" href="javascript:void(0)" (click)="logOut()">Logout</a>
 </div>
-  <app-menus *ngIf="navigationState" [bucketView]=bucketView ></app-menus>
+  <app-menus *ngIf="checkout"  [bucketView]=bucketView 	(someEvent)="openDialog($event)" ></app-menus>
 
 <router-outlet (activate)="onActivate($event)" ></router-outlet>
 

@@ -26,23 +26,24 @@ export class BucketViewService {
     this.updateCookieBucket(x,0,this.bucketView.totalItemCount,this.bucketView.totalPrice)
   }
    
-  addQty(selectedProdAvail:any,selectedItemCount:any)
+  addQty(selectedProdAvail:any,selectedItemCount:number)
   {
    
-    this.bucketView.productFullInfoBucketMap.get(selectedProdAvail).selectedItemCount=this.bucketView.productFullInfoBucketMap.get(selectedProdAvail).selectedItemCount+selectedItemCount
+    this.bucketView.productFullInfoBucketMap.get(selectedProdAvail).selectedItemCount=(parseInt(this.bucketView.productFullInfoBucketMap.get(selectedProdAvail).selectedItemCount)+selectedItemCount)+''
+    
     this.bucketView.totalItemCount=this.bucketView.totalItemCount+ 1;
     this.bucketView.totalPrice=this.bucketView.totalPrice+(this.bucketView.productFullInfoBucketMap.get(selectedProdAvail).price)
     this.sharedSerevice.setSet(this.bucketView);
     this.updateCookieBucket(selectedProdAvail,this.bucketView.productFullInfoBucketMap.get(selectedProdAvail).selectedItemCount,this.bucketView.totalItemCount,this.bucketView.totalPrice)
   }
   
-  subQty(selectedProdAvail:any,selectedItemCount:any)
+  subQty(selectedProdAvail:any,selectedItemCount:number)
   {
   
     if(selectedItemCount>0)
     {
       
-    this.bucketView.productFullInfoBucketMap.get(selectedProdAvail).selectedItemCount= (parseInt(this.bucketView.productFullInfoBucketMap.get(selectedProdAvail).selectedItemCount)-parseInt(selectedItemCount))+''
+    this.bucketView.productFullInfoBucketMap.get(selectedProdAvail).selectedItemCount= (parseInt(this.bucketView.productFullInfoBucketMap.get(selectedProdAvail).selectedItemCount)-selectedItemCount)+''
     let updatedCountProdAvail=this.bucketView.productFullInfoBucketMap.get(selectedProdAvail).selectedItemCount
     this.bucketView.totalPrice=this.bucketView.totalPrice-(1*this.bucketView.productFullInfoBucketMap.get(selectedProdAvail).price)
    

@@ -20,6 +20,7 @@ import { GoogleResponse } from './user/model/google-response';
 import { TokenDTO } from './user/model/tokendto';
 import * as $ from 'jquery';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialogConfig, MatDialog } from "@angular/material/dialog";
+import { FilterComponent } from './filter/filter.component';
 
 
 
@@ -32,7 +33,7 @@ import { MatDialogRef, MAT_DIALOG_DATA, MatDialogConfig, MatDialog } from "@angu
 export class AppComponent implements OnInit,AfterViewInit{
   ngAfterViewInit(): void {
     this.logIn();
-   
+    this.router.navigateByUrl('/category-view');
    
   }
  
@@ -45,28 +46,46 @@ export class AppComponent implements OnInit,AfterViewInit{
   order:CustomerOrder; 
   route: string;
   navigationState: boolean = false;
+  checkout:boolean=true;
   currentUserName:string;
-  
+  rest:boolean;
   @ViewChild(MenusComponent) menusComponent: MenusComponent;
- 
+  
   
 
 
   constructor(private router:Router,private productService: ProductService,private location: Location,private activatedRoute:ActivatedRoute,private locationStrategy:LocationStrategy,private userService:UserService,private httpClient: HttpClient,private dialog: MatDialog)
   {
-   
+  
     router.events.subscribe(() => {
+ 
+     if (location.path() != "") {
+     if(location.path() !="/category-view")
+     {
       
-      if (location.path() != "") {
-     
-        if (location.path().includes('/delivery')) {
+        if (location.path().includes('/delivery') ) {
         
           this.navigationState = false;
-        } else {
+        } 
+       
+        else {
          
           this.navigationState = true;
         }
+       
+        if(location.path().includes('/checkout') || location.path().includes('/delivery'))
+        {
+           this.checkout=false;
+        }
+        else{
+          this.checkout=true;
+        }
       }
+      } 
+     
+  
+   
+      
     });
 
 
@@ -76,26 +95,30 @@ export class AppComponent implements OnInit,AfterViewInit{
 
 
   ngOnInit() {
+ 
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
     let userInfo=  JSON.parse(localStorage.getItem("USER"));
-
+  
     if(localStorage.getItem("USER")!=null)
     {
     
-     let tokenExpired= (userInfo.jwtExpiry - (Date.now() / 1000));
-      if(userInfo.userName!=null && tokenExpired)
+   /*   let tokenExpired= (userInfo.jwtExpiry - (Date.now() / 1000)); */
+    
+      if(userInfo.userName!=null)
       {
       
           this.currentUserName=userInfo.userName;
+         
           $(".noUser").hide();
           $(".hasUser").show();
       }
      
 
     }
-   
-     this.router.navigateByUrl('/category-view');
+  
+    this.router.navigateByUrl('/category-view');
+    
    
   }
   
@@ -106,8 +129,8 @@ export class AppComponent implements OnInit,AfterViewInit{
   }
 
   onActivate(componentReference) {
- 
-  
+
+    window.scroll(0,0);
     //componentReference.anyFunction();
    if( componentReference.bucketViewEmitter!==undefined)
    {
@@ -135,7 +158,6 @@ export class AppComponent implements OnInit,AfterViewInit{
    })
 
    
- 
 
 }
 
@@ -171,7 +193,7 @@ if(this.currentUrl.indexOf('access_token=')>0)
     this.userService.socialSignUp(socialResponse);
   
    
-    window.history.pushState(this.currentUrl,'','https://localhost:4200/')
+   // window.history.pushState(this.currentUrl,'','https://localhost:4200/category-view')
    
    }
  
@@ -195,7 +217,7 @@ if(this.currentUrl.indexOf('access_token=')>0)
          
        
         
-         window.history.pushState(this.currentUrl,'','https://localhost:4200/')
+        
       }  
       )
      
@@ -221,6 +243,8 @@ getResponseFromUrl(url,param) {
   return resp;
   
 }
+
+
 
 openDialog(id)
 {

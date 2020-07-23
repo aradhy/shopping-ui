@@ -56,7 +56,7 @@ if(this.catId!=null && this.subId!=null)
   let 
   params={
     'catId': this.catId,
-    'subId': this.subId
+    'subId': this.subId 
   }
   this.searchFilterUrl(params);
   this.getFilterMetaData(this.catId,this.subId)
@@ -95,7 +95,7 @@ searchFilterUrl(params)
    
     this.filterParamsEmitter.emit(this.filterParams)  
     
-    if(this.catId!=null && this.subId!=null)
+    if(this.catId!=null)
     {
     this.getFilterMetaData(this.catId,this.subId)
     }
@@ -135,10 +135,12 @@ searchFilterUrl(params)
     }
     this.filterParamsEmitter.emit(this.filterParams)
     
-    if(this.catId!=null && this.subId!=null)
+    if(this.catId!=null )
     {
-    
+    if(this.subId!=null)
     this.getFilterMetaData(this.catId,this.subId)
+    else
+    this.getFilterMetaData(this.catId,null)
     }
     else
     {
@@ -168,8 +170,13 @@ searchFilterUrl(params)
       this.filterParams.weightFilters.push(weightFilterMetaData.v1+'-'+weightFilterMetaData.u1+'-'+weightFilterMetaData.v2+'-'+weightFilterMetaData.u2)
       else
       this.removeWeightFilter(weightFilterMetaData.v1+'-'+weightFilterMetaData.u1+'-'+weightFilterMetaData.v2+'-'+weightFilterMetaData.u2);
-      if(this.catId!=null && this.subId!=null)
-      this.getFilterMetaData(this.catId,this.subId)
+      if(this.catId!=null)
+      {
+      
+        this.getFilterMetaData(this.catId,this.subId)
+
+
+      }
       else
       this.getFilterMetaDataSearch(this.search,this.filterParams)
     }

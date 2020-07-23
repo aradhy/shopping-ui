@@ -44,7 +44,7 @@ export class CheckOutViewComponent implements OnInit {
    
   }
    
-  addQty(selectedProdAvail:any,selectedItemCount:any)
+  addQty(selectedProdAvail:any,selectedItemCount:number)
   {
    
     this.bucketViewService.addQty(selectedProdAvail,selectedItemCount)

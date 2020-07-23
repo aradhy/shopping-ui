@@ -8,13 +8,14 @@ import { Slot } from './slot';
 import { DeliveryService } from './delivery.service';
 import { Product } from '../product/product';
 import { OrderResponse } from './order-response';
+import { MatRadioChange } from '@angular/material/radio';
 
 @Component({
   selector: 'app-deliver',
   templateUrl: './delivery.component.html',
   styleUrls: ['./delivery.component.css']
 })
-export class DeliveryComponent implements OnInit,AfterContentInit,AfterViewInit {
+export class DeliveryComponent implements OnInit {
   addressForm:FormGroup;
   addressOp='Change Address'
  
@@ -22,8 +23,12 @@ export class DeliveryComponent implements OnInit,AfterContentInit,AfterViewInit 
  productList:Product[];
  orderSuccess:boolean=false ;
  orderResponse:OrderResponse;
+ addressList:Address[]=[];
+ 
+ 
 
-  ngAfterViewInit(): void {
+
+  ngInit(): void {
     
     
    
@@ -31,8 +36,19 @@ export class DeliveryComponent implements OnInit,AfterContentInit,AfterViewInit 
    
   }
   
+
+  onChange(mrChange: MatRadioChange)
+  {
+    alert(mrChange.value)
+  }
+
+
+  getTheSlot(slotChange: MatRadioChange)
+  {
+    alert(slotChange.value)
+  }
   ngAfterContentInit():void{
-    this.setJs();
+   
    
 
   }
@@ -53,10 +69,11 @@ addNewAddress()
   else{
    
     document.getElementById("addressContentId").style.display='block';
- //   document.getElementById("addressListId").style.display='none';
+ 
       $("#addrCardId").hide();
+      $("#adripd").hide()
     document.getElementById("formId").style.display='block';
-    //document.getElementById("adripd").style.display="none"
+ 
     scrollTo(5, 1);
   }
  
@@ -74,7 +91,7 @@ cancel()
    scrollTo(5, 1);
   
 }
-addressList:Array<Address>=[];
+
   constructor(formBuilder:FormBuilder,private httpClient: HttpClient,private renderer: Renderer, private elem: ElementRef,private delService:DeliveryService) {
     this.addressForm=formBuilder.group({
       name: new FormControl(),
@@ -86,53 +103,18 @@ addressList:Array<Address>=[];
        houseNo:new FormControl()
     });
 
+
    }
 
   ngOnInit() {
   
-   // this.date1= new Date();
-   
- /*    $(".DeliAdd").css({ display: "none" });
-    $(".Payment-Options").css({ display: "none" });
-    $(".Delivery-Options").css({ display: "none" });
-    this.orderSuccess=true */
-  //this.date1.setDate( this.date1.getDate() + 1 )
-
-
+    
  
-    /*let slot1=new Slot();
-    slot1.time1 = new Date();
-    slot1.time2 = new Date(slot1.time1..getDate() + 1);*/
-
-
-   // this.slotList.push(slot1);
-  // let dateFormat = require('dateformat');
-   //let now = new Date();
-//dateFormat(now, "dddd,mmmm dS,yyyy,h:MM:ss TT");
-  // this.date=dateFormat(now, "dddd,mmmm dS,yyyy,h:MM:ss TT")
- // this.date=new Date();
-  
-    let address=new Address();
-    address.id='1';
-    address.name='Sangam Vihar'
-    address.city='New Delhi'
-    address.country='India'
-    address.email='mishra.shiv68@gmail.com'
-    address.landmark='Opposite Batra Hospital'
-    address.state='Delhi'
-    address.addressDetails='Near Radha krishna Mandir'
-    this.addressList.push(address)
-
-    let address1=new Address();
-    address1.id='2'
-    address1.name='Sarita Vihar'
-    address1.city='New Delhi'
-    address1.country='India'
-    address1.email='mishra.shiv68@gmail.com'
-    address1.landmark='Opposite Metro Hospital'
-    address1.state='Delhi'
-    address1.addressDetails='Near Radha krishna Mandir'
-    this.addressList.push(address1)
+    this.delService.getAddress().subscribe(response=>{
+      this.addressList=response.obj
+    console.log(this.addressList)
+      this.setJs(); 
+    })
   }
 
   showForm()
@@ -141,28 +123,29 @@ addressList:Array<Address>=[];
   }
   onSubmitAddress(addressForm:any)
   {    
-    let addressModel=new Address()
-    addressModel.name=addressForm.controls.name.value;
-    addressModel.email=addressForm.controls.email.value;
-    addressModel.addressDetails=addressForm.controls.address.value;
-    addressModel.city=addressForm.controls.city.value;
-    addressModel.state=addressForm.controls.state.value;
-    addressModel.houseNo=addressForm.controls.houseNo.value;
-    addressModel.landmark=addressForm.controls.landMark.value;
+    let addressDetails=new Address()
+    addressDetails.name=addressForm.controls.name.value;
+    addressDetails.email=addressForm.controls.email.value;
+    addressDetails.addressDetails=addressForm.controls.address.value;
+    addressDetails.city=addressForm.controls.city.value;
+    addressDetails.state=addressForm.controls.state.value;
+    addressDetails.houseNo=addressForm.controls.houseNo.value;
+    addressDetails.landmark=addressForm.controls.landMark.value; 
     this.addressForm.reset();
     this.addressOp='Change Address'
 
-  console.log(this.addressList)
+ 
 
   
     $("#delivercontent").show()
-     this.httpClient.post<TokenResponse>("http://localhost:8080/addressDetails", {}).subscribe(
+     this.httpClient.post<TokenResponse>("http://localhost:8080/addressDetails", addressDetails).subscribe(
       tokenResponse  => {
+        alert(tokenResponse.code)
      if(tokenResponse.code==201)
      {
      
         document.getElementById("formId").style.display='none';
-        this.addressList.push(addressModel)
+        this.addressList.push(addressDetails)
      }
      
 
@@ -176,18 +159,8 @@ addressList:Array<Address>=[];
 setJs()
 {
  
-  if(this.addressList.length>0)
-  {
 
-      this.toggleAddress("collapsible");
-
-      this.toggle("collapsible1");
-
-      this.toggle("collapsible2");
-   
-
-  }
-    
+  
 if(this.addressList.length==0)
 {
 
@@ -206,11 +179,16 @@ if(this.addressList.length==0)
 
 }
 else{
-     
+  
+  this.toggleAddress("collapsible");
+
+ this.toggle("collapsible1");
+
+  this.toggle("collapsible2");
     $(".collapsible2").prop('disabled',true);
     $(".collapsible2").css("color","#A9A9A9")
     $(".po").css("color","#A9A9A9")
-    $(".content-delivery").css({ display: "block" });
+    $(".content-delivery").css({ display: "block" }); 
 }
 
 
@@ -321,52 +299,9 @@ addressSelect(address)
 onSubmit()
 {
  
-  this.delService.fetchBucket().subscribe(response =>
-    {
-      
-      this.productList = response;
-     
-   
-    });
+ this.delService.fetchBucket();
   
 
-let order={
-
-"orderDetails": "Combo Pack",
-"amount":"400.00",
-"paymentMode":"CC",
-"orderItemList" :this.productList
-
-
-}
-
-  this.httpClient.post<OrderResponse>('http://localhost:8080/order',order).subscribe(orderResponse=>
-  {
-    this.orderResponse=orderResponse;
-    $(".DeliAdd").css({ display: "none" });
-    $(".Payment-Options").css({ display: "none" });
-    $(".Delivery-Options").css({ display: "none" });
-    this.orderSuccess=true
-    $('form[name=payuform]').attr('action','https://sandboxsecure.payu.in/_payment');
-    $('input[name="hash"]').val(this.orderResponse.hash)
-    $('input[name="key"]').val(this.orderResponse.key)
-    $('input[name="firstname"]').val(this.orderResponse.firstname)
-    $('input[name="phone"]').val(this.orderResponse.phone)
-    $('input[name="email"]').val(this.orderResponse.email)
-    $('input[name="productinfo"]').val(this.orderResponse.productinfo)
-    $('input[name="surl"]').val(this.orderResponse.sUrl)
-    $('input[name="txnid"]').val(this.orderResponse.txnId)
-    $('input[name="amount"]').val(this.orderResponse.amount)
-    $('form[name=payuform]').submit();
-    
-     
-    }
-  
-
-    
-  )
- 
-return true;
 }
 
 

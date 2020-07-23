@@ -29,8 +29,11 @@ import { Overlay } from '@angular/cdk/overlay';
   providers:[CookieService ]
 })
 export class MenusComponent implements OnInit,AfterViewInit{
+  rest: boolean;
   ngAfterViewInit(): void {
-    //this.currentUserName=this.customerName
+    var toolTop=parseInt($(".imageCart").position().top)+parseInt($(".imageCart").css("height"))+18;
+
+  $(".tooltiptext").css({"top":toolTop+'px'})
   }
   
 
@@ -38,6 +41,7 @@ export class MenusComponent implements OnInit,AfterViewInit{
 
   @Input() bucketView:BucketView;
   @Input() customerName:string=null;
+  @Output() restEmitter = new EventEmitter<boolean>();
   public categoryList:Category[];
   public categoryListAll:Category[];
   public subCategoryList:SubCategory[];
@@ -53,33 +57,46 @@ export class MenusComponent implements OnInit,AfterViewInit{
   @Output() resetEmitter = new EventEmitter<boolean>();
 
   @Output() searchClicked = new EventEmitter<any>();
+
+  @Output() someEvent = new EventEmitter<string>();
   
   resetFilter()
   {
     $('.mainCat').hide();
+   
     this.resetEmitter.emit(true)
 
   }
 
   constructor(private categoryService: CategoryService,private router:Router,private sharedSerevice: SharedService,private productService: ProductService,public el: ElementRef) {
+   
+   
     this.subscription= this.sharedSerevice.getState().subscribe(bucketView=>{
      
       this.bucketView=bucketView
       if( this.bucketView.totalItemCount<10)
-{
-  $(".cart-count").css("right","7.2em")
-}
-else
-{
-  $(".cart-count").css("right","7.5em")
-}
+      {
+        $(".cart-count").css("right","7.2em")
+      }
+      else
+      {
+        $(".cart-count").css("right","7.5em")
+      }
      
     });
    
+   
+
    }
 
 
+restProductFilter()
+{
+   this.rest=true;
+   this.sharedSerevice.setResetAll(this.rest)
 
+  
+}
 
    
   ngOnInit() {
@@ -89,20 +106,37 @@ else
     this.search = new FormControl();
     
     this.onchange();
-    this.showCart()
+    this.showCart();
+  
+    
+    
   
 }
 
 @HostListener('window:scroll', ['$event']) 
     scrollHandler(event) {
      console.log( window.pageYOffset)
-     if( window.pageYOffset >50)
+     
+     if( window.pageYOffset >20)
      {
+      
+      $(".menucomp").css({ top: '0px' });
       $('.menucomp').css('box-shadow','2px 2px 2px #ddd')
+      var toolTop=parseInt($(".imageCart").position().top)+parseInt($(".imageCart").css("height"))- parseInt( $(".menucomp").css("top"))-10;
+
+      $(".tooltiptext").css({top:toolTop+'px'})
+     
      }
      else{
+     
+      $(".menucomp").css({ top: '2em' });
       $('.menucomp').css('box-shadow','') 
+      var toolTop=parseInt($(".imageCart").position().top)+parseInt($(".imageCart").css("height"))+parseInt( $(".menucomp").css("top"))-10;
+
+      $(".tooltiptext").css({top:toolTop+'px'})
      }
+  
+     
     }
 
 colorGrey(id)
@@ -140,6 +174,7 @@ fetchUser()
 
 collapse()
   {
+    
     $(".dropdown").slideUp("fast")
   }
  
@@ -147,6 +182,7 @@ collapse()
 displayBucket()
 {
   $(".tooltiptext").hide()
+ // this.someEvent.next('signUp');
 this.router.navigateByUrl('/checkout')
 
 

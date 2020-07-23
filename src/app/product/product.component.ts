@@ -1,11 +1,11 @@
 import { Component, OnInit, EventEmitter, Input, ViewChild, ViewChildren, QueryList, ElementRef, HostListener } from '@angular/core';
 import { ProductService } from './product.service';
 import { Product } from './product';
-import { Router,ActivatedRoute, NavigationStart } from '@angular/router';
+import { Router,ActivatedRoute, NavigationStart, RoutesRecognized, RouteConfigLoadStart, RouteConfigLoadEnd, NavigationEnd } from '@angular/router';
 import {Output} from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ProductSelect } from './productselectview';
-
+import { Location } from '@angular/common';
 import { CookieService } from 'ngx-cookie-service';
 import { CookieBucket } from '../menus/bucketcookie';
 import { Subscription } from 'rxjs';
@@ -17,6 +17,7 @@ import * as $ from 'jquery';
 import { FilterComponent } from 'src/app/filter/filter.component';
 import { FilterParams } from 'src/app/filter/filterparams';
 import { SearchProduct } from './search-product';
+import { AfterViewInit } from 'node_modules_/@angular/core';
 
 
 @Component({
@@ -28,7 +29,7 @@ import { SearchProduct } from './search-product';
 
 
 
-export class ProductComponent implements OnInit {
+export class ProductComponent implements OnInit{
  
  
 @Output() bucketViewEmitter: EventEmitter<BucketView> = new EventEmitter();  
@@ -43,6 +44,7 @@ export class ProductComponent implements OnInit {
  catId:string;
  subId:string;
  search:string;
+ rest:boolean;
 
  @ViewChild(FilterComponent)
     private filterComponent: FilterComponent;
@@ -55,41 +57,7 @@ export class ProductComponent implements OnInit {
 
  constructor(private productService: ProductService,private activatedRoute:ActivatedRoute,private router:Router,private cookieService:CookieService ,private sharedService:SharedService) {
  
-  $( document ).ready(function() {
-   
-     
-    var $sticky = $('.filterComp');
-    var $stickyrStopper = $('.sticky-stopper');
-    if (!!$sticky.offset()) { // make sure ".sticky" element exists
-  
-      var generalSidebarHeight = $sticky.height();
-      var stickyTop = $sticky.offset().top;
-      var stickOffset =0;
-      var stickyStopperPosition = $stickyrStopper.offset().top;
-      var stopPoint = stickyStopperPosition - (generalSidebarHeight)-150;
-     
-      var diff = stopPoint -200;
-  
-      $(window).scroll(function(){ // scroll event
-        var windowTop = $(window).scrollTop(); // returns number
-        
-        if (stopPoint < (windowTop)) {
-           console.log("1")
-            $sticky.css({ position: 'relative', top: diff });
-           
-        } else if (stickyTop < windowTop+stickOffset) {
-          console.log("2")
-           $sticky.css({ position: 'fixed',top:stickOffset});
-           $(".container").css('margin-left','24.39em')
-           $('.container').css('width','70%')
-        } else {
-          console.log("3")
-            $sticky.css({position: 'relative', top:0});
-        }
-      });
-     
-    }
-  });
+ 
  
   this.subscription= this.sharedService.getState().subscribe(bucketView=>{
    
@@ -97,8 +65,17 @@ export class ProductComponent implements OnInit {
    
   });
 
-}
 
+  this.subscription= this.sharedService.getResetAll().subscribe(rest=>{
+   
+    this.rest=rest
+  
+    this.resetFilter();
+   
+  });
+
+}
+ 
 
 
 
@@ -111,10 +88,10 @@ if (this.router.url.includes('cat'))
 {
 
   this.activatedRoute.queryParams.subscribe(routeParams => {
-  
+   
     this.catId=routeParams.catId
     this.subId=routeParams.subId
-   
+    
      if(this.subId!=null)
     {
     this.productBasedOnSubCategory();
@@ -127,8 +104,8 @@ if (this.router.url.includes('cat'))
     this.filterComponent.fetchMetaLeft();
     
    });
-  
 
+ 
 
 }
 else{
@@ -148,7 +125,7 @@ else{
  }
   
 }
- resetFilter(event)
+ resetFilter()
  {
 
    this.filterComponent.resetAll();
@@ -162,40 +139,59 @@ else{
     let pricePayLoad=this.filterParams.priceFilters.join(",")
     let weightPayLoad=this.filterParams.weightFilters.join(",")
 
-let 
+    let 
+    params=null;
+ 
+    window.scroll(0,0);
+  if(this.catId!=null)
+  {
+
+     
   params={
     'catId': this.catId,
-    'subId': this.subId,
     'search':this.search,
     'brandFilters':brandPayLoad,
     'priceFilters':pricePayLoad,
     'weightFilters':weightPayLoad
   }
-  if(this.catId!=null && this.subId!=null)
-  {
- this.productService.productByFilter(params).subscribe(response =>
-  {
-   
-    this.productSearchList = response;
-    if(this.productSearchList==[])
+ 
+    }
+    else if(this.catId!=null && this.subId!=null)
     {
-      this.filterComponent.getFilterMetaData(this.catId,this.subId)
-    }
-    console.log('Products based on Category From DB')
-    this.productSearchList = response;
-    this.productSearchList.forEach(productSearch=>{
        
-      productSearch.prod.selectedItemCount=1;
-      productSearch.prod.itemCountList=[1,2,3,4];
-       
-      productSearch.prod.selectedProductAvail= productSearch.prod.productAvailList[0];
-      }  
-    )
-    return this.productSearchList;
-
+      params={
+        'catId': this.catId,
+        'subId': this.subId,
+        'search':this.search,
+        'brandFilters':brandPayLoad,
+        'priceFilters':pricePayLoad,
+        'weightFilters':weightPayLoad
       }
-      );
     }
+
+
+    this.productService.productByFilter(params).subscribe(response =>
+      {
+       
+        this.productSearchList = response;
+        if(this.productSearchList==[])
+        {
+          this.filterComponent.getFilterMetaData(this.catId,this.subId)
+        }
+        console.log('Products based on Category From DB')
+        this.productSearchList = response;
+        this.productSearchList.forEach(productSearch=>{
+           
+          productSearch.prod.selectedItemCount=1;
+          productSearch.prod.itemCountList=[1,2,3,4];
+           
+          productSearch.prod.selectedProductAvail= productSearch.prod.productAvailList[0];
+          }  
+        )
+        return this.productSearchList;
+    
+          }
+          );
     if(this.search!=null)
     {
      
@@ -222,7 +218,7 @@ let
  
    this.productService.productByFilter(params).subscribe(response =>
       {
-       
+      
         this.productSearchList = response;
         console.log('Products based on Category From DB')
 
@@ -255,7 +251,8 @@ let
    
     this.productService.productByFilter(params).subscribe(response =>
       {
-       
+      
+      
         this.productSearchList = response;
         console.log('Products based on Category From DB')
 
@@ -297,11 +294,13 @@ let
   
   }
  
-addToCart(productId:any,selectedProductAvail:any,itemCount:string)
+addToCart(productSearch:any)
   {
- console.log(productId)
- console.log(selectedProductAvail)
- console.log(itemCount)
+    let productId=productSearch.prod.code;
+    let selectedProductAvail=productSearch.prod.selectedProductAvail;
+    let itemCount=productSearch.prod.selectedItemCount
+ 
+   
   if(itemCount==null &&  selectedProductAvail==null)
   {
     return ;
@@ -320,9 +319,11 @@ addToCart(productId:any,selectedProductAvail:any,itemCount:string)
 
      var cookieBucket=new CookieBucket();
      var  productSelectItemNew=new ProductSelect(productId,selectedProductAvail.id,itemCount);
+    /*  alert("1")
+     $("#quantity").val(itemCount); */
      cookieBucket.getProductSelectMapView().set(selectedProductAvail.id,productSelectItemNew);
      this.getTheFullViewMap(productId,selectedProductAvail,parseInt(itemCount),cookieBucket);
-    
+     
    
       
   }
@@ -336,7 +337,7 @@ addToCart(productId:any,selectedProductAvail:any,itemCount:string)
     {
      
       productSelectViewMap.get(selectedProductAvail.id).itemCount=parseInt(productSelectViewMap.get(selectedProductAvail.id).itemCount)+parseInt(itemCount)+''
-    
+     
       cookieBucket.productSelectViewMap=productSelectViewMap;
       this.getTheFullViewMap(productId,selectedProductAvail,parseInt(itemCount),cookieBucket);
       localStorage.setItem("CookieBucket",this.ObjectToJsonString(cookieBucket));
@@ -346,6 +347,7 @@ addToCart(productId:any,selectedProductAvail:any,itemCount:string)
     {
      
       var productSelect=new ProductSelect(productId,selectedProductAvail.id,itemCount);
+  
       productSelectViewMap.set(selectedProductAvail.id,productSelect)
       cookieBucket.productSelectViewMap=productSelectViewMap;
       this.getTheFullViewMap(productId,selectedProductAvail,parseInt(itemCount),cookieBucket);
@@ -360,9 +362,11 @@ addToCart(productId:any,selectedProductAvail:any,itemCount:string)
  
 
 
-  removeFromCart(selectProdAvail:any,itemCount:string)
+  removeFromCart(productSearch)
   {
- 
+   
+    let selectProdAvail=productSearch.prod.selectedProductAvail;
+    let itemCount=productSearch.prod.selectedItemCount
  
 if(!(localStorage.getItem("CookieBucket")=="null"))
  {
@@ -475,7 +479,7 @@ showCart()
  
   this.bucketView=new BucketView();
   this.bucketView.productFullInfoBucketMap=new Map<string,BucketModel>();
-  //alert(localStorage.getItem("CookieBucket")=="null")
+
   if(localStorage.getItem("CookieBucket")=="null")
  {
  
@@ -483,10 +487,7 @@ showCart()
 }
 else
 {
-  
-
-
-   var cookieBucketString= localStorage.getItem("CookieBucket");
+  var cookieBucketString= localStorage.getItem("CookieBucket");
    var cookieBucket= this.fetchbucketfrombucketstring(cookieBucketString);
    var productSelectViewMap= this.fetchmapfrombucketstring(cookieBucket);
    this.bucketView.totalItemCount=cookieBucket.totalItems;
@@ -553,7 +554,7 @@ fetchmapfrombucketstring(bucketViewFromString:any):Map<string,ProductSelect>
 }
 
 ngOnDestroy() {
-  // unsubscribe to ensure no memory leaks
+ 
   this.subscription.unsubscribe();
 }
 

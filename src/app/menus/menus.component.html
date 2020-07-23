@@ -30,15 +30,15 @@
 <div id="menu">
   <ul class="menuDropDown">
 
-     <li><a href="#" (mouseenter)="mouse_event()" class="rootMenu">SHOP BY CATEGORY</a>
+     <li><a href="/category-view" (mouseenter)="mouse_event()" class="rootMenu">SHOP BY CATEGORY</a>
      
                 <ul>
                        <li *ngFor='let category of categoryList'  (mouseenter)="mouse_event_sub(category.id)" class="mainCat"  >
                      
-                        <a  id= 'cat{{category.id}}' [routerLink]="['/product/cat']" [queryParams]="{catId: category.id}" (click)='resetFilter()' (mouseenter)="colorHoverGrey(category.id)"  (mouseleave)="colorWhite('cat'+category.id)">{{category.name}}</a>
+                        <a  id= 'cat{{category.id}}' [routerLink]="['/product/cat']" [queryParams]="{catId: category.id}" (click)='restProductFilter()' (mouseenter)="colorHoverGrey(category.id)"  (mouseleave)="colorWhite('cat'+category.id)">{{category.name}}</a>
                        
          <ul>
-                    <li (mouseenter)="colorGrey('cat'+category.id)" (mouseleave)="colorWhite('cat'+category.id)"  class="subCat" *ngFor='let subcategory of subCategoryList' ><a  (click)='resetFilter()' [routerLink]="['/product/cat']" [queryParams]="{ catId: category.id,subId:subcategory.id}"   >{{subcategory.name}}</a></li>
+                    <li (mouseenter)="colorGrey('cat'+category.id)" (mouseleave)="colorWhite('cat'+category.id)"  class="subCat" *ngFor='let subcategory of subCategoryList' ><a  (click)='restProductFilter()' [routerLink]="['/product/cat']" [queryParams]="{ catId: category.id,subId:subcategory.id}"   >{{subcategory.name}}</a></li>
                    
          </ul>
       

@@ -2,12 +2,10 @@
 .container {
  
 
-  width: 80%;
-  position: relative;
-  -webkit-animation: fadein 0s; /* Safari, Chrome and Opera > 12.1 */
-       animation: fadein 1s;
-       margin-top: 12em;
-       height:auto;
+  width: 100%;
+  margin-top: 12em;
+  height:auto;
+   
        
 }
 .vl {
@@ -15,10 +13,10 @@
   height:1000px;
   float: left;
   margin-right: 1em;
+  margin-left: 1em;
   
   
 }
-
 div.gallery {
   float: left;
     margin-left:3px;

@@ -33,71 +33,17 @@
             </div>
             <span class="Quantity">Qty</span>
             
-     <select  name="quantity" [(ngModel)]="productSearch?.prod.selectedItemCount" class="selectedQuantity">
+     <select id="quantity" name="quantity" [(ngModel)]="productSearch?.prod.selectedItemCount" class="selectedQuantity">
        <option *ngFor='let itemCount of productSearch?.prod.itemCountList'>{{itemCount}}</option>
      
           </select>
     
-        <button type="submit" class="btn1 btn-success" (click)="addToCart(productSearch.prod.code,productSearch.prod.selectedProductAvail,productSearch.prod.selectedItemCount)" > Add </button>
-        <button type="submit" class="btn2 btn-success fa fa-trash" (click)="removeFromCart(productSearch.prod.selectedProductAvail,productSearch.prod.selectedItemCount)"></button>
+        <button type="submit" class="btn1 btn-success" (click)="addToCart(productSearch)" > Add </button>
+        <button type="submit" class="btn2 btn-success fa fa-trash" (click)="removeFromCart(productSearch)"></button>
           </div>
         
           
    </div>
-   <div class="footer">
-    <div class="sticky-stopper"></div>
-    This is my footer<br> 
-    This is my footer<br>
-    This is my footer<br>
-    This is my footer<br>
-    This is my footer<br>
-    This is my footer<br>
-    This is my footer<br>
-    This is my footer<br>
-    This is my footer<br>
-    This is my footer<br>
-    This is my footer<br>
-    This is my footer<br>
-    This is my footer<br>
-    This is my footer<br>
-    This is my footer<br>
-    This is my footer<br> 
-    This is my footer<br>
-    This is my footer<br>
-    This is my footer<br>
-    This is my footer<br>
-    This is my footer<br>
-    This is my footer<br>
-    This is my footer<br>
-    This is my footer<br>
-    This is my footer<br>
-    This is my footer<br>
-    This is my footer<br>
-    This is my footer<br>
-    This is my footer<br>
-    This is my footer<br>
-    This is my footer<br>
-    This is my footer<br>
-    This is my footer<br>
-    This is my footer<br>
-    This is my footer<br>
-    This is my footer<br>
-    This is my footer<br>
-    This is my footer<br>
-    This is my footer<br>
-    This is my footer<br>
-    This is my footer<br>
-    This is my footer<br>
-    This is my footer<br>
-    This is my footer<br>
-    This is my footer<br>
-    This is my footer<br>
-    This is my footer<br>
-    This is my footer<br>
-    This is my footer<br>
-    This is my footer<br>
-    This is my footer<br>
-   </div>
-
+  
    
 </body>
