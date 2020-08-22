@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
 
 import { FacebookResponse } from '../user/model/facebook-response';
 import { GoogleResponse } from '../user/model/google-response';
-import { TokenResponse } from './model/token-response';
+import { TokenResponse } from './model/TokenResponse';
 
 
 

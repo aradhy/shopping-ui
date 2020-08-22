@@ -1,4 +1,4 @@
-import { Product} from './../product/Product';
+import { Product} from '../product/Product';
 export class SubCategory {
 
     public name: String;

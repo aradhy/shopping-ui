@@ -1,12 +1,12 @@
 import { Component, OnInit, Renderer, ElementRef, AfterViewInit, AfterContentInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import { TokenResponse } from '../user/model/token-Response';
+import { TokenResponse } from '../user/model/TokenResponse';
 import * as $ from 'jquery';
 import { Address } from './address';
 import { Slot } from './slot';
 import { DeliveryService } from './delivery.service';
-import { Product } from '../product/product';
+import { Product } from '../product/Product';
 import { OrderResponse } from './order-response';
 import { MatRadioChange } from '@angular/material/radio';
 

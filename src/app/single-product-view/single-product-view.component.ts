@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, Renderer2, ViewChild } from '@angular/core';
 import * as $ from 'jquery';
 import { ActivatedRoute } from '@angular/router';
-import { Product } from '../product/product';
+import { Product } from '../product/Product';
 import { ProductService } from '../product/product.service';
 import { CookieBucket } from '../menus/bucketcookie';
 import { ProductSelect } from '../product/productselectview';

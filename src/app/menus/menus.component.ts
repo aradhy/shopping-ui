@@ -11,7 +11,7 @@ import { ProductService } from '../product/product.service';
 import { Subscription, of } from 'rxjs';
 import {map, startWith, debounceTime, catchError, switchMap, distinctUntilChanged, tap, finalize} from 'rxjs/operators';
 import { SharedService } from '../sharedservice.service';
-import { Product } from '../product/product';
+import { Product } from '../product/Product';
 import { ProductAvail } from '../product/productavail';
 import { BucketView } from '../product/bucketview';
 import { BucketModel } from '../product/bucketmodel';

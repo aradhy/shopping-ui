@@ -1,7 +1,7 @@
 import { Component, ViewChild, OnInit, AfterViewInit,EventEmitter,Output } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CookieBucket } from './menus/bucketcookie';
-import { Product } from './product/product';
+import { Product } from './product/Product';
 import { CustomerOrder } from './customerorder';
 import { HttpClient } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
@@ -13,7 +13,7 @@ import {LocationStrategy} from '@angular/common';
 import { FacebookResponse } from './user/model/facebook-response';
  import { MenusComponent } from './menus/menus.component';
 import { logging } from 'protractor';
-import { TokenResponse } from './user/model/token-Response';
+import { TokenResponse } from './user/model/TokenResponse';
 import { UserService } from './user/user-service';
 import { UserComponent } from './user/user.component';
 import { GoogleResponse } from './user/model/google-response';

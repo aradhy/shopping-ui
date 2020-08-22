@@ -1,4 +1,4 @@
-import { Product } from './product';
+import { Product } from './Product';
 import { BucketModel } from './bucketmodel';
 
 export class BucketView {

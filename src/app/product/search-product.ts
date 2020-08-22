@@ -1,5 +1,5 @@
 import { ProductAvail } from './productavail';
-import { Product } from './product';
+import { Product } from './Product';
 
 
 export class SearchProduct {

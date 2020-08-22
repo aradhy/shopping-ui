@@ -2,7 +2,7 @@ import { Component, OnInit, EventEmitter, Output, Inject } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder,FormControl, FormGroup, Validators,EmailValidator } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import {TokenResponse} from './model/token-Response'
+import {TokenResponse} from './model/TokenResponse'
 import { GoogleResponse } from './model/google-response';
 import { FacebookResponse } from './model/facebook-response';
 import { GoogleLoginProvider, FacebookLoginProvider, AuthService } from 'angularx-social-login';

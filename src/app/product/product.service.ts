@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Product } from './product';
+import { Product } from './Product';
 import { Observable, Subject } from 'rxjs';
 import { ProductSelect } from './productselectview';
 import { BucketModel } from './bucketmodel';

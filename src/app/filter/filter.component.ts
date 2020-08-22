@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
-import { FilterMetaData } from './filterMetaData';
+import { FilterMetaData } from './FilterMetaData';
 import { FilterParams } from './filterparams';
 import { FilterService } from './filterservice';
 

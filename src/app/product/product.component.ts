@@ -1,6 +1,6 @@
 import { Component, OnInit, EventEmitter, Input, ViewChild, ViewChildren, QueryList, ElementRef, HostListener } from '@angular/core';
 import { ProductService } from './product.service';
-import { Product } from './product';
+import { Product } from './Product';
 import { Router,ActivatedRoute, NavigationStart, RoutesRecognized, RouteConfigLoadStart, RouteConfigLoadEnd, NavigationEnd } from '@angular/router';
 import {Output} from '@angular/core';
 import { NgForm } from '@angular/forms';
@@ -17,7 +17,7 @@ import * as $ from 'jquery';
 import { FilterComponent } from 'src/app/filter/filter.component';
 import { FilterParams } from 'src/app/filter/filterparams';
 import { SearchProduct } from './search-product';
-import { AfterViewInit } from 'node_modules_/@angular/core';
+
 
 
 @Component({

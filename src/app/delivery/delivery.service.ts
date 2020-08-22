@@ -2,7 +2,7 @@ import { ProductSelect } from '../product/productselectview';
 import { CookieBucket } from '../menus/bucketcookie';
 import { BucketView } from '../product/bucketview';
 import { ProductService } from '../product/product.service';
-import { Product } from '../product/product';
+import { Product } from '../product/Product';
 import { Injectable } from '@angular/core';
 import { BucketModel } from '../product/bucketmodel';
 import { Observable } from 'rxjs';
