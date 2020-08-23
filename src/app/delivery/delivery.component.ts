@@ -24,6 +24,7 @@ export class DeliveryComponent implements OnInit {
  orderSuccess:boolean=false ;
  orderResponse:OrderResponse;
  addressList:Address[]=[];
+  addressId: string;
  
  
 
@@ -285,8 +286,8 @@ toggleWithPayment()
 addressSelect(address)
 {
  
-  let id =address.id;
-  let idCss='#'+id
+  this.addressId =address.id;
+  let idCss='#'+this.addressId;
   $(".addressCard").css("border-color", "grey");
   $(idCss).css("border-color", "#9ACD32");
   $(idCss).css('border-width','2px');
@@ -299,7 +300,7 @@ addressSelect(address)
 onSubmit()
 {
  
- this.delService.fetchBucket();
+ this.delService.fetchBucket(this.addressId);
   
 
 }
