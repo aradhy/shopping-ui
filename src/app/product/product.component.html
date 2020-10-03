@@ -3,7 +3,7 @@
 
 
 <div class="container">
-  <div class="vl"></div>   
+  
   <div class="gallery" *ngFor="let productSearch of productSearchList" > 
     
       <a  [routerLink]="['/single-product-view/cat/',productSearch.catId,'sub',productSearch.prod.subId,'pc',productSearch.prod.code,'avail',productSearch.prod.selectedProductAvail.id]" >

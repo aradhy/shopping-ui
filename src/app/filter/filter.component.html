@@ -2,7 +2,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <div class="filterComp">
-  
+ 
 <div class="row">
     
     <div class="column" > 
@@ -36,15 +36,15 @@
     <div class="head">
       
   <form class="example"   style="margin:auto;max-width:600px">
-    <input type="text" placeholder="Search.."  [ngModel]="search" (input)="filterBrand($event)" name="search">
+    <input type="text" placeholder="Search.."  id="searchTextId"   (input)="filterBrand($event)" name="searchBrand"  value="">
     <button type="submit"><i class="fa fa-search"></i></button>
   </form>
-        </div>
+        </div> 
 
   <div class="brand" >
-  
 
-  <div *ngFor='let brand of brandFilters'>
+
+  <div *ngFor='let brand of filterMetaData?.brandFilters'>
      
       <a href="#"><input type="checkbox" class="brandname"  (change)="handleBrand($event,brand)" [checked]=brand.flag>
    {{brand.brandName}}
@@ -84,9 +84,11 @@
    
 
 </div>
-    
+  
+
     
 </div>
 
 </div>
 
+<div class="vl"></div> 

@@ -19,6 +19,7 @@ export class TokenInterceptor implements HttpInterceptor {
  
 if(( request.url.match('http://localhost:8080/signUp') || request.url.match('http://localhost:8080/signIn')))
     {
+    
     request = request.clone({
       headers: new HttpHeaders({
         'Content-Type':  'application/json'
@@ -28,26 +29,47 @@ if(( request.url.match('http://localhost:8080/signUp') || request.url.match('htt
   else if(( request.url.match('http://localhost:8080/socialSignUp') || request.url.match('http://localhost:8080/socialSignIn')))
   {
     let userInfo=  JSON.parse(localStorage.getItem("USER"));
-   
+    let jwtToken=userInfo.jwtToken;
+    let provider=null;
+    if (typeof userInfo.provider !== 'undefined') {
+      // someglobal is now safe to use
+       provider=userInfo.provider;
+    }
+    if(userInfo!=null  && jwtToken!=null )
+    {
+     
+      console.log(userInfo)
     request = request.clone({
       headers: new HttpHeaders({
         'Content-Type':  'application/json',
         'Authorization':userInfo.jwtToken
         
         
-      }),withCredentials: true,params: request.params.set('provider', userInfo.provider)
+      }),withCredentials: true,params: request.params.set('provider', provider)
     });
   }
+  }
   else{
+    
     let userInfo=  JSON.parse(localStorage.getItem("USER"));
+    let jwtToken=userInfo.jwtToken;
+    let provider=null;
+    if (typeof userInfo.provider !== 'undefined') {
+     
+       provider=userInfo.provider;
+    }
+    console.log(userInfo)
+    if(userInfo!=null  && jwtToken!=null )
+    {
+     
     request = request.clone({
       headers: new HttpHeaders({
         'Content-Type':  'application/json',
-        'Authorization':userInfo.jwtToken
-        
-      }),withCredentials: true,params: request.params.set('provider', localStorage.getItem("PROVIDER"))
+        'Authorization':jwtToken
+      }),withCredentials: true,params: request.params.set('provider', provider)
     });
-
+    console.log('Intercepted HTTP call success', request);
+  }
 
 
   }

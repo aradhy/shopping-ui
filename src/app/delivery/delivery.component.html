@@ -10,18 +10,30 @@
   
   <div class="DeliAdd" >
   <label class="do" >Delivery Address</label>
-  
-  
   <input  class="collapsible" type="button"   value="{{addressOp}}" id='adripd' (click)="addNewAddress()">
+ <div class="addressSel">
+  
+  
+   
+    <div  class="addressCard" *ngIf="selectedAddress!=null">    
+   {{selectedAddress.firstName}} &nbsp;&nbsp; {{selectedAddress.lastName}} &nbsp;&nbsp; {{selectedAddress.email}} &nbsp; {{selectedAddress.houseNo}} &nbsp; {{selectedAddress.areaDetails}} &nbsp; {{selectedAddress.landmark}} <br> {{selectedAddress.city}} <br> {{selectedAddress.country}}
+     
+    </div> 
+   
+ </div>
+
+
+
   
   <div class="content" id="addressContentId">
+   
     <div  id="addrCardId">
-      <div class="addressCard" *ngFor="let address of addressList" [id]="address.id">
+      <div class="allCard" *ngFor="let address of addressList" [id]="address.id">
   
   
-          <div class="address" >
+     
               {{address.name}} <br> {{address.email}} <br> {{address.addressDetails}} <br> {{address.landmark}} <br> {{address.city}} <br> {{address.country}}
-          </div>
+        
         
           
          <button class="deliverhere" (click)="addressSelect(address)">Deliver here</button>
@@ -37,8 +49,11 @@
             <div class="col-50">
               
    
-     <label for="name"> Full Name</label>
-     <input type="text" id="name" formControlName="name" placeholder="">
+     <label for="name"> First Name</label>
+     <input type="text" id="name" formControlName="firstName" placeholder="">
+
+     <label for="name">Last Name</label>
+     <input type="text" id="name" formControlName="lastName" placeholder="">
      
       <label for="email"> Email</label>
       <input type="text" id="email" formControlName="email" placeholder="">
@@ -72,19 +87,18 @@
   </div>
   </div>
   </div>
-  <p>  </p>
+
   
   <div class="Delivery-Options">
   <label class="do" >Delivery Options</label>
-  
+  <div class="selectedSlot">
+  {{selectedSlot.name}}
+ </div>
   <button type="button" class="collapsible1" (click)="toggleWithDelivery()" id="deliverid">Change Delivery Time</button>
   <div class="content-delivery" id="delivercontent">
-    <mat-radio-group class="content-delivery-option" (change)="getTheSlot($event)">
-      <mat-radio-button value="slid1">Today 6pm to 10pm</mat-radio-button>
-      <mat-radio-button value="slid2">Tommorow 7 to 10pm</mat-radio-button>
-       <mat-radio-button value="slid3">Tommorow 3pm to 6pm</mat-radio-button>
-        <mat-radio-button value="slid4">Tommorow 2pm-5pm</mat-radio-button>
-       <mat-radio-button value="slid5">Tommorow 11am-1pm</mat-radio-button>
+    <mat-radio-group class="content-delivery-option" (change)="getTheSlot($event)" name="slotGroup" [(ngModel)]="selectedSlot">
+      <mat-radio-button *ngFor="let slot of slotList" 
+      name="slotGroup" [value]='slot' >{{slot.name}}</mat-radio-button>
     </mat-radio-group> 
   <input class="submit1" type="submit" value="PROCEED TO PAYMENT" (click)="proceedToPayment()">
   
@@ -98,12 +112,9 @@
   
   <div  class="content-payment" id="paycontent" >
   
-    <mat-radio-group class="content-payment-option" (change)="onChange($event)" >
-      <mat-radio-button value="credit">Credit</mat-radio-button>
-      <mat-radio-button value="debit">Debit</mat-radio-button>
-       <mat-radio-button value="wallet">Wallet</mat-radio-button>
-        <mat-radio-button value="net banking">Net banking</mat-radio-button>
-       <mat-radio-button value="cod">COD(credit/debit/cash)</mat-radio-button>
+    <mat-radio-group class="content-payment-option" (change)="onChange($event)" name="paymentOptionsGroup" [(ngModel)]="selectedPaymentType">
+      <mat-radio-button *ngFor="let paymentType of paymentTypeList" 
+      name="paymentOptionsGroup" [value]='paymentType' >{{paymentType.name}}</mat-radio-button>
     </mat-radio-group> 
     <form   name="payuform" method="POST" style="display:none"> 
       <input type="text" class="form-control" id="productInfo" name="productinfo" >

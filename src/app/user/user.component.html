@@ -27,19 +27,26 @@
      <mat-form-field>
         <input matInput placeholder="Mobile" 
         formControlName="mobile" autocomplete="mobile">
+        <mat-error *ngIf="hasError('mobile', 'required')">Mobile is required</mat-error>
+        <mat-error *ngIf="hasError('mobile', 'pattern')">Please enter valid mobile</mat-error>
+
         </mat-form-field>
 
         <mat-form-field>
            <input matInput placeholder="Email" 
-           formControlName="email" autocomplete="mobile">
+           formControlName="email" autocomplete="off">
            <mat-error *ngIf="hasError('email', 'required')">Email is required</mat-error>
            <mat-error *ngIf="hasError('email', 'email')">Please enter valid email</mat-error>
         </mat-form-field>
 
         <mat-form-field>
-           <input matInput placeholder="Password" 
-           formControlName="password" autocomplete="off">
-        </mat-form-field>
+         <mat-label>Enter your password</mat-label>
+         <input matInput [type]="hide ? 'password' : 'text'" formControlName="password">
+         <button  type="button" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+
+      </mat-form-field>
 
         <div class="submit">
          <button type="submit" [disabled]="!signUpForm.valid"  mat-raised-button   color="primary">Sign Up</button>
@@ -58,8 +65,12 @@
           </mat-form-field>
 
           <mat-form-field>
-            <input matInput placeholder="Password" 
-            formControlName="password" autocomplete="off">
+            <mat-label>Enter your password</mat-label>
+            <input matInput [type]="hide ? 'password' : 'text'" formControlName="password">
+            <button  type="button" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+               <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+             </button>
+
          </mat-form-field>
          
         <div class="submit">

@@ -15,128 +15,125 @@ import * as $ from 'jquery';
 @Injectable({
   providedIn: 'root'
 })
-export class DeliveryService
-{
+export class DeliveryService {
   addUrl: string = 'http://localhost:8080/address';
-    bucketView:BucketView;
-    productList:Product[];
-    private httpClient:HttpClient
-    orderSuccess:boolean=false ;
- orderResponse:OrderResponse;
-   
-constructor(private productService: ProductService, httpClient:HttpClient) 
-{
-this.httpClient=httpClient;
-}
+  bucketView: BucketView;
+  productList: Product[];
+  private httpClient: HttpClient
+  orderSuccess: boolean = false;
+  orderResponse: OrderResponse;
+
+  constructor(private productService: ProductService, httpClient: HttpClient) {
+    this.httpClient = httpClient;
+  }
 
 
 
-getAddress():Observable<AddressResponse>
-{
- 
-return this.httpClient.get<AddressResponse>(this.addUrl);
-}
+  getAddress(): Observable<AddressResponse> {
 
-fetchBucket(addrId:string):Product[]{
-  this.bucketView=new BucketView();
-  this.bucketView.productFullInfoBucketMap=new Map<string,BucketModel>();
-    var cookieBucketString= localStorage.getItem("CookieBucket");
-    var cookieBucket= this.fetchbucketfrombucketstring(cookieBucketString);
-    var productSelectViewMap= this.fetchmapfrombucketstring(cookieBucket);
+    return this.httpClient.get<AddressResponse>(this.addUrl);
+  }
 
-    this.bucketView.totalItemCount=cookieBucket.totalItems;
-    this.bucketView.totalPrice=cookieBucket.totalPrice
-    var keyString=Array.from(productSelectViewMap.keys()).join()
-   
-  
-       this.productService.bucketProductInfo(keyString).subscribe(response =>
-        {
-          
-          this.productList = response;
-          this.productList.forEach(product=>{ 
-          
-            var productSelect= productSelectViewMap.get(product.prodAvailId);
-           product.selectedItemCount=parseInt(productSelect.itemCount);
-           
-           
-          
-           });
+  fetchBucket(addrId: string, paymentType: string, userId: string): Product[] {
+    this.bucketView = new BucketView();
+    this.bucketView.productFullInfoBucketMap = new Map<string, BucketModel>();
+    var cookieBucketString = localStorage.getItem(userId);
+    var cookieBucket = this.fetchbucketfrombucketstring(cookieBucketString);
+    var productSelectViewMap = this.fetchmapfrombucketstring(cookieBucket);
 
-           let order={
-
-            "orderDetails": "Combo Pack",
-            "amount":"400.00",
-            "paymentMode":"CC",
-            "orderItemList" :this.productList,
-             "addrId":addrId
-            
-            }
+    this.bucketView.totalItemCount = cookieBucket.totalItems;
+    this.bucketView.totalPrice = cookieBucket.totalPrice
+    var keyString = Array.from(productSelectViewMap.keys()).join()
 
 
+    this.productService.bucketProductInfo(keyString).subscribe(response => {
 
-            this.httpClient.post<OrderResponse>('http://localhost:8080/order',order).subscribe(orderResponse=>
-            {
-              this.orderResponse=orderResponse;
-              $(".DeliAdd").css({ display: "none" });
-              $(".Payment-Options").css({ display: "none" });
-              $(".Delivery-Options").css({ display: "none" });
-              this.orderSuccess=true
-              $('form[name=payuform]').attr('action','https://sandboxsecure.payu.in/_payment');
-              $('input[name="hash"]').val(this.orderResponse.hash)
-              $('input[name="key"]').val(this.orderResponse.key)
-              $('input[name="firstname"]').val(this.orderResponse.firstname)
-              $('input[name="phone"]').val(this.orderResponse.phone)
-              $('input[name="email"]').val(this.orderResponse.email)
-              $('input[name="productinfo"]').val(this.orderResponse.productinfo)
-              $('input[name="surl"]').val(this.orderResponse.sUrl)
-              $('input[name="txnid"]').val(this.orderResponse.txnId)
-              $('input[name="amount"]').val(this.orderResponse.amount)
-              $('form[name=payuform]').submit();
-              
-               
-              }
-            )
-          
-         
-        });
-     return this.productList
-}
+      this.productList = response;
+      this.productList.forEach(product => {
+
+      
+        var productSelect = productSelectViewMap.get(product.prodAvailId);
+
+        product.selectedItemCount = parseInt(productSelect.itemCount);
+        
+        console.log(product)
+        
+
+      });
+    
+      console.log(this.productList)
+      
+      let order = {
+
+        "orderDetails": "Combo Pack",
+        "amount": this.bucketView.totalPrice,
+        "paymentMode": paymentType,
+        "orderItemList": this.productList,
+        "addrId": addrId
+
+      }
 
 
 
+      this.httpClient.post<OrderResponse>('http://localhost:8080/order', order).subscribe(orderResponse => {
+        this.orderResponse = orderResponse;
+        $(".DeliAdd").css({ display: "none" });
+        $(".Payment-Options").css({ display: "none" });
+        $(".Delivery-Options").css({ display: "none" });
+        this.orderSuccess = true
+        $('form[name=payuform]').attr('action', 'https://sandboxsecure.payu.in/_payment');
+        $('input[name="hash"]').val(this.orderResponse.hash)
+        $('input[name="key"]').val(this.orderResponse.key)
+        $('input[name="firstname"]').val(this.orderResponse.firstname)
+        $('input[name="phone"]').val(this.orderResponse.phone)
+        $('input[name="email"]').val(this.orderResponse.email)
+        $('input[name="productinfo"]').val(this.orderResponse.productinfo)
+        $('input[name="surl"]').val(this.orderResponse.sUrl)
+        $('input[name="txnid"]').val(this.orderResponse.txnId)
+        $('input[name="amount"]').val(this.orderResponse.amount)
+        $('form[name=payuform]').submit();
 
-fetchbucketfrombucketstring(bucketItemString:string):CookieBucket
-{
 
-  var bucketViewFromString=JSON.parse(bucketItemString);
-  return bucketViewFromString;
+      }
+      )
 
-}
 
-fetchmapfrombucketstring(bucketViewFromString:any):Map<string,ProductSelect>
-{
+    });
+    return this.productList
+  }
 
-  var map = new Map<string,ProductSelect>(JSON.parse(bucketViewFromString.productSelectViewMap));
-  bucketViewFromString.productSelectViewMap=null;
-  return map;
-}
 
-ObjectToJsonString(bucketItem:CookieBucket):string
-{
-  
-  var bucketString = JSON.stringify(bucketItem, function (key, value) {
 
-    if (value instanceof (Map)) {
-      return JSON.stringify(Array.from(value))
-    } else {
-      return value;
-    }
-  });
 
- 
-  return bucketString;
+  fetchbucketfrombucketstring(bucketItemString: string): CookieBucket {
 
-}
+    var bucketViewFromString = JSON.parse(bucketItemString);
+    return bucketViewFromString;
+
+  }
+
+  fetchmapfrombucketstring(bucketViewFromString: any): Map<string, ProductSelect> {
+
+    var map = new Map<string, ProductSelect>(JSON.parse(bucketViewFromString.productSelectViewMap));
+    bucketViewFromString.productSelectViewMap = null;
+    return map;
+  }
+
+  ObjectToJsonString(bucketItem: CookieBucket): string {
+
+    var bucketString = JSON.stringify(bucketItem, function (key, value) {
+
+      if (value instanceof (Map)) {
+        return JSON.stringify(Array.from(value))
+      } else {
+        return value;
+      }
+    });
+
+
+    return bucketString;
+
+  }
 
 
 }

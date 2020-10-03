@@ -9,6 +9,7 @@ import { GoogleLoginProvider, FacebookLoginProvider, AuthService } from 'angular
 import { APP_BASE_HREF } from '@angular/common';
 import * as $ from 'jquery';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { TokenDTO } from './model/tokendto';
 declare var onClickSubmit:any;
 declare var onClick:any;
 @Component({
@@ -22,19 +23,20 @@ export class UserComponent implements OnInit {
   signUpForm:FormGroup;
   signInForm:FormGroup;
   paramVal:string;
-  @Output() customerNameEmitter = new EventEmitter<string>();
+  
   currentUrl:string;
   currentUserName:string;
-
+  hide:boolean=true;
+   
   constructor(private router:Router,private activatedRoute:ActivatedRoute,formBuilder:FormBuilder,private httpClient: HttpClient,private authService: AuthService,private dialogRef: MatDialogRef<UserComponent>,@Inject(MAT_DIALOG_DATA) public data: any) 
   {  
 
-    
+   
     this.signUpForm=formBuilder.group({
-      name: new FormControl('',Validators.required),
-      mobile:new FormControl('',Validators.required),
-       email: new FormControl('',[Validators.required, Validators.email]),
-       password: new FormControl('',Validators.required)
+      name: new FormControl('',[Validators.required]),
+      mobile:new FormControl('',[Validators.required,Validators.maxLength(10),Validators.pattern(/^[6-9]\d{9}$/)]),
+       email: new FormControl('',[Validators.email]) ,
+       password: new FormControl('',[Validators.required])
     });
    
     this.signInForm=formBuilder.group({
@@ -58,6 +60,7 @@ export class UserComponent implements OnInit {
     this.onClickSubmit(this.data);
   }
 
+  
   public hasError = (controlName: string, errorName: string) =>{
     return this.signUpForm.controls[controlName].hasError(errorName);
   }
@@ -70,7 +73,8 @@ export class UserComponent implements OnInit {
   close()
   {
     this.dialogRef.close();
-    this.router.navigateByUrl('/category-view');
+    this.dialogRef.close({ event: 'close', data: this.currentUserName });
+  //  this.router.navigateByUrl('/category-view');
   }
 
 
@@ -81,11 +85,11 @@ export class UserComponent implements OnInit {
     let mobileNumber=signUpForm.controls.mobile.value;
     let email=signUpForm.controls.email.value;
     let password=signUpForm.controls.password.value;
-    signUpForm.reset();
-
+    
+  
     console.log(name)
     console.log(mobileNumber)
-  /*  this.httpClient.post<TokenResponse>("http://localhost:8080/signUp", {
+   this.httpClient.post<TokenResponse>("http://localhost:8080/signUp", {
       "name": name,
       "mobileNumber":mobileNumber,
       "email":  email,
@@ -95,17 +99,23 @@ export class UserComponent implements OnInit {
    
     ).subscribe(
       tokenResponse  => {
-     
-       if(tokenResponse.obj!=null && tokenResponse.obj.jwtToken!=null && tokenResponse.obj.csrfToken!=null )
+     console.log(tokenResponse)
+       if(tokenResponse.obj!=null && tokenResponse.obj.jwtToken!=null /* && tokenResponse.obj.csrfToken!=null  */)
            {
              if(tokenResponse.obj.userName!=null)
              {
-             alert("Welcome  "+tokenResponse.obj.userName)
-             this.customerNameEmitter.emit(tokenResponse.obj.userName)
-             localStorage.setItem("customerName",tokenResponse.obj.userName)
-              localStorage.setItem("JWT-TOKEN",tokenResponse.obj.jwtToken)
-              localStorage.setItem("X-CSRF-TOKEN",tokenResponse.obj.csrfToken)
-              this.router.navigateByUrl("/");
+            
+             
+           //  this.currentUserName=tokenResponse.obj.userName
+             this.close();
+           //  localStorage.setItem("USER",JSON.stringify(tokenResponse.obj))
+             let tokenDTO=new TokenDTO()
+             tokenDTO.jwtToken=tokenResponse.obj.jwtToken;
+             tokenDTO.userName=tokenResponse.obj.userName
+             tokenDTO.jwtExpiry=tokenResponse.obj.jwtExpiry
+             localStorage.setItem("USER",JSON.stringify(tokenDTO))
+            // alert("Welcome  "+tokenResponse.obj.userName)
+            window.location.href='https://localhost:4200/'
 
              }
            }
@@ -115,7 +125,7 @@ export class UserComponent implements OnInit {
 
    
       
- }); */
+ }); 
 
 }
       
@@ -125,6 +135,7 @@ export class UserComponent implements OnInit {
         let baseUrl = 'http://localhost:8080/signIn'
         let mobileOrEmail=signInForm.controls.mobileOrEmail.value;
         let password=signInForm.controls.password.value;
+       
         signInForm.controls.password.reset()
        
       
@@ -136,27 +147,34 @@ export class UserComponent implements OnInit {
           }
         ).subscribe(
           tokenResponse  => {
-            localStorage.setItem("JWT-TOKEN",tokenResponse.obj.jwtToken)
-          if(tokenResponse.obj!=null && tokenResponse.obj.jwtToken!=null && tokenResponse.obj.csrfToken!=null )
+          
+          if(tokenResponse.obj!=null && tokenResponse.obj.jwtToken!=null /* && tokenResponse.obj.csrfToken!=null */ )
            {
             if(tokenResponse.obj.userName!=null)
             {
-              this.customerNameEmitter.emit(tokenResponse.obj.userName)
-              localStorage.setItem("customerName",tokenResponse.obj.userName)
-            alert("Welcome  "+tokenResponse.obj.userName)
+            
+           // alert("Welcome  "+tokenResponse.obj.userName)
             }
-              localStorage.setItem("JWT-TOKEN",tokenResponse.obj.jwtToken)
-              localStorage.setItem("X-CSRF-TOKEN",tokenResponse.obj.csrfToken)
-
+           
+           //  localStorage.setItem("X-CSRF-TOKEN",tokenResponse.obj.csrfToken)
+          // this.currentUserName=tokenResponse.obj.userName
+           let tokenDTO=new TokenDTO()
+           tokenDTO.jwtToken=tokenResponse.obj.jwtToken;
+           tokenDTO.userId=tokenResponse.obj.userId
+           tokenDTO.userName=tokenResponse.obj.userName
+           tokenDTO.jwtExpiry=tokenResponse.obj.jwtExpiry
+           localStorage.setItem("USER",JSON.stringify(tokenDTO))
+              this.close();
+              window.location.href='https://localhost:4200/'
             
            }else{
             alert(tokenResponse.message)
           }
           
-          this.router.navigateByUrl('/category-view');
+         
      },
      error => {
-       alert("Bhai error aa gayee")
+       alert("Server Exception")
      }); 
     
     }
@@ -213,6 +231,7 @@ faceBookLogin()
 
 googleLogin()
 {
+
   localStorage.setItem('PROVIDER',"google")
   this.currentUserName=localStorage.getItem('currentUser');
   if(this.currentUserName==null || this.currentUserName=="null")

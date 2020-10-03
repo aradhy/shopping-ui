@@ -16,6 +16,8 @@ export class CheckOutViewComponent implements OnInit {
   bucketView:BucketView;
   private subscription: Subscription;
   @Output() bucketViewEmitter: EventEmitter<BucketView> = new EventEmitter(); 
+
+  COOKIE_BUCKET_ID: string = "DefaultBucket"
   constructor(private bucketViewService:BucketViewService,private sharedService:SharedService,private router:Router) { 
 
    this.subscription= this.sharedService.getState().subscribe(bucketView=>{
@@ -26,8 +28,12 @@ export class CheckOutViewComponent implements OnInit {
   }
 
   ngOnInit() {
-  
-    this.showCart()
+    let userInfo = JSON.parse(localStorage.getItem("USER"));    
+    if (userInfo.userId != null)
+    {
+      this.COOKIE_BUCKET_ID = userInfo.userId;
+    }
+    this.showCart(this.COOKIE_BUCKET_ID)
   } 
 
   openAddress()
@@ -60,10 +66,10 @@ export class CheckOutViewComponent implements OnInit {
   }
   
 
-  showCart()
+  showCart(bucketId:string)
   {
    
-  this.bucketView=  this.bucketViewService.showCart()
+  this.bucketView=  this.bucketViewService.showCart(bucketId)
     
   }
   

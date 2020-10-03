@@ -222,4 +222,14 @@ font-size:15px;
      
     }
  
+    .vl {
+      border-left: 1px solid grey;
+      height:600px;
+      float: left;
+      margin-left:1em;
+      margin-right:1em;
+     
+      
+      
+    }
     

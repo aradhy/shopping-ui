@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Input, ViewChild, ViewChildren, QueryList, ElementRef, HostListener } from '@angular/core';
+import { Component, OnInit, EventEmitter, Input, ViewChild, ViewChildren, QueryList, ElementRef, HostListener, ComponentFactoryResolver } from '@angular/core';
 import { ProductService } from './product.service';
 import { Product } from './Product';
 import { Router,ActivatedRoute, NavigationStart, RoutesRecognized, RouteConfigLoadStart, RouteConfigLoadEnd, NavigationEnd } from '@angular/router';
@@ -17,6 +17,7 @@ import * as $ from 'jquery';
 import { FilterComponent } from 'src/app/filter/filter.component';
 import { FilterParams } from 'src/app/filter/filterparams';
 import { SearchProduct } from './search-product';
+import { AppService } from '../app-service';
 
 
 
@@ -52,10 +53,10 @@ export class ProductComponent implements OnInit{
  @Input() filterParams:FilterParams=new FilterParams();
 
  private subscription: Subscription;
-
+ COOKIE_BUCKET_ID:string="DefaultBucket"
  
 
- constructor(private productService: ProductService,private activatedRoute:ActivatedRoute,private router:Router,private cookieService:CookieService ,private sharedService:SharedService) {
+ constructor(private productService: ProductService,private activatedRoute:ActivatedRoute,private router:Router,private cookieService:CookieService ,private sharedService:SharedService,private appService:AppService) {
  
  
  
@@ -81,6 +82,13 @@ export class ProductComponent implements OnInit{
 
 ngOnInit() {
 
+  let userStorage=localStorage.getItem("USER");
+  if(userStorage!=null)
+  {
+   let userInfo= JSON.parse(localStorage.getItem("USER"));
+   if(userInfo && userInfo.userId!=null)
+   this.COOKIE_BUCKET_ID=userInfo.userId;
+  }
 
 this.showCart();
 
@@ -142,14 +150,21 @@ else{
     let 
     params=null;
  
+ console.log(this.filterParams)
     window.scroll(0,0);
+    let search=null;
+
+    if (typeof this.search !== 'undefined') {
+      // someglobal is now safe to use
+      search=this.search;
+    }
   if(this.catId!=null)
   {
 
      
   params={
     'catId': this.catId,
-    'search':this.search,
+    'search':search,
     'brandFilters':brandPayLoad,
     'priceFilters':pricePayLoad,
     'weightFilters':weightPayLoad
@@ -162,7 +177,16 @@ else{
       params={
         'catId': this.catId,
         'subId': this.subId,
-        'search':this.search,
+        'search':search,
+        'brandFilters':brandPayLoad,
+        'priceFilters':pricePayLoad,
+        'weightFilters':weightPayLoad
+      }
+    }
+    else{
+     
+      params={
+        'search':search,
         'brandFilters':brandPayLoad,
         'priceFilters':pricePayLoad,
         'weightFilters':weightPayLoad
@@ -173,15 +197,15 @@ else{
     this.productService.productByFilter(params).subscribe(response =>
       {
        
-        this.productSearchList = response;
+     
         if(this.productSearchList==[])
         {
           this.filterComponent.getFilterMetaData(this.catId,this.subId)
-        }
+        } 
         console.log('Products based on Category From DB')
         this.productSearchList = response;
         this.productSearchList.forEach(productSearch=>{
-           
+          
           productSearch.prod.selectedItemCount=1;
           productSearch.prod.itemCountList=[1,2,3,4];
            
@@ -191,13 +215,8 @@ else{
         return this.productSearchList;
     
           }
-          );
-    if(this.search!=null)
-    {
-     
-      this.productBasedSearch(params)
-
-    }
+      );
+  
 
  } 
  
@@ -273,7 +292,7 @@ else{
   productBasedSearch (params)
   {
 
- 
+ console.log(params)
     this.productService.productBasedOnName(params).subscribe(response =>
       {
        
@@ -283,7 +302,8 @@ else{
         console.log('Products based on Category From DB')
 
           this.productSearchList.forEach(productSearch=>{
-           
+            productSearch.prod.selectedItemCount=1;
+            productSearch.prod.itemCountList=[1,2,3,4];
             productSearch.prod.selectedProductAvail=  productSearch.prod.productAvailList[0];
           }  
         )
@@ -314,7 +334,7 @@ addToCart(productSearch:any)
 
     }
  
-   if(localStorage.getItem("CookieBucket")=="null" || localStorage.getItem("CookieBucket")==null)
+   if(localStorage.getItem(this.COOKIE_BUCKET_ID)=="null" || localStorage.getItem(this.COOKIE_BUCKET_ID)==null)
    {
 
      var cookieBucket=new CookieBucket();
@@ -329,7 +349,7 @@ addToCart(productSearch:any)
   }
   else
   {
-     var bucketItemString= localStorage.getItem("CookieBucket");
+     var bucketItemString= localStorage.getItem(this.COOKIE_BUCKET_ID);
      var cookieBucket= this.fetchbucketfrombucketstring(bucketItemString);
      var productSelectViewMap= this.fetchmapfrombucketstring(cookieBucket);
      
@@ -340,7 +360,7 @@ addToCart(productSearch:any)
      
       cookieBucket.productSelectViewMap=productSelectViewMap;
       this.getTheFullViewMap(productId,selectedProductAvail,parseInt(itemCount),cookieBucket);
-      localStorage.setItem("CookieBucket",this.ObjectToJsonString(cookieBucket));
+      localStorage.setItem(this.COOKIE_BUCKET_ID,this.ObjectToJsonString(cookieBucket));
    
     }
     else
@@ -368,10 +388,10 @@ addToCart(productSearch:any)
     let selectProdAvail=productSearch.prod.selectedProductAvail;
     let itemCount=productSearch.prod.selectedItemCount
  
-if(!(localStorage.getItem("CookieBucket")=="null"))
+if(!(localStorage.getItem(this.COOKIE_BUCKET_ID)=="null"))
  {
 
-     var bucketItemString= localStorage.getItem("CookieBucket");
+     var bucketItemString= localStorage.getItem(this.COOKIE_BUCKET_ID);
      var cookieBucket:CookieBucket=this.fetchbucketfrombucketstring(bucketItemString);
      var productSelectViewMap= this.fetchmapfrombucketstring(cookieBucket);
   if(productSelectViewMap.has(selectProdAvail.id) && parseInt(productSelectViewMap.get(selectProdAvail.id).itemCount)>0 && cookieBucket.totalItems>=parseInt(itemCount))
@@ -391,7 +411,7 @@ if(!(localStorage.getItem("CookieBucket")=="null"))
    }
    cookieBucket.productSelectViewMap=productSelectViewMap;
    cookieBucket.totalPrice=this.bucketView.totalPrice;
-    localStorage.setItem("CookieBucket",this.ObjectToJsonString(cookieBucket));
+    localStorage.setItem(this.COOKIE_BUCKET_ID,this.ObjectToJsonString(cookieBucket));
     
      this.sharedService.setSet(this.bucketView);
   }
@@ -457,7 +477,7 @@ var productList;
         this.bucketView.totalPrice=this.bucketView.totalPrice+product.price*itemCount;
         cookieBucket.totalPrice=this.bucketView.totalPrice;
         cookieBucket.totalItems=this.bucketView.totalItemCount;
-        localStorage.setItem("CookieBucket",this.ObjectToJsonString(cookieBucket));
+        localStorage.setItem(this.COOKIE_BUCKET_ID,this.ObjectToJsonString(cookieBucket));
          this.sharedService.setSet(this.bucketView);
        
    
@@ -480,14 +500,10 @@ showCart()
   this.bucketView=new BucketView();
   this.bucketView.productFullInfoBucketMap=new Map<string,BucketModel>();
 
-  if(localStorage.getItem("CookieBucket")=="null")
- {
- 
-  this.bucketView.totalItemCount=0;
-}
-else
+  
+if(this.appService.checkForNullONullString(localStorage.getItem(this.COOKIE_BUCKET_ID)))
 {
-  var cookieBucketString= localStorage.getItem("CookieBucket");
+  var cookieBucketString= localStorage.getItem(this.COOKIE_BUCKET_ID);
    var cookieBucket= this.fetchbucketfrombucketstring(cookieBucketString);
    var productSelectViewMap= this.fetchmapfrombucketstring(cookieBucket);
    this.bucketView.totalItemCount=cookieBucket.totalItems;
@@ -512,8 +528,9 @@ else
 
   
 }
-
-
+else{
+  this.bucketView.totalItemCount=0;
+}
    
    
 
@@ -548,8 +565,11 @@ fetchbucketfrombucketstring(bucketItemString:string):CookieBucket
 fetchmapfrombucketstring(bucketViewFromString:any):Map<string,ProductSelect>
 {
 
+  if(bucketViewFromString!=null)
+  {
   var map = new Map<string,ProductSelect>(JSON.parse(bucketViewFromString.productSelectViewMap));
   bucketViewFromString.productSelectViewMap=null;
+  }
   return map;
 }
 
@@ -564,13 +584,13 @@ updateCookieBucket(selectedProdAvail:any,selectedItemCount:any,totalItemCount:an
 {
  
   
-  if(localStorage.getItem("CookieBucket")=="null")
+  if(localStorage.getItem(this.COOKIE_BUCKET_ID)=="null")
   {
    this.bucketView.totalItemCount=0;
  }
  else
  {
-    var cookieBucketString= localStorage.getItem("CookieBucket");
+    var cookieBucketString= localStorage.getItem(this.COOKIE_BUCKET_ID);
     var cookieBucket= this.fetchbucketfrombucketstring(cookieBucketString);
     var productSelectViewMap= this.fetchmapfrombucketstring(cookieBucket);
     cookieBucket.totalItems=totalItemCount;
@@ -583,7 +603,7 @@ updateCookieBucket(selectedProdAvail:any,selectedItemCount:any,totalItemCount:an
     productSelectViewMap.get(selectedProdAvail).itemCount=selectedItemCount
     cookieBucket.productSelectViewMap=productSelectViewMap
  }
- localStorage.setItem("CookieBucket",this.ObjectToJsonString(cookieBucket));
+ localStorage.setItem(this.COOKIE_BUCKET_ID,this.ObjectToJsonString(cookieBucket));
 }
 
 compareFn(pAv1: ProductAvail, pAv2: ProductAvail): boolean {

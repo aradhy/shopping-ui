@@ -1,18 +1,18 @@
 <body>
-<div  class="noUser" id="noUser">
+  <div  class="noUser" id="noUser">
+     
+      <a id="signUp" (click)="openDialog('signUpId')" >SignUp</a>
+      <a id="signIn" (click)="openDialog('signInId')">SignIn</a>
    
-    <a id="signUp" (click)="openDialog('signUpId')" >SignUp</a>
-    <a id="signIn" (click)="openDialog('signInId')">SignIn</a>
- 
-</div>
-
-
-<div class="hasUser" id="hasUser" *ngIf="currentUserName!=null">{{currentUserName}}
-
-<a id="logout" href="javascript:void(0)" (click)="logOut()">Logout</a>
-</div>
-  <app-menus *ngIf="checkout"  [bucketView]=bucketView 	(someEvent)="openDialog($event)" ></app-menus>
-
-<router-outlet (activate)="onActivate($event)" ></router-outlet>
-
-</body>
+  </div>
+  
+  
+  <div class="hasUser" id="hasUser" *ngIf="currentUserName!=null">{{currentUserName}}
+  
+  <a id="logout" href="javascript:void(0)" (click)="logOut()">Logout</a>
+  </div>
+    <app-menus *ngIf="checkout"  [bucketView]=bucketView 	(getUserNameFromMenu)="fetchUserNameFromMenuComp($event)" ></app-menus>
+  
+  <router-outlet (activate)="onActivate($event)" ></router-outlet>
+  
+  </body>

@@ -1,6 +1,5 @@
 import { Component, ViewChild, OnInit, AfterViewInit,EventEmitter,Output } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { CookieBucket } from './menus/bucketcookie';
 import { Product } from './product/Product';
 import { CustomerOrder } from './customerorder';
 import { HttpClient } from '@angular/common/http';
@@ -21,6 +20,8 @@ import { TokenDTO } from './user/model/tokendto';
 import * as $ from 'jquery';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialogConfig, MatDialog } from "@angular/material/dialog";
 import { FilterComponent } from './filter/filter.component';
+import { AppService } from './app-service';
+import { CookieBucket } from './menus/bucketcookie';
 
 
 
@@ -54,7 +55,7 @@ export class AppComponent implements OnInit,AfterViewInit{
   
 
 
-  constructor(private router:Router,private productService: ProductService,private location: Location,private activatedRoute:ActivatedRoute,private locationStrategy:LocationStrategy,private userService:UserService,private httpClient: HttpClient,private dialog: MatDialog)
+  constructor(private router:Router,private appService:AppService,private location: Location,private activatedRoute:ActivatedRoute,private locationStrategy:LocationStrategy,private userService:UserService,private httpClient: HttpClient,private dialog: MatDialog)
   {
   
     router.events.subscribe(() => {
@@ -62,7 +63,7 @@ export class AppComponent implements OnInit,AfterViewInit{
      if (location.path() != "") {
      if(location.path() !="/category-view")
      {
-      
+        
         if (location.path().includes('/delivery') ) {
         
           this.navigationState = false;
@@ -81,6 +82,9 @@ export class AppComponent implements OnInit,AfterViewInit{
           this.checkout=true;
         }
       }
+      else{
+        this.checkout=true;
+      }
       } 
      
   
@@ -93,17 +97,33 @@ export class AppComponent implements OnInit,AfterViewInit{
   }
   
 
+  test()
+  {
+    let map1:Map<string, number> = new Map([["a", 1], ["b", 2]]);
+let map2:Map<string, number> = new Map([["b", 1], ["d", 2]]);
+
+let mergedMap:Map<string, number> = new Map([...Array.from(map1.entries()), ...Array.from(map2.entries())]);
+//alert('new Map')
+console.log(mergedMap)
+  }
 
   ngOnInit() {
  
+//this.test();
+
+
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
-    let userInfo=  JSON.parse(localStorage.getItem("USER"));
-  
-    if(localStorage.getItem("USER")!=null)
-    {
     
-   /*   let tokenExpired= (userInfo.jwtExpiry - (Date.now() / 1000)); */
+  
+    if(this.appService.checkForNullONullString(localStorage.getItem("USER")))
+    {
+      
+    let userInfo=  JSON.parse(localStorage.getItem("USER"));
+    if(userInfo.jwtExpiry!=null)
+    {
+     let tokenExpired= (userInfo.jwtExpiry - (Date.now() / 1000));
+    }
     
       if(userInfo.userName!=null)
       {
@@ -117,7 +137,7 @@ export class AppComponent implements OnInit,AfterViewInit{
 
     }
   
-    this.router.navigateByUrl('/category-view');
+    this.router.navigateByUrl('/');
     
    
   }
@@ -155,6 +175,7 @@ export class AppComponent implements OnInit,AfterViewInit{
      
      this.customerName=data;
     
+    
    })
 
    
@@ -164,6 +185,7 @@ export class AppComponent implements OnInit,AfterViewInit{
 
 logIn()
 {
+  
   this.currentUrl=window.location.href
 
   let  socialResponse;
@@ -180,7 +202,7 @@ if(this.currentUrl.indexOf('access_token=')>0)
    
    this.userService.getFaceBookResponse(access_token).subscribe(data=>{
  
-    this.currentUserName=data.name
+   // this.currentUserName=data.name
 
   
     socialResponse =new FacebookResponse(access_token,data.name,data.email,'facebook')
@@ -193,7 +215,7 @@ if(this.currentUrl.indexOf('access_token=')>0)
     this.userService.socialSignUp(socialResponse);
   
    
-   // window.history.pushState(this.currentUrl,'','https://localhost:4200/category-view')
+   
    
    }
  
@@ -215,14 +237,14 @@ if(this.currentUrl.indexOf('access_token=')>0)
          localStorage.setItem("USER",JSON.stringify(tokenDTO))
          this.userService.socialSignUp(socialResponse);
          
-       
+        
         
         
       }  
       )
      
     }
-  
+    localStorage.removeItem('PROVIDER')
 
 }
 }
@@ -248,29 +270,32 @@ getResponseFromUrl(url,param) {
 
 openDialog(id)
 {
- 
-  const dialogConfig = new MatDialogConfig();
-
-  dialogConfig.disableClose = true;
-  dialogConfig.autoFocus = false;
-  dialogConfig.height="520px"
-  dialogConfig.width="320px"
-  dialogConfig.data =id;
-
-let dialogRef= this.dialog.open(UserComponent,dialogConfig);
-   
-  
+ let  dialogRef=  this.appService.openDialog(id)
+   dialogRef.afterClosed().subscribe(result => {
+    console.log('The dialog was closed', result);
+    this.currentUserName = result.data;
+    
+   if(this.currentUserName!=null)
+   {
+    $(".noUser").hide();
+    $(".hasUser").show();
+   }
+  }); 
 }
+
+fetchUserNameFromMenuComp($event:any)
+{
+  this.currentUserName=$event;
+}
+
 
 logOut()
 {
-  this.currentUserName=null;
+ // this.currentUserName=null;
   localStorage.setItem('USER',null)
- 
-    $(".noUser").show();
-    $(".hasUser").hide();
-  
+    window.location.href='https://localhost:4200/'
 }
+
 
 }
 

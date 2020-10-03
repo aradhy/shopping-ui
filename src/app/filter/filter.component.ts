@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output, AfterViewChecked } from '@angular/core';
 import { FilterMetaData } from './FilterMetaData';
 import { FilterParams } from './filterparams';
 import { FilterService } from './filterservice';
@@ -14,7 +14,7 @@ import { BrandFilterMetaData } from './brandfiltermetadata';
   templateUrl: './filter.component.html',
   styleUrls: ['./filter.component.css']
 })
-export class FilterComponent implements OnInit {
+export class FilterComponent implements OnInit, AfterViewChecked {
  
  
   @Output() filterParamsEmitter: EventEmitter<FilterParams> = new EventEmitter<FilterParams>();
@@ -33,10 +33,15 @@ export class FilterComponent implements OnInit {
 
  
  this.fetchMetaLeft();
+ 
+
     
   }
   
-
+  ngAfterViewChecked(){
+  
+    $(".vl").css("height", ($('.filterComp').height()+'px'));
+  }
 
 fetchMetaLeft()
 {
@@ -89,20 +94,28 @@ searchFilterUrl(params)
   {
 
     if(event.target.checked)
+    {
+      
     this.filterParams.brandFilters.push(brand.brandName)
+   
+    }
     else
-    this.removeBrand(brand)
+    {
+      
+  this.removeBrand(brand)
+
+    }
    
     this.filterParamsEmitter.emit(this.filterParams)  
     
-    if(this.catId!=null)
+     if(this.catId!=null)
     {
-    this.getFilterMetaData(this.catId,this.subId)
+   this.getFilterMetaData(this.catId,this.subId)
     }
     else
     {
     this.getFilterMetaDataSearch(this.search,this.filterParams)
-    }
+    } 
   }
 
   removeBrand(brand)
@@ -204,8 +217,8 @@ searchFilterUrl(params)
       }
     }
     this.filterService.getFilterMetaData(params).subscribe(filterMetaData=>{
-     
-     
+   
+     console.log(filterMetaData)
       if(filterMetaData.priceFilters==null)
       {
         this.filterMetaData.priceFilters=[];
@@ -219,8 +232,18 @@ searchFilterUrl(params)
       {
         this.filterMetaData.weightFilters=[];
       }
-      if(filterMetaData.brandFilters!=null && filterMetaData.priceFilters!=null && filterMetaData.weightFilters!=null)
-      this.filterMetaData=filterMetaData;
+     
+      console.log(filterMetaData.brandFlag)
+      
+      if((filterMetaData.brandFilters!=null) && !filterMetaData.brandFlag)
+      {
+    
+      this.filterMetaData.brandFilters=filterMetaData.brandFilters;
+      }
+      if(filterMetaData.priceFilters!=null && !filterMetaData.priceFlag)
+      this.filterMetaData.priceFilters=filterMetaData.priceFilters;
+      if(filterMetaData.weightFilters!=null && !filterMetaData.weightFlag)
+      this.filterMetaData.weightFilters=filterMetaData.weightFilters;
      if(this.filterMetaData.weightFilters!=null && this.filterMetaData.weightFilters.length>0)
      {
       let  packSizeLength=this.filterMetaData.weightFilters.length
@@ -243,25 +266,34 @@ searchFilterUrl(params)
 
   getFilterMetaDataSearch(search,filterParams)
   {
-   this.search=search;
-    this.filterService.getFilterSearchMetaData(search,filterParams).subscribe(filterMetaData=>{
-     
-     
-      if(filterMetaData.priceFilters==null)
-      {
-        this.filterMetaData.priceFilters=[];
-      }
-       if(filterMetaData.brandFilters==null)
-      {
-        this.filterMetaData.brandFilters=[];
-      }
+   
     
-     if(filterMetaData.weightFilters==null)
+   this.search=search;
+  
+  
+    this.filterService.getFilterSearchMetaData(search,filterParams).subscribe(filterMetaData=>{
+     console.log(filterMetaData.brandFilters)
+    
+     if((filterMetaData.brandFilters!=null) && !filterMetaData.brandFlag)
       {
-        this.filterMetaData.weightFilters=[];
+    
+      this.filterMetaData.brandFilters=filterMetaData.brandFilters;
       }
-      if(filterMetaData.brandFilters!=null && filterMetaData.priceFilters!=null && filterMetaData.weightFilters!=null)
-      this.filterMetaData=filterMetaData;
+      if(filterMetaData.priceFilters!=null && !filterMetaData.priceFlag)
+      this.filterMetaData.priceFilters=filterMetaData.priceFilters;
+      if(filterMetaData.weightFilters!=null && !filterMetaData.weightFlag)
+      this.filterMetaData.weightFilters=filterMetaData.weightFilters; if((filterMetaData.brandFilters!=null) && !filterMetaData.brandFlag)
+      {
+    
+      this.filterMetaData.brandFilters=filterMetaData.brandFilters;
+      }
+      if(filterMetaData.priceFilters!=null && !filterMetaData.priceFlag)
+      this.filterMetaData.priceFilters=filterMetaData.priceFilters;
+      if(filterMetaData.weightFilters!=null && !filterMetaData.weightFlag)
+      this.filterMetaData.weightFilters=filterMetaData.weightFilters;
+
+    
+     
     }
     )
   }
